@@ -39,6 +39,7 @@
 #import "ORKAudioStepViewController.h"
 #import "ORKWalkingTaskStepViewController.h"
 #import "ORKTappingIntervalStep.h"
+#import "ORKImplicitAssociationStep.h"
 #import "ORKCountdownStepViewController.h"
 #import "ORKToneAudiometryStepViewController.h"
 #import "ORKHelpers.h"
@@ -56,6 +57,7 @@
 #import "ORKTowerOfHanoiStep.h"
 #import "ORKTimedWalkStep.h"
 #import "ORKPSATStep.h"
+#import "ORKImplicitAssociationStep.h"
 #import "ORKAccelerometerRecorder.h"
 #import "ORKAudioRecorder.h"
 #import "ORKWaitStep.h"
@@ -300,6 +302,7 @@ NSString * const ORKTimedWalkFormAssistanceStepIdentifier = @"timed.walk.form.as
 NSString * const ORKTimedWalkTrial1StepIdentifier = @"timed.walk.trial1";
 NSString * const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
 NSString * const ORKPSATStepIdentifier = @"psat";
+NSString * const ORKImplicitAssociationStepIdentifier = @"implicitAssociation";
 NSString * const ORKAudioRecorderIdentifier = @"audio";
 NSString * const ORKAccelerometerRecorderIdentifier = @"accelerometer";
 NSString * const ORKPedometerRecorderIdentifier = @"pedometer";
@@ -1206,6 +1209,17 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     }
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
+    
+    return task;
+}
+
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                  options:(ORKPredefinedTaskOption)options {
+    
+    NSMutableArray *steps = [NSMutableArray array];
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
     
     return task;
 }
