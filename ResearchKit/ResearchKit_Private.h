@@ -64,37 +64,6 @@
 #import "ORKTaskViewController_Private.h"
 #import "ORKQuestionStepViewController_Private.h"
 
-<<<<<<< HEAD
-#import <ResearchKit/ORKAudioStep.h>
-#import <ResearchKit/ORKToneAudiometryStep.h>
-#import <ResearchKit/ORKToneAudiometryPracticeStep.h>
-#import <ResearchKit/ORKSpatialSpanMemoryStep.h>
-#import <ResearchKit/ORKWalkingTaskStep.h>
-#import <ResearchKit/ORKFitnessStep.h>
-#import <ResearchKit/ORKTappingIntervalStep.h>
-#import <ResearchKit/ORKTimedWalkStep.h>
-#import <ResearchKit/ORKPSATStep.h>
-#import <ResearchKit/ORKHolePegTestPlaceStep.h>
-#import <ResearchKit/ORKHolePegTestRemoveStep.h>
-#import <ResearchKit/ORKReactionTimeStep.h>
-#import <ResearchKit/ORKTowerOfHanoiStep.h>
-#import <ResearchKit/ORKImplicitAssociationStep.h>
-
-#import <ResearchKit/ORKAudioStepViewController.h>
-#import <ResearchKit/ORKToneAudiometryStepViewController.h>
-#import <ResearchKit/ORKToneAudiometryPracticeStepViewController.h>
-#import <ResearchKit/ORKSpatialSpanMemoryStepViewController.h>
-#import <ResearchKit/ORKWalkingTaskStepViewController.h>
-#import <ResearchKit/ORKCountdownStepViewController.h>
-#import <ResearchKit/ORKFitnessStepViewController.h>
-#import <ResearchKit/ORKTappingIntervalStepViewController.h>
-#import <ResearchKit/ORKTimedWalkStepViewController.h>
-#import <ResearchKit/ORKPSATStepViewController.h>
-#import <ResearchKit/ORKHolePegTestPlaceStepViewController.h>
-#import <ResearchKit/ORKHolePegTestRemoveStepViewController.h>
-#import <ResearchKit/ORKCompletionStepViewController.h>
-#import <ResearchKit/ORKImplicitAssociationStepViewController.h>
-=======
 #import "ORKAudioStepViewController.h"
 #import "ORKConsentReviewStepViewController.h"
 #import "ORKCountdownStepViewController.h"
@@ -112,6 +81,7 @@
 #import "ORKTimedWalkStepViewController.h"
 #import "ORKVisualConsentStepViewController.h"
 #import "ORKWalkingTaskStepViewController.h"
+#import "ORKImplicitAssociationStepViewController.h"
 
 #import "ORKAccelerometerRecorder.h"
 #import "ORKAudioRecorder.h"
@@ -120,7 +90,6 @@
 #import "ORKLocationRecorder.h"
 #import "ORKPedometerRecorder.h"
 #import "ORKTouchRecorder.h"
->>>>>>> stable
 
 // For custom steps
 #import "ORKCustomStepView.h"

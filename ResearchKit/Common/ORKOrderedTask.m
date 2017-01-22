@@ -33,12 +33,7 @@
 #import "ORKOrderedTask.h"
 
 #import "ORKAudioStepViewController.h"
-<<<<<<< HEAD
-#import "ORKWalkingTaskStepViewController.h"
-#import "ORKTappingIntervalStep.h"
-#import "ORKImplicitAssociationStep.h"
-=======
->>>>>>> stable
+#import "ORKImplicitAssociationStepViewController.h"
 #import "ORKCountdownStepViewController.h"
 #import "ORKFitnessStepViewController.h"
 #import "ORKToneAudiometryStepViewController.h"
@@ -66,15 +61,8 @@
 #import "ORKToneAudiometryStep.h"
 #import "ORKToneAudiometryPracticeStep.h"
 #import "ORKTowerOfHanoiStep.h"
-<<<<<<< HEAD
-#import "ORKTimedWalkStep.h"
-#import "ORKPSATStep.h"
 #import "ORKImplicitAssociationStep.h"
-#import "ORKAccelerometerRecorder.h"
-#import "ORKAudioRecorder.h"
-=======
 #import "ORKVisualConsentStep.h"
->>>>>>> stable
 #import "ORKWaitStep.h"
 #import "ORKWalkingTaskStep.h"
 #import "ORKResultPredicate.h"
@@ -310,37 +298,6 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
 
 #pragma mark - Predefined
 
-<<<<<<< HEAD
-NSString * const ORKInstruction0StepIdentifier = @"instruction";
-NSString * const ORKInstruction1StepIdentifier = @"instruction1";
-NSString * const ORKCountdownStepIdentifier = @"countdown";
-NSString * const ORKAudioStepIdentifier = @"audio";
-NSString * const ORKTappingStepIdentifier = @"tapping";
-NSString * const ORKConclusionStepIdentifier = @"conclusion";
-NSString * const ORKFitnessWalkStepIdentifier = @"fitness.walk";
-NSString * const ORKFitnessRestStepIdentifier = @"fitness.rest";
-NSString * const ORKShortWalkOutboundStepIdentifier = @"walking.outbound";
-NSString * const ORKShortWalkReturnStepIdentifier = @"walking.return";
-NSString * const ORKShortWalkRestStepIdentifier = @"walking.rest";
-NSString * const ORKSpatialSpanMemoryStepIdentifier = @"cognitive.memory.spatialspan";
-NSString * const ORKToneAudiometryPracticeStepIdentifier = @"tone.audiometry.practice";
-NSString * const ORKToneAudiometryStepIdentifier = @"tone.audiometry";
-NSString * const ORKReactionTimeStepIdentifier = @"reactionTime";
-NSString * const ORKTowerOfHanoiStepIdentifier = @"towerOfHanoi";
-NSString * const ORKTimedWalkFormStepIdentifier = @"timed.walk.form";
-NSString * const ORKTimedWalkFormAFOStepIdentifier = @"timed.walk.form.afo";
-NSString * const ORKTimedWalkFormAssistanceStepIdentifier = @"timed.walk.form.assistance";
-NSString * const ORKTimedWalkTrial1StepIdentifier = @"timed.walk.trial1";
-NSString * const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
-NSString * const ORKPSATStepIdentifier = @"psat";
-NSString * const ORKImplicitAssociationStepIdentifier = @"implicitAssociation";
-NSString * const ORKAudioRecorderIdentifier = @"audio";
-NSString * const ORKAccelerometerRecorderIdentifier = @"accelerometer";
-NSString * const ORKPedometerRecorderIdentifier = @"pedometer";
-NSString * const ORKDeviceMotionRecorderIdentifier = @"deviceMotion";
-NSString * const ORKLocationRecorderIdentifier = @"location";
-NSString * const ORKHeartRateRecorderIdentifier = @"heartRate";
-=======
 NSString *const ORKInstruction0StepIdentifier = @"instruction";
 NSString *const ORKInstruction1StepIdentifier = @"instruction1";
 NSString *const ORKInstruction2StepIdentifier = @"instruction2";
@@ -390,7 +347,7 @@ NSString *const ORKPedometerRecorderIdentifier = @"pedometer";
 NSString *const ORKDeviceMotionRecorderIdentifier = @"deviceMotion";
 NSString *const ORKLocationRecorderIdentifier = @"location";
 NSString *const ORKHeartRateRecorderIdentifier = @"heartRate";
->>>>>>> stable
+NSString *const ORKImplicitAssociationStepIdentifier = @"implicitAssociation";
 
 + (ORKCompletionStep *)makeCompletionStep {
     ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKConclusionStepIdentifier];
@@ -1540,15 +1497,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     return task;
 }
 
-<<<<<<< HEAD
-+ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
-                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                  options:(ORKPredefinedTaskOption)options {
-    
-    NSMutableArray *steps = [NSMutableArray array];
-    
-    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
-=======
 + (NSString *)stepIdentifier:(NSString *)stepIdentifier withHandIdentifier:(NSString *)handIdentifier {
     return [NSString stringWithFormat:@"%@.%@", stepIdentifier, handIdentifier];
 }
@@ -1589,7 +1537,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         
         ORKStepArrayAddStep(steps, step);
     }
-
+    
     if (!(activeTaskOptions & ORKTremorActiveTaskOptionExcludeHandInLap)) {
         if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
             NSString *stepIdentifier = [self stepIdentifier:ORKInstruction2StepIdentifier withHandIdentifier:handIdentifier];
@@ -1847,7 +1795,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                               handOptions:(ORKPredefinedTaskHandOption)handOptions
                                                   options:(ORKPredefinedTaskOption)options {
     
-    NSMutableArray *steps = [NSMutableArray array];
+    NSMutableArray<__kindof ORKStep *> *steps = [NSMutableArray array];
     // coin toss for which hand first (in case we're doing both)
     BOOL leftFirstIfDoingBoth = arc4random_uniform(2) == 1;
     BOOL doingBoth = ((handOptions & ORKPredefinedTaskHandOptionLeft) && (handOptions & ORKPredefinedTaskHandOptionRight));
@@ -1893,12 +1841,12 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     if (doingBoth) {
         // If doing both hands then ask the user if they need to skip one of the hands
         ORKTextChoice *skipRight = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TREMOR_SKIP_RIGHT_HAND", nil)
-                                                          value:ORKActiveTaskRightHandIdentifier];
+                                                           value:ORKActiveTaskRightHandIdentifier];
         ORKTextChoice *skipLeft = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TREMOR_SKIP_LEFT_HAND", nil)
                                                           value:ORKActiveTaskLeftHandIdentifier];
         ORKTextChoice *skipNeither = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TREMOR_SKIP_NEITHER", nil)
                                                              value:@""];
-
+        
         ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
                                                                          textChoices:@[skipRight, skipLeft, skipNeither]];
         ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:ORKActiveTaskSkipHandStepIdentifier
@@ -1911,7 +1859,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     }
     
     // right or most-affected hand
-    NSArray *rightSteps = nil;
+    NSArray<__kindof ORKStep *> *rightSteps = nil;
     if (handOptions == ORKPredefinedTaskHandOptionUnspecified) {
         rightSteps = [self stepsForOneHandTremorTestTaskWithIdentifier:identifier
                                                     activeStepDuration:activeStepDuration
@@ -1933,7 +1881,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     }
     
     // left hand
-    NSArray *leftSteps = nil;
+    NSArray<__kindof ORKStep *> *leftSteps = nil;
     if (handOptions & ORKPredefinedTaskHandOptionLeft) {
         leftSteps = [self stepsForOneHandTremorTestTaskWithIdentifier:identifier
                                                    activeStepDuration:activeStepDuration
@@ -1962,7 +1910,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         
         ORKStepArrayAddStep(steps, step);
     }
-
+    
     ORKNavigableOrderedTask *task = [[ORKNavigableOrderedTask alloc] initWithIdentifier:identifier steps:steps];
     
     if (doingBoth) {
@@ -1987,11 +1935,20 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                                                                   destinationStepIdentifiers:@[conclusionIdentifier]];
         [task setNavigationRule:skipSecond forTriggerStepIdentifier:triggerIdentifier];
     }
->>>>>>> stable
     
     return task;
 }
 
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                  options:(ORKPredefinedTaskOption)options {
+    
+    NSMutableArray *steps = [NSMutableArray array];
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+
+    return task;
+}
 
 
 @end

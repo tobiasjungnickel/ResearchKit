@@ -644,10 +644,6 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
                               seriesLength:(NSInteger)seriesLength
                                    options:(ORKPredefinedTaskOption)options;
 
-<<<<<<< HEAD
-+ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
-                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
-=======
 /**
  Returns a predefined task that measures hand tremor.
  
@@ -670,8 +666,13 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
                                        activeStepDuration:(NSTimeInterval)activeStepDuration
                                         activeTaskOptions:(ORKTremorActiveTaskOption)activeTaskOptions
                                               handOptions:(ORKPredefinedTaskHandOption)handOptions
->>>>>>> stable
                                                   options:(ORKPredefinedTaskOption)options;
+
+/**
+ Returns a predefined implicit association test.
+ */
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription;
 
 @end
 
