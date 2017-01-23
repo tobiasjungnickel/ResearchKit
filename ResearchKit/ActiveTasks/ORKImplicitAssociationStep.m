@@ -31,7 +31,32 @@
 
 #import "ORKImplicitAssociationStep.h"
 
+#import "ORKImplicitAssociationStepViewController.h"
+
 
 @implementation ORKImplicitAssociationStep
+
++ (Class)stepViewControllerClass {
+    return [ORKImplicitAssociationStepViewController class];
+}
+
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.shouldShowDefaultTimer = NO;
+        self.optional = NO; // default to *not* optional
+    }
+    return self;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+    
+    NSTimeInterval const ORKTwoFingerTappingMinimumDuration = 5.0;
+    
+    if ( self.stepDuration < ORKTwoFingerTappingMinimumDuration) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"duration cannot be shorter than %@ seconds.", @(ORKTwoFingerTappingMinimumDuration)]  userInfo:nil];
+    }
+}
 
 @end

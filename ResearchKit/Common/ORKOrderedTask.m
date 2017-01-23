@@ -1940,13 +1940,153 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
 }
 
 + (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
-                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                  options:(ORKPredefinedTaskOption)options {
+                                        intendedUseDescription:(NSString *)intendedUseDescription
+                                                      duration:(NSTimeInterval)duration
+                                                   handOptions:(ORKPredefinedTaskHandOption)handOptions
+                                                       options:(ORKPredefinedTaskOption)options {
+    
+    NSString *durationString = [ORKDurationStringFormatter() stringFromTimeInterval:duration];
     
     NSMutableArray *steps = [NSMutableArray array];
     
-    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
-
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+            step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE", nil);
+            step.text = intendedUseDescription;
+            step.detailText = ORKLocalizedString(@"TAPPING_INTRO_TEXT", nil);
+            
+            NSString *imageName = @"phonetapping";
+            if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                imageName = [imageName stringByAppendingString:@"_notap"];
+            }
+            step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.shouldTintImages = YES;
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+    }
+    
+    // Setup which hand to start with and how many hands to add based on the handOptions parameter
+    // Hand order is randomly determined.
+    NSUInteger handCount = ((handOptions & ORKPredefinedTaskHandOptionBoth) == ORKPredefinedTaskHandOptionBoth) ? 2 : 1;
+    BOOL undefinedHand = (handOptions == 0);
+    BOOL rightHand;
+    switch (handOptions) {
+        case ORKPredefinedTaskHandOptionLeft:
+            rightHand = NO; break;
+        case ORKPredefinedTaskHandOptionRight:
+        case ORKPredefinedTaskHandOptionUnspecified:
+            rightHand = YES; break;
+        default:
+            rightHand = (arc4random()%2 == 0); break;
+    }
+    
+    for (NSUInteger hand = 1; hand <= handCount; hand++) {
+        
+        NSString * (^appendIdentifier) (NSString *) = ^ (NSString * identifier) {
+            if (undefinedHand) {
+                return identifier;
+            } else {
+                NSString *handIdentifier = rightHand ? ORKActiveTaskRightHandIdentifier : ORKActiveTaskLeftHandIdentifier;
+                return [NSString stringWithFormat:@"%@.%@", identifier, handIdentifier];
+            }
+        };
+        
+        if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:appendIdentifier(ORKInstruction1StepIdentifier)];
+            
+            // Set the title based on the hand
+            if (undefinedHand) {
+                step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE", nil);
+            } else if (rightHand) {
+                step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE_RIGHT", nil);
+            } else {
+                step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE_LEFT", nil);
+            }
+            
+            // Set the instructions for the tapping test screen that is displayed prior to each hand test
+            NSString *restText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_REST_PHONE", nil);
+            NSString *tappingTextFormat = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_FORMAT", nil);
+            NSString *tappingText = [NSString localizedStringWithFormat:tappingTextFormat, durationString];
+            NSString *handText = nil;
+            
+            if (hand == 1) {
+                if (undefinedHand) {
+                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_MOST_AFFECTED", nil);
+                } else if (rightHand) {
+                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_RIGHT_FIRST", nil);
+                } else {
+                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_LEFT_FIRST", nil);
+                }
+            } else {
+                if (rightHand) {
+                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_RIGHT_SECOND", nil);
+                } else {
+                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_LEFT_SECOND", nil);
+                }
+            }
+            
+            step.text = [NSString localizedStringWithFormat:@"%@ %@ %@", restText, handText, tappingText];
+            
+            // Continue button will be different from first hand and second hand
+            if (hand == 1) {
+                step.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+            } else {
+                step.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+            }
+            
+            // Set the image
+            UIImage *im1 = [UIImage imageNamed:@"handtapping01" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            UIImage *im2 = [UIImage imageNamed:@"handtapping02" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            UIImage *imageAnimation = [UIImage animatedImageWithImages:@[im1, im2] duration:1];
+            
+            if (rightHand || undefinedHand) {
+                step.image = imageAnimation;
+            } else {
+                step.image = [imageAnimation ork_flippedImage:UIImageOrientationUpMirrored];
+            }
+            step.shouldTintImages = YES;
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+        
+        // TAPPING STEP
+        {
+            NSMutableArray *recorderConfigurations = [NSMutableArray arrayWithCapacity:5];
+            if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
+                [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
+                                                                                                          frequency:100]];
+            }
+            
+            ORKTappingIntervalStep *step = [[ORKTappingIntervalStep alloc] initWithIdentifier:appendIdentifier(ORKTappingStepIdentifier)];
+            if (undefinedHand) {
+                step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION", nil);
+            } else if (rightHand) {
+                step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION_RIGHT", nil);
+            } else {
+                step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION_LEFT", nil);
+            }
+            step.stepDuration = duration;
+            step.shouldContinueOnFinish = YES;
+            step.recorderConfigurations = recorderConfigurations;
+            step.optional = (handCount == 2);
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+        
+        // Flip to the other hand (ignored if handCount == 1)
+        rightHand = !rightHand;
+    }
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+        ORKInstructionStep *step = [self makeCompletionStep];
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
+    
     return task;
 }
 
