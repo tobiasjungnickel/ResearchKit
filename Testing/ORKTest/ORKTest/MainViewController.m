@@ -82,6 +82,7 @@ DefineStringKey(TowerOfHanoiTaskIdentifier);
 DefineStringKey(TremorTaskIdentifier);
 DefineStringKey(TremorRightHandTaskIdentifier);
 DefineStringKey(WalkBackAndForthTaskIdentifier);
+DefineStringKey(ImplicitAssociationTaskIdentifier);
 
 DefineStringKey(CreatePasscodeTaskIdentifier);
 
@@ -368,6 +369,7 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
                            @"Walk And Turn Task",
                            @"Hand Tremor Task",
                            @"Right Hand Tremor Task",
+                           @"Implicit Association Task",
                            ],
                        @[ // Passcode
                            @"Authenticate Passcode",
@@ -637,6 +639,12 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
                                           activeTaskOptions:0
                                                 handOptions:ORKPredefinedTaskHandOptionRight
                                                     options:ORKPredefinedTaskOptionNone];
+    } else if ([identifier isEqualToString:ImplicitAssociationTaskIdentifier]) {
+        return [ORKOrderedTask implicitAssociationTaskWithIdentifier:TwoFingerTapTaskIdentifier
+                                                   intendedUseDescription:nil
+                                                                 duration:20.0
+                                                              handOptions:ORKPredefinedTaskHandOptionBoth
+                                                                  options:(ORKPredefinedTaskOption)0];
     } else if ([identifier isEqualToString:AuxillaryImageTaskIdentifier]) {
         return [self makeAuxillaryImageTask];
     }
@@ -2361,6 +2369,10 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
     [self beginTaskWithIdentifier:TremorRightHandTaskIdentifier];
 }
 
+- (void)implicitAssociationTaskButtonTapped:(id)sender {
+    [self beginTaskWithIdentifier:ImplicitAssociationTaskIdentifier];
+}
+
 #pragma mark - Dynamic task
 
 /*
@@ -3568,7 +3580,7 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
     NSString *task_identifier = taskViewController.task.identifier;
 
     return ([step isKindOfClass:[ORKInstructionStep class]]
-            && NO == [@[AudioTaskIdentifier, FitnessTaskIdentifier, GaitTaskIdentifier, TwoFingerTapTaskIdentifier, NavigableOrderedTaskIdentifier, NavigableLoopTaskIdentifier] containsObject:task_identifier]);
+            && NO == [@[AudioTaskIdentifier, FitnessTaskIdentifier, GaitTaskIdentifier, TwoFingerTapTaskIdentifier, ImplicitAssociationTaskIdentifier, NavigableOrderedTaskIdentifier, NavigableLoopTaskIdentifier] containsObject:task_identifier]);
 }
 
 /*
