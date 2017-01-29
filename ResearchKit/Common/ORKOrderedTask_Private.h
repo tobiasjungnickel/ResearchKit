@@ -63,6 +63,7 @@ FOUNDATION_EXPORT NSString *const ORKPedometerRecorderIdentifier;
 FOUNDATION_EXPORT NSString *const ORKDeviceMotionRecorderIdentifier;
 FOUNDATION_EXPORT NSString *const ORKLocationRecorderIdentifier;
 FOUNDATION_EXPORT NSString *const ORKHeartRateRecorderIdentifier;
+FOUNDATION_EXPORT NSString *const ORKImplicitAssociationStepIdentifier;
 
 FOUNDATION_EXPORT void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step);
 
