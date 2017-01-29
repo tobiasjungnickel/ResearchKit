@@ -49,7 +49,6 @@
 @interface ORKImplicitAssociationContentView ()
 
 @property (nonatomic, strong) ORKHeadlineLabel *termLabel;
-@property (nonatomic, strong) ORKTapCountLabel *tapCountLabel;
 
 @end
 
@@ -62,6 +61,7 @@
     ORKSubheadlineLabel *_rightItemLabel2;
     ORKSubheadlineLabel *_leftDividerLabel;
     ORKSubheadlineLabel *_rightDividerLabel;
+    ORKHeadlineLabel *_wrongLabel;
     
     NSNumberFormatter *_formatter;
 }
@@ -98,9 +98,9 @@
         _rightDividerLabel.textAlignment = NSTextAlignmentCenter;
         _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _tapCountLabel = [ORKTapCountLabel new];
-        _tapCountLabel.textAlignment = NSTextAlignmentCenter;
-        _tapCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _wrongLabel = [ORKHeadlineLabel new];
+        _wrongLabel.textAlignment = NSTextAlignmentCenter;
+        _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _buttonContainer = [UIView new];
         _buttonContainer.translatesAutoresizingMaskIntoConstraints = NO;
@@ -122,7 +122,7 @@
         [self addSubview:_rightItemLabel2];
         [self addSubview:_leftDividerLabel];
         [self addSubview:_rightDividerLabel];
-        [self addSubview:_tapCountLabel];
+        [self addSubview:_wrongLabel];
         [self addSubview:_buttonContainer];
         
         [_buttonContainer addSubview:_tapButton1];
@@ -137,16 +137,14 @@
         _rightItemLabel2.text = @"RIGHT_2";
         _leftDividerLabel.text = @"LEFT_DIVIDER";
         _rightDividerLabel.text = @"RIGHT_DIVIDER";
-        [self setTapCount:0];
+        _wrongLabel.text = @"X";
         
         [self setUpConstraints];
-        
-        _tapCountLabel.accessibilityTraits |= UIAccessibilityTraitUpdatesFrequently;
         
 #if LAYOUT_DEBUG
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
         self.termLabel.backgroundColor = [UIColor orangeColor];
-        self.tapCountLabel.backgroundColor = [UIColor greenColor];
+        _wrongLabel.backgroundColor = [UIColor greenColor];
         _buttonContainer.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.25];
 #endif
     }
@@ -157,18 +155,8 @@
     [super tintColorDidChange];
 }
 
-- (void)setTapCount:(NSUInteger)tapCount {
-    if (_formatter == nil) {
-        _formatter = [NSNumberFormatter new];
-        _formatter.locale = [NSLocale currentLocale];
-        _formatter.minimumIntegerDigits = 2;
-    }
-    _tapCountLabel.text = [_formatter stringFromNumber:@(tapCount)];
-}
-
 - (void)resetStep:(ORKActiveStepViewController *)viewController {
     [super resetStep:viewController];
-    [self setTapCount:0];
     _tapButton1.enabled = YES;
     _tapButton2.enabled = YES;
 }
@@ -182,7 +170,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, _leftItemLabel1, _rightItemLabel1, _leftItemLabel2, _rightItemLabel2, _leftDividerLabel, _rightDividerLabel, _tapCountLabel, _tapButton1, _tapButton2);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, _leftItemLabel1, _rightItemLabel1, _leftItemLabel2, _rightItemLabel2, _leftDividerLabel, _rightDividerLabel, _wrongLabel, _tapButton1, _tapButton2);
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
                                                         attribute:NSLayoutAttributeCenterX
@@ -233,15 +221,13 @@
                                                        multiplier:1.0
                                                          constant:-10.0]];
     
-    
-    
-    [constraints addObject: [NSLayoutConstraint constraintWithItem:_tapCountLabel
+    [constraints addObject: [NSLayoutConstraint constraintWithItem:_wrongLabel
                                                          attribute:NSLayoutAttributeFirstBaseline
                                                          relatedBy:NSLayoutRelationEqual
                                                             toItem:_termLabel
                                                          attribute:NSLayoutAttributeFirstBaseline
                                                         multiplier:1.0
-                                                          constant:56.0]];
+                                                          constant:70.0]];
     
     
     [constraints addObject: [NSLayoutConstraint constraintWithItem:self
@@ -279,7 +265,7 @@
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tapCountLabel]-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_wrongLabel]-|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];

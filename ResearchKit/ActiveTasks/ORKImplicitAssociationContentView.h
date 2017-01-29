@@ -39,8 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKImplicitAssociationContentView : ORKActiveStepCustomView
 
-- (void)setTapCount:(NSUInteger)tapCount;
-
 @property (nonatomic, assign) BOOL hasSkipButton;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;
