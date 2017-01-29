@@ -98,7 +98,6 @@
         //[self setTapCount:0];
         
         [self setUpConstraints];
-        [self updateConstraintConstantsForWindow:self.window];
         
         //_tapCountLabel.accessibilityTraits |= UIAccessibilityTraitUpdatesFrequently;
         
@@ -138,11 +137,6 @@
     _tapButton2.enabled = NO;
 }
 
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateConstraintConstantsForWindow:newWindow];
-}
-
 - (void)updateLayoutMargins {
     CGFloat margin = ORKStandardHorizontalMarginForView(self);
     self.layoutMargins = (UIEdgeInsets){.left = margin * 2, .right=margin * 2};
@@ -169,7 +163,7 @@
                                                                    toItem:self
                                                                 attribute:NSLayoutAttributeTop
                                                                multiplier:1.0
-                                                                 constant:0.0]; // constant set in updateConstraintConstantsForWindow:
+                                                                 constant:18.0];
     [constraints addObject:_topToCaptionLabelConstraint];
     /*
     _captionLabelToTapCountLabelConstraint = [NSLayoutConstraint constraintWithItem:_tapCountLabel
@@ -178,7 +172,7 @@
                                                                              toItem:_tapCaptionLabel
                                                                           attribute:NSLayoutAttributeFirstBaseline
                                                                          multiplier:1.0
-                                                                           constant:0.0]; // constant set in updateConstraintConstantsForWindow:
+                                                                           constant:56.0];
     [constraints addObject:_captionLabelToTapCountLabelConstraint];
     */
     
@@ -188,7 +182,7 @@
                                                                    toItem:_buttonContainer
                                                                 attribute:NSLayoutAttributeBottom
                                                                multiplier:1.0
-                                                                 constant:0.0]; // constant set in updateConstraintConstantsForWindow:
+                                                                 constant:36.0];
     [constraints addObject:_tapButtonToBottomConstraint];
     
     
@@ -240,38 +234,6 @@
                                                          constant:0.0]];
     
     [NSLayoutConstraint activateConstraints:constraints];
-}
-
-- (void)updateConstraintConstantsForWindow:(UIWindow *)window {
-    const CGFloat HeaderBaselineToCaptionTop = ORKGetMetricForWindow(ORKScreenMetricCaptionBaselineToTappingLabelTop, window);
-    const CGFloat AssumedHeaderBaselineToStepViewTop = ORKGetMetricForWindow(ORKScreenMetricLearnMoreBaselineToStepViewTop, window);
-    CGFloat margin = ORKStandardHorizontalMarginForView(self);
-    self.layoutMargins = (UIEdgeInsets){.left = margin * 2, .right = margin * 2};
-    
-    static const CGFloat CaptionBaselineToTapCountBaseline = 56;
-    CGFloat tapButtonBottomToBottom = self.hasSkipButton ? 0 : 36;
-    
-    // On the iPhone, _progressView is positioned outside the bounds of this view, to be in-between the header and this view.
-    // On the iPad, we want to stretch this out a bit so it feels less compressed.
-    CGFloat topToProgressViewOffset = 0.0;
-    CGFloat topToCaptionLabelOffset = 0.0;
-    ORKScreenType screenType = ORKGetVerticalScreenTypeForWindow(window);
-    if (screenType == ORKScreenTypeiPad || screenType == ORKScreenTypeiPad12_9) {
-        topToProgressViewOffset = 0;
-        topToCaptionLabelOffset = AssumedHeaderBaselineToStepViewTop;
-    } else {
-        topToProgressViewOffset = (HeaderBaselineToCaptionTop / 3) - AssumedHeaderBaselineToStepViewTop;
-        topToCaptionLabelOffset = HeaderBaselineToCaptionTop - AssumedHeaderBaselineToStepViewTop;
-    }
-    
-    _topToCaptionLabelConstraint.constant = topToCaptionLabelOffset;
-    _captionLabelToTapCountLabelConstraint.constant = CaptionBaselineToTapCountBaseline;
-    _tapButtonToBottomConstraint.constant = tapButtonBottomToBottom;
-}
-
-- (void)updateConstraints {
-    [self updateConstraintConstantsForWindow:self.window];
-    [super updateConstraints];
 }
 
 @end
