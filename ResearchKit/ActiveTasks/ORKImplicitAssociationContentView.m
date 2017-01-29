@@ -56,8 +56,12 @@
 
 @implementation ORKImplicitAssociationContentView {
     UIView *_buttonContainer;
-    ORKHeadlineLabel *_leftItemLabel1;
-    ORKHeadlineLabel *_rightItemLabel1;
+    ORKSubheadlineLabel *_leftItemLabel1;
+    ORKSubheadlineLabel *_rightItemLabel1;
+    ORKSubheadlineLabel *_leftItemLabel2;
+    ORKSubheadlineLabel *_rightItemLabel2;
+    ORKSubheadlineLabel *_leftDividerLabel;
+    ORKSubheadlineLabel *_rightDividerLabel;
     
     NSNumberFormatter *_formatter;
 }
@@ -70,13 +74,29 @@
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftItemLabel1 = [ORKHeadlineLabel new];
+        _leftItemLabel1 = [ORKSubheadlineLabel new];
         _leftItemLabel1.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightItemLabel1 = [ORKHeadlineLabel new];
+        _rightItemLabel1 = [ORKSubheadlineLabel new];
         _rightItemLabel1.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _leftItemLabel2 = [ORKSubheadlineLabel new];
+        _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
+        _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _rightItemLabel2 = [ORKSubheadlineLabel new];
+        _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
+        _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _leftDividerLabel = [ORKSubheadlineLabel new];
+        _leftDividerLabel.textAlignment = NSTextAlignmentCenter;
+        _leftDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _rightDividerLabel = [ORKSubheadlineLabel new];
+        _rightDividerLabel.textAlignment = NSTextAlignmentCenter;
+        _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _tapCountLabel = [ORKTapCountLabel new];
         _tapCountLabel.textAlignment = NSTextAlignmentCenter;
@@ -98,6 +118,10 @@
         [self addSubview:_termLabel];
         [self addSubview:_leftItemLabel1];
         [self addSubview:_rightItemLabel1];
+        [self addSubview:_leftItemLabel2];
+        [self addSubview:_rightItemLabel2];
+        [self addSubview:_leftDividerLabel];
+        [self addSubview:_rightDividerLabel];
         [self addSubview:_tapCountLabel];
         [self addSubview:_buttonContainer];
         
@@ -109,6 +133,10 @@
         _termLabel.text = ORKLocalizedString(@"TERM_LABEL", nil);
         _leftItemLabel1.text = @"LEFT_1";
         _rightItemLabel1.text = @"RIGHT_1";
+        _leftItemLabel2.text = @"LEFT_2";
+        _rightItemLabel2.text = @"RIGHT_2";
+        _leftDividerLabel.text = @"LEFT_DIVIDER";
+        _rightDividerLabel.text = @"RIGHT_DIVIDER";
         [self setTapCount:0];
         
         [self setUpConstraints];
@@ -154,7 +182,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, _leftItemLabel1, _rightItemLabel1, _tapCountLabel, _tapButton1, _tapButton2);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, _leftItemLabel1, _rightItemLabel1, _leftItemLabel2, _rightItemLabel2, _leftDividerLabel, _rightDividerLabel, _tapCountLabel, _tapButton1, _tapButton2);
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
                                                         attribute:NSLayoutAttributeCenterX
@@ -171,14 +199,15 @@
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
+    
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_leftItemLabel1
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
-                                                                attribute:NSLayoutAttributeTop
-                                                               multiplier:1.0
-                                                                 constant:0.0]];
+                                                        attribute:NSLayoutAttributeTop
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeTop
+                                                       multiplier:1.0
+                                                         constant:0.0]];
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_leftItemLabel1
                                                         attribute:NSLayoutAttributeLeft
@@ -204,6 +233,8 @@
                                                        multiplier:1.0
                                                          constant:-10.0]];
     
+    
+    
     [constraints addObject: [NSLayoutConstraint constraintWithItem:_tapCountLabel
                                                          attribute:NSLayoutAttributeFirstBaseline
                                                          relatedBy:NSLayoutRelationEqual
@@ -220,6 +251,20 @@
                                                          attribute:NSLayoutAttributeBottom
                                                         multiplier:1.0
                                                           constant:36.0]];
+    
+    
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_leftItemLabel1]-(>=10)-[_leftDividerLabel]-(>=10)-[_leftItemLabel2]"
+                                             options:NSLayoutFormatAlignAllCenterX
+                                             metrics:nil
+                                               views:views]];
+    
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_rightItemLabel1]-(>=10)-[_rightDividerLabel]-(>=10)-[_rightItemLabel2]"
+                                             options:NSLayoutFormatAlignAllCenterX
+                                             metrics:nil
+                                               views:views]];
+    
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_termLabel]-(>=10)-[_buttonContainer]"
@@ -238,6 +283,7 @@
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
+    
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tapButton1]|"
