@@ -42,14 +42,13 @@
 #import "ORKSkin.h"
 
 
-// #define LAYOUT_DEBUG 1
+#define LAYOUT_DEBUG 1
 
 
 @interface ORKImplicitAssociationContentView ()
 
 @property (nonatomic, strong) ORKSubheadlineLabel *tapCaptionLabel;
 @property (nonatomic, strong) ORKTapCountLabel *tapCountLabel;
-@property (nonatomic, strong) UIProgressView *progressView;
 
 @end
 
@@ -57,7 +56,6 @@
 @implementation ORKImplicitAssociationContentView {
     UIView *_buttonContainer;
     NSNumberFormatter *_formatter;
-    NSLayoutConstraint *_topToProgressViewConstraint;
     NSLayoutConstraint *_topToCaptionLabelConstraint;
     NSLayoutConstraint *_captionLabelToTapCountLabelConstraint;
     NSLayoutConstraint *_tapButtonToBottomConstraint;
@@ -69,17 +67,13 @@
         _tapCaptionLabel = [ORKSubheadlineLabel new];
         _tapCaptionLabel.textAlignment = NSTextAlignmentCenter;
         _tapCaptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        /*
         _tapCountLabel = [ORKTapCountLabel new];
         _tapCountLabel.textAlignment = NSTextAlignmentCenter;
         _tapCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+         */
         _buttonContainer = [UIView new];
         _buttonContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        _progressView = [UIProgressView new];
-        _progressView.translatesAutoresizingMaskIntoConstraints = NO;
-        _progressView.progressTintColor = [self tintColor];
-        [_progressView setIsAccessibilityElement:YES];
-        [_progressView setAlpha:0];
         
         _tapButton1 = [[ORKRoundTappingButton alloc] init];
         _tapButton1.translatesAutoresizingMaskIntoConstraints = NO;
@@ -92,8 +86,7 @@
         _lastTappedButton = -1;
         
         [self addSubview:_tapCaptionLabel];
-        [self addSubview:_tapCountLabel];
-        [self addSubview:_progressView];
+        //[self addSubview:_tapCountLabel];
         [self addSubview:_buttonContainer];
         
         [_buttonContainer addSubview:_tapButton1];
@@ -102,12 +95,12 @@
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
         _tapCaptionLabel.text = ORKLocalizedString(@"TOTAL_TAPS_LABEL", nil);
-        [self setTapCount:0];
+        //[self setTapCount:0];
         
         [self setUpConstraints];
         [self updateConstraintConstantsForWindow:self.window];
         
-        _tapCountLabel.accessibilityTraits |= UIAccessibilityTraitUpdatesFrequently;
+        //_tapCountLabel.accessibilityTraits |= UIAccessibilityTraitUpdatesFrequently;
         
 #if LAYOUT_DEBUG
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
@@ -121,7 +114,6 @@
 
 - (void)tintColorDidChange {
     [super tintColorDidChange];
-    _progressView.progressTintColor = [self tintColor];
 }
 
 - (void)setTapCount:(NSUInteger)tapCount {
@@ -131,19 +123,6 @@
         _formatter.minimumIntegerDigits = 2;
     }
     _tapCountLabel.text = [_formatter stringFromNumber:@(tapCount)];
-}
-
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated {
-    [_progressView setProgress:progress animated:animated];
-    
-    CGFloat previousAlpha = _progressView.alpha;
-    [UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
-        [_progressView setAlpha:(progress == 0) ? 0 : 1];
-    }];
-    
-    if (UIAccessibilityIsVoiceOverRunning() && previousAlpha != _progressView.alpha) {
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
-    }
 }
 
 - (void)resetStep:(ORKActiveStepViewController *)viewController {
@@ -182,16 +161,8 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _tapCaptionLabel, _tapCountLabel, _progressView, _tapButton1, _tapButton2);
-    _topToProgressViewConstraint = [NSLayoutConstraint constraintWithItem:_progressView
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
-                                                                attribute:NSLayoutAttributeTop
-                                                               multiplier:1.0
-                                                                 constant:0.0]; // constant set in updateConstraintConstantsForWindow:
-    [constraints addObject:_topToProgressViewConstraint];
-    
+    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _tapCaptionLabel, /*_tapCountLabel,*/ _tapButton1, _tapButton2);
+
     _topToCaptionLabelConstraint = [NSLayoutConstraint constraintWithItem:_tapCaptionLabel
                                                                 attribute:NSLayoutAttributeTop
                                                                 relatedBy:NSLayoutRelationEqual
@@ -200,7 +171,7 @@
                                                                multiplier:1.0
                                                                  constant:0.0]; // constant set in updateConstraintConstantsForWindow:
     [constraints addObject:_topToCaptionLabelConstraint];
-    
+    /*
     _captionLabelToTapCountLabelConstraint = [NSLayoutConstraint constraintWithItem:_tapCountLabel
                                                                           attribute:NSLayoutAttributeFirstBaseline
                                                                           relatedBy:NSLayoutRelationEqual
@@ -209,6 +180,7 @@
                                                                          multiplier:1.0
                                                                            constant:0.0]; // constant set in updateConstraintConstantsForWindow:
     [constraints addObject:_captionLabelToTapCountLabelConstraint];
+    */
     
     _tapButtonToBottomConstraint = [NSLayoutConstraint constraintWithItem:self
                                                                 attribute:NSLayoutAttributeBottom
@@ -219,39 +191,27 @@
                                                                  constant:0.0]; // constant set in updateConstraintConstantsForWindow:
     [constraints addObject:_tapButtonToBottomConstraint];
     
+    
+    
+    
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_tapCountLabel]-(>=10)-[_buttonContainer]"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_tapCaptionLabel]-(>=10)-[_buttonContainer]"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_progressView]-|"
-                                             options:(NSLayoutFormatOptions)0
-                                             metrics:nil
-                                               views:views]];
-    NSLayoutConstraint *progressViewWidthConstraint = [NSLayoutConstraint constraintWithItem:_progressView
-                                                                                   attribute:NSLayoutAttributeWidth
-                                                                                   relatedBy:NSLayoutRelationEqual
-                                                                                      toItem:nil
-                                                                                   attribute:NSLayoutAttributeNotAnAttribute
-                                                                                  multiplier:1.0
-                                                                                    constant:ORKScreenMetricMaxDimension];
-    progressViewWidthConstraint.priority = UILayoutPriorityRequired - 1;
-    [constraints addObject:progressViewWidthConstraint];
-    
+
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tapCaptionLabel]-|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
-    
+    /*
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tapCountLabel]-|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
-    
+    */
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tapButton1]|"
                                              options:(NSLayoutFormatOptions)0
@@ -304,7 +264,6 @@
         topToCaptionLabelOffset = HeaderBaselineToCaptionTop - AssumedHeaderBaselineToStepViewTop;
     }
     
-    _topToProgressViewConstraint.constant = topToProgressViewOffset;
     _topToCaptionLabelConstraint.constant = topToCaptionLabelOffset;
     _captionLabelToTapCountLabelConstraint.constant = CaptionBaselineToTapCountBaseline;
     _tapButtonToBottomConstraint.constant = tapButtonBottomToBottom;

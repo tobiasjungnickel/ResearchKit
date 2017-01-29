@@ -40,7 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKImplicitAssociationContentView : ORKActiveStepCustomView
 
 - (void)setTapCount:(NSUInteger)tapCount;
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
 
 @property (nonatomic, assign) BOOL hasSkipButton;
 

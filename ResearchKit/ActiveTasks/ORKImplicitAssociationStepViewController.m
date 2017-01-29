@@ -48,23 +48,23 @@
 
 @interface ORKImplicitAssociationStepViewController () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) NSMutableArray *samples;
+//@property (nonatomic, strong) NSMutableArray *samples;
 
 @end
 
 
 @implementation ORKImplicitAssociationStepViewController {
-    ORKImplicitAssociationContentView *_tappingContentView;
-    NSTimeInterval _tappingStart;
-    BOOL _expired;
+    ORKImplicitAssociationContentView *_implicitAssociationContentView;
+    //NSTimeInterval _tappingStart;
+    //BOOL _expired;
     
-    CGRect _buttonRect1;
-    CGRect _buttonRect2;
-    CGSize _viewSize;
+    //CGRect _buttonRect1;
+    //CGRect _buttonRect2;
+    //CGSize _viewSize;
     
-    NSUInteger _hitButtonCount;
+    //NSUInteger _hitButtonCount;
     
-    UIGestureRecognizer *_touchDownRecognizer;
+    //UIGestureRecognizer *_touchDownRecognizer;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -79,44 +79,45 @@
     [super initializeInternalButtonItems];
     
     // Don't show next button
-    self.internalContinueButtonItem = nil;
-    self.internalDoneButtonItem = nil;
-    self.internalSkipButtonItem.title = ORKLocalizedString(@"TAPPING_SKIP_TITLE", nil);
+    //self.internalContinueButtonItem = nil;
+    //self.internalDoneButtonItem = nil;
+    //self.internalSkipButtonItem.title = ORKLocalizedString(@"TAPPING_SKIP_TITLE", nil);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _tappingStart = 0;
+    //_tappingStart = 0;
     
-    _touchDownRecognizer = [UIGestureRecognizer new];
-    _touchDownRecognizer.delegate = self;
-    [self.view addGestureRecognizer:_touchDownRecognizer];
+    //_touchDownRecognizer = [UIGestureRecognizer new];
+    //_touchDownRecognizer.delegate = self;
+    //[self.view addGestureRecognizer:_touchDownRecognizer];
     
-    self.activeStepView.stepViewFillsAvailableSpace = YES;
+    //self.activeStepView.stepViewFillsAvailableSpace = YES;
     
-    self.timerUpdateInterval = 0.1;
+    //self.timerUpdateInterval = 0.1;
     
-    _expired = NO;
+    //_expired = NO;
     
-    _tappingContentView = [[ORKImplicitAssociationContentView alloc] init];
-    _tappingContentView.hasSkipButton = self.step.optional;
-    self.activeStepView.activeCustomView = _tappingContentView;
+    _implicitAssociationContentView = [[ORKImplicitAssociationContentView alloc] init];
+    //_implicitAssociationContentView.hasSkipButton = self.step.optional;
+    self.activeStepView.activeCustomView = _implicitAssociationContentView;
     
-    [_tappingContentView.tapButton1 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
-    [_tappingContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
-    [_tappingContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
-    [_tappingContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
+    //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
+    //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
+    //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
+    //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    _buttonRect1 = [self.view convertRect:_tappingContentView.tapButton1.bounds fromView:_tappingContentView.tapButton1];
-    _buttonRect2 = [self.view convertRect:_tappingContentView.tapButton2.bounds fromView:_tappingContentView.tapButton2];
-    _viewSize = self.view.frame.size;
+    //_buttonRect1 = [self.view convertRect:_implicitAssociationContentView.tapButton1.bounds fromView:_implicitAssociationContentView.tapButton1];
+    //_buttonRect2 = [self.view convertRect:_implicitAssociationContentView.tapButton2.bounds fromView:_implicitAssociationContentView.tapButton2];
+    //_viewSize = self.view.frame.size;
 }
 
+/*
 - (ORKStepResult *)result {
     ORKStepResult *sResult = [super result];
     
@@ -169,7 +170,7 @@
         _hitButtonCount++;
     }
     // Update label
-    [_tappingContentView setTapCount:_hitButtonCount];
+    [_implicitAssociationContentView setTapCount:_hitButtonCount];
 }
 
 - (void)releaseTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
@@ -192,7 +193,9 @@
     }
     return nil;
 }
-
+*/
+ 
+ /*
 - (void)fillSampleDurationIfAnyButtonPressed {
     /*
      * Because we will not able to get UITouch from UIButton, we will use systemUptime.
@@ -200,7 +203,7 @@
      * The value of this property is the time, in seconds, since system startup the touch either originated or was last changed.
      * For a definition of the time-since-boot value, see the description of the systemUptime method of the NSProcessInfo class.
      */
-    NSTimeInterval mediaTime = [[NSProcessInfo processInfo] systemUptime];
+  /*  NSTimeInterval mediaTime = [[NSProcessInfo processInfo] systemUptime];
     
     ORKTappingSample *tapButton1LastSample = [self lastSampleWithEmptyDurationForButton:ORKTappingButtonIdentifierLeft];
     if (tapButton1LastSample) {
@@ -212,30 +215,28 @@
         tapButton2LastSample.duration = mediaTime - tapButton2LastSample.timestamp - _tappingStart;
     }
 }
-
+*/
 - (void)stepDidFinish {
     [super stepDidFinish];
     
     // If user didn't release touch from button, fill manually duration for last sample
-    [self fillSampleDurationIfAnyButtonPressed];
+    //[self fillSampleDurationIfAnyButtonPressed];
     
-    _expired = YES;
-    [_tappingContentView finishStep:self];
+    //_expired = YES;
+    [_implicitAssociationContentView finishStep:self];
     [self goForward];
 }
-
+/*
 - (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished {
-    CGFloat progress = finished ? 1 : (timer.runtime / timer.duration);
-    [_tappingContentView setProgress:progress animated:YES];
     [super countDownTimerFired:timer finished:finished];
 }
-
+*/
 - (void)start {
     [super start];
-    self.skipButtonItem = nil;
-    [_tappingContentView setProgress:0.001 animated:NO];
+    //self.skipButtonItem = nil;
 }
 
+/*
 #pragma mark buttonAction
 
 - (IBAction)buttonPressed:(id)button forEvent:(UIEvent *)event {
@@ -247,18 +248,18 @@
         [self start];
     }
     
-    NSInteger index = (button == _tappingContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+    NSInteger index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     
-    if ( _tappingContentView.lastTappedButton == index ) {
+    if ( _implicitAssociationContentView.lastTappedButton == index ) {
         UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKLocalizedString(@"TAP_BUTTON_TITLE", nil));
     }
-    _tappingContentView.lastTappedButton = index;
+    _implicitAssociationContentView.lastTappedButton = index;
     
     [self receiveTouch:[[event touchesForView:button] anyObject] onButton:index];
 }
 
 - (IBAction)buttonReleased:(id)button forEvent:(UIEvent *)event {
-    ORKTappingButtonIdentifier index = (button == _tappingContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+    ORKTappingButtonIdentifier index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     
     [self releaseTouch:[[event touchesForView:button] anyObject] onButton:index];
 }
@@ -276,5 +277,5 @@
     
     return NO;
 }
-
+*/
 @end
