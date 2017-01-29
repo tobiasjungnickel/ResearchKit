@@ -33,6 +33,7 @@
 
 #import "ORKActiveStepTimer.h"
 #import "ORKRoundTappingButton.h"
+#import "ORKHeadlineLabel.h"
 #import "ORKSubheadlineLabel.h"
 #import "ORKTapCountLabel.h"
 
@@ -47,7 +48,7 @@
 
 @interface ORKImplicitAssociationContentView ()
 
-@property (nonatomic, strong) ORKSubheadlineLabel *tapCaptionLabel;
+@property (nonatomic, strong) ORKHeadlineLabel *termLabel;
 @property (nonatomic, strong) ORKTapCountLabel *tapCountLabel;
 
 @end
@@ -56,7 +57,6 @@
 @implementation ORKImplicitAssociationContentView {
     UIView *_buttonContainer;
     NSNumberFormatter *_formatter;
-    NSLayoutConstraint *_topToCaptionLabelConstraint;
     NSLayoutConstraint *_captionLabelToTapCountLabelConstraint;
     NSLayoutConstraint *_tapButtonToBottomConstraint;
 }
@@ -64,9 +64,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _tapCaptionLabel = [ORKSubheadlineLabel new];
-        _tapCaptionLabel.textAlignment = NSTextAlignmentCenter;
-        _tapCaptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _termLabel = [ORKHeadlineLabel new];
+        _termLabel.textAlignment = NSTextAlignmentCenter;
+        _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
         /*
         _tapCountLabel = [ORKTapCountLabel new];
         _tapCountLabel.textAlignment = NSTextAlignmentCenter;
@@ -85,7 +85,7 @@
         
         _lastTappedButton = -1;
         
-        [self addSubview:_tapCaptionLabel];
+        [self addSubview:_termLabel];
         //[self addSubview:_tapCountLabel];
         [self addSubview:_buttonContainer];
         
@@ -94,7 +94,7 @@
         
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _tapCaptionLabel.text = ORKLocalizedString(@"TOTAL_TAPS_LABEL", nil);
+        _termLabel.text = ORKLocalizedString(@"TOTAL_TAPS_LABEL", nil);
         //[self setTapCount:0];
         
         [self setUpConstraints];
@@ -103,7 +103,7 @@
         
 #if LAYOUT_DEBUG
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
-        self.tapCaptionLabel.backgroundColor = [UIColor orangeColor];
+        self.termLabel.backgroundColor = [UIColor orangeColor];
         self.tapCountLabel.backgroundColor = [UIColor greenColor];
         _buttonContainer.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.25];
 #endif
@@ -140,21 +140,32 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _tapCaptionLabel, /*_tapCountLabel,*/ _tapButton1, _tapButton2);
-
-    _topToCaptionLabelConstraint = [NSLayoutConstraint constraintWithItem:_tapCaptionLabel
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
-                                                                attribute:NSLayoutAttributeTop
-                                                               multiplier:1.0
-                                                                 constant:18.0];
-    [constraints addObject:_topToCaptionLabelConstraint];
+    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, /*_tapCountLabel,*/ _tapButton1, _tapButton2);
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    
+    
+    
     /*
     _captionLabelToTapCountLabelConstraint = [NSLayoutConstraint constraintWithItem:_tapCountLabel
                                                                           attribute:NSLayoutAttributeFirstBaseline
                                                                           relatedBy:NSLayoutRelationEqual
-                                                                             toItem:_tapCaptionLabel
+                                                                             toItem:_termLabel
                                                                           attribute:NSLayoutAttributeFirstBaseline
                                                                          multiplier:1.0
                                                                            constant:56.0];
@@ -174,13 +185,13 @@
     
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_tapCaptionLabel]-(>=10)-[_buttonContainer]"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_termLabel]-(>=10)-[_buttonContainer]"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
 
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tapCaptionLabel]-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_termLabel]-|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
