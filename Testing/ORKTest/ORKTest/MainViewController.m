@@ -355,6 +355,7 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
                            ],
                        @[ // Active Tasks
                            @"Active Step Task",
+                           @"Implicit Association Task",
                            @"Audio Task",
                            @"Fitness Task",
                            @"GAIT Task",
@@ -369,7 +370,6 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
                            @"Walk And Turn Task",
                            @"Hand Tremor Task",
                            @"Right Hand Tremor Task",
-                           @"Implicit Association Task",
                            ],
                        @[ // Passcode
                            @"Authenticate Passcode",

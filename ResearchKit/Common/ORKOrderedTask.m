@@ -1939,6 +1939,15 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     return task;
 }
 
+
+
+
+
+
+
+
+
+
 + (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
                                         intendedUseDescription:(NSString *)intendedUseDescription
                                                       duration:(NSTimeInterval)duration
@@ -1949,6 +1958,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     NSMutableArray *steps = [NSMutableArray array];
     
+    /*
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
@@ -1966,7 +1976,11 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             ORKStepArrayAddStep(steps, step);
         }
     }
+    */
     
+    
+    
+    /*
     // Setup which hand to start with and how many hands to add based on the handOptions parameter
     // Hand order is randomly determined.
     NSUInteger handCount = ((handOptions & ORKPredefinedTaskHandOptionBoth) == ORKPredefinedTaskHandOptionBoth) ? 2 : 1;
@@ -1981,9 +1995,19 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         default:
             rightHand = (arc4random()%2 == 0); break;
     }
+    */
     
-    for (NSUInteger hand = 1; hand <= handCount; hand++) {
-        
+    
+    
+    
+    
+    //for (NSUInteger hand = 1; hand <= handCount; hand++) {
+    
+    
+    
+    
+    
+        /*
         NSString * (^appendIdentifier) (NSString *) = ^ (NSString * identifier) {
             if (undefinedHand) {
                 return identifier;
@@ -1992,7 +2016,12 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 return [NSString stringWithFormat:@"%@.%@", identifier, handIdentifier];
             }
         };
+         */
         
+        
+        
+        
+        /*
         if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:appendIdentifier(ORKInstruction1StepIdentifier)];
             
@@ -2050,16 +2079,29 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             ORKStepArrayAddStep(steps, step);
         }
-        
+        */
+    
+    
+    
+    
+    
         // TAPPING STEP
         {
+            /*
             NSMutableArray *recorderConfigurations = [NSMutableArray arrayWithCapacity:5];
             if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
                 [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
                                                                                                           frequency:100]];
             }
+             */
             
-            ORKTappingIntervalStep *step = [[ORKTappingIntervalStep alloc] initWithIdentifier:appendIdentifier(ORKTappingStepIdentifier)];
+            
+            
+            
+            
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationStepIdentifier];
+            
+            /*
             if (undefinedHand) {
                 step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION", nil);
             } else if (rightHand) {
@@ -2067,23 +2109,40 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             } else {
                 step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION_LEFT", nil);
             }
+             */
+            
+            step.title = @"title";
+            
+            
+            
+            
             step.stepDuration = duration;
             step.shouldContinueOnFinish = YES;
-            step.recorderConfigurations = recorderConfigurations;
-            step.optional = (handCount == 2);
+            //step.recorderConfigurations = recorderConfigurations;
+            //step.optional = (handCount == 2);
             
             ORKStepArrayAddStep(steps, step);
         }
         
         // Flip to the other hand (ignored if handCount == 1)
-        rightHand = !rightHand;
-    }
+        //rightHand = !rightHand;
+    //}
     
+    
+    
+    
+    
+    /*
     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
         ORKInstructionStep *step = [self makeCompletionStep];
         
         ORKStepArrayAddStep(steps, step);
     }
+    */
+    
+    
+    
+    
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
     
