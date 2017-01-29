@@ -57,8 +57,6 @@
 @implementation ORKImplicitAssociationContentView {
     UIView *_buttonContainer;
     NSNumberFormatter *_formatter;
-    NSLayoutConstraint *_captionLabelToTapCountLabelConstraint;
-    NSLayoutConstraint *_tapButtonToBottomConstraint;
 }
 
 - (instancetype)init {
@@ -157,32 +155,23 @@
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
-    
-    
-    
-    
     /*
-    _captionLabelToTapCountLabelConstraint = [NSLayoutConstraint constraintWithItem:_tapCountLabel
-                                                                          attribute:NSLayoutAttributeFirstBaseline
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:_termLabel
-                                                                          attribute:NSLayoutAttributeFirstBaseline
-                                                                         multiplier:1.0
-                                                                           constant:56.0];
-    [constraints addObject:_captionLabelToTapCountLabelConstraint];
+    [constraints addObject: [NSLayoutConstraint constraintWithItem:_tapCountLabel
+                                                         attribute:NSLayoutAttributeFirstBaseline
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:_termLabel
+                                                         attribute:NSLayoutAttributeFirstBaseline
+                                                        multiplier:1.0
+                                                          constant:56.0]];
     */
     
-    _tapButtonToBottomConstraint = [NSLayoutConstraint constraintWithItem:self
-                                                                attribute:NSLayoutAttributeBottom
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:_buttonContainer
-                                                                attribute:NSLayoutAttributeBottom
-                                                               multiplier:1.0
-                                                                 constant:36.0];
-    [constraints addObject:_tapButtonToBottomConstraint];
-    
-    
-    
+    [constraints addObject: [NSLayoutConstraint constraintWithItem:self
+                                                         attribute:NSLayoutAttributeBottom
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:_buttonContainer
+                                                         attribute:NSLayoutAttributeBottom
+                                                        multiplier:1.0
+                                                          constant:36.0]];
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_termLabel]-(>=10)-[_buttonContainer]"
