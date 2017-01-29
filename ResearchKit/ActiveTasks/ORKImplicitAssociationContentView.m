@@ -56,20 +56,32 @@
 
 @implementation ORKImplicitAssociationContentView {
     UIView *_buttonContainer;
+    ORKHeadlineLabel *_leftItemLabel1;
+    ORKHeadlineLabel *_rightItemLabel1;
+    
     NSNumberFormatter *_formatter;
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
+        
         _termLabel = [ORKHeadlineLabel new];
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        /*
+        
+        _leftItemLabel1 = [ORKHeadlineLabel new];
+        _leftItemLabel1.textAlignment = NSTextAlignmentCenter;
+        _leftItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _rightItemLabel1 = [ORKHeadlineLabel new];
+        _rightItemLabel1.textAlignment = NSTextAlignmentCenter;
+        _rightItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
+        
         _tapCountLabel = [ORKTapCountLabel new];
         _tapCountLabel.textAlignment = NSTextAlignmentCenter;
         _tapCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
-         */
+        
         _buttonContainer = [UIView new];
         _buttonContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -84,7 +96,9 @@
         _lastTappedButton = -1;
         
         [self addSubview:_termLabel];
-        //[self addSubview:_tapCountLabel];
+        [self addSubview:_leftItemLabel1];
+        [self addSubview:_rightItemLabel1];
+        [self addSubview:_tapCountLabel];
         [self addSubview:_buttonContainer];
         
         [_buttonContainer addSubview:_tapButton1];
@@ -92,12 +106,14 @@
         
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _termLabel.text = ORKLocalizedString(@"TOTAL_TAPS_LABEL", nil);
-        //[self setTapCount:0];
+        _termLabel.text = ORKLocalizedString(@"TERM_LABEL", nil);
+        _leftItemLabel1.text = @"LEFT_1";
+        _rightItemLabel1.text = @"RIGHT_1";
+        [self setTapCount:0];
         
         [self setUpConstraints];
         
-        //_tapCountLabel.accessibilityTraits |= UIAccessibilityTraitUpdatesFrequently;
+        _tapCountLabel.accessibilityTraits |= UIAccessibilityTraitUpdatesFrequently;
         
 #if LAYOUT_DEBUG
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
@@ -138,7 +154,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, /*_tapCountLabel,*/ _tapButton1, _tapButton2);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_buttonContainer, _termLabel, _leftItemLabel1, _rightItemLabel1, _tapCountLabel, _tapButton1, _tapButton2);
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
                                                         attribute:NSLayoutAttributeCenterX
@@ -155,7 +171,39 @@
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
-    /*
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_leftItemLabel1
+                                                                attribute:NSLayoutAttributeTop
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeTop
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_leftItemLabel1
+                                                        attribute:NSLayoutAttributeLeft
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeLeft
+                                                       multiplier:1.0
+                                                         constant:10.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_rightItemLabel1
+                                                        attribute:NSLayoutAttributeTop
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeTop
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_rightItemLabel1
+                                                        attribute:NSLayoutAttributeRight
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeRight
+                                                       multiplier:1.0
+                                                         constant:-10.0]];
+    
     [constraints addObject: [NSLayoutConstraint constraintWithItem:_tapCountLabel
                                                          attribute:NSLayoutAttributeFirstBaseline
                                                          relatedBy:NSLayoutRelationEqual
@@ -163,7 +211,7 @@
                                                          attribute:NSLayoutAttributeFirstBaseline
                                                         multiplier:1.0
                                                           constant:56.0]];
-    */
+    
     
     [constraints addObject: [NSLayoutConstraint constraintWithItem:self
                                                          attribute:NSLayoutAttributeBottom
@@ -184,13 +232,13 @@
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
-    /*
+    
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tapCountLabel]-|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
-    */
+    
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tapButton1]|"
                                              options:(NSLayoutFormatOptions)0
@@ -202,13 +250,11 @@
                                              metrics:nil
                                                views:views]];
     
-    
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tapButton1]-(>=24)-[_tapButton2(==_tapButton1)]|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
-    
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_tapButton1
                                                         attribute:NSLayoutAttributeCenterY
@@ -217,7 +263,7 @@
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
-    
+
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
