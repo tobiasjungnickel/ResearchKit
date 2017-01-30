@@ -35,7 +35,7 @@
 #import "ORKRoundTappingButton.h"
 #import "ORKHeadlineLabel.h"
 #import "ORKSubheadlineLabel.h"
-#import "ORKTapCountLabel.h"
+#import "ORKBodyLabel.h"
 
 #import "ORKResult.h"
 
@@ -67,6 +67,7 @@
     ORKSubheadlineLabel *_rightDividerLabel;
     
     ORKHeadlineLabel *_wrongLabel;
+    ORKBodyLabel *_hintLabel;
     
     NSNumberFormatter *_formatter;
 }
@@ -119,6 +120,10 @@
         _wrongLabel.textAlignment = NSTextAlignmentCenter;
         _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
+        _hintLabel = [ORKBodyLabel new];
+        _hintLabel.textAlignment = NSTextAlignmentCenter;
+        _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
         _buttonContainer = [UIView new];
         _buttonContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -136,6 +141,7 @@
         [self addSubview:_rightItemContainer];
         [self addSubview:_termLabel];
         [self addSubview:_wrongLabel];
+        [self addSubview:_hintLabel];
         [self addSubview:_buttonContainer];
         
         [_buttonContainer addSubview:_tapButton1];
@@ -159,16 +165,19 @@
         _rightItemLabel2.text = @"RIGHT_2";
         _termLabel.text = ORKLocalizedString(@"TERM_LABEL", nil);
         _wrongLabel.text = @"X";
+        _hintLabel.text = ORKLocalizedString(@"HINT_LABEL", nil);
         
         [self setUpConstraints];
         
 #if LAYOUT_DEBUG
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
-        self.termLabel.backgroundColor = [UIColor orangeColor];
-        _wrongLabel.backgroundColor = [UIColor greenColor];
-        _buttonContainer.backgroundColor = [UIColor blueColor];
         _leftItemContainer.backgroundColor = [UIColor redColor];
         _rightItemContainer.backgroundColor = [UIColor purpleColor];
+        self.termLabel.backgroundColor = [UIColor orangeColor];
+        _wrongLabel.backgroundColor = [UIColor greenColor];
+        _hintLabel.backgroundColor = [UIColor yellowColor];
+        _buttonContainer.backgroundColor = [UIColor blueColor];
+        
 #endif
     }
     return self;
@@ -193,7 +202,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _wrongLabel, _buttonContainer, _tapButton1, _tapButton2);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _wrongLabel, _hintLabel, _buttonContainer, _tapButton1, _tapButton2);
     
     // left items
     
@@ -286,24 +295,8 @@
                                                         attribute:NSLayoutAttributeCenterX
                                                        multiplier:1.0
                                                          constant:0.0]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
-                                                        attribute:NSLayoutAttributeCenterY
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:self
-                                                        attribute:NSLayoutAttributeCenterY
-                                                       multiplier:1.0
-                                                         constant:0.0]];
-    
+
     // buttons
-    
-    [constraints addObject: [NSLayoutConstraint constraintWithItem:self
-                                                         attribute:NSLayoutAttributeBottom
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:_buttonContainer
-                                                         attribute:NSLayoutAttributeBottom
-                                                        multiplier:1.0
-                                                          constant:36.0]];
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tapButton1]|"
@@ -333,7 +326,7 @@
     // terms and buttons alignment
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_termLabel]-(10)-[_wrongLabel]-(>=10)-[_buttonContainer]"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=50)-[_termLabel]-(>=30)-[_wrongLabel]-(>=10)-[_hintLabel]-(>=10)-[_buttonContainer]-(>=36)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
