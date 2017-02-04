@@ -43,12 +43,10 @@
 #import "ORKSkin.h"
 
 
-#define LAYOUT_DEBUG 1
+//#define LAYOUT_DEBUG 1
 
 
 @interface ORKImplicitAssociationContentView ()
-
-@property (nonatomic, strong) ORKHeadlineLabel *termLabel;
 
 @end
 
@@ -59,17 +57,10 @@
     UIView *_rightItemContainer;
     UIView *_buttonContainer;
     
-    ORKSubheadlineLabel *_leftItemLabel1;
-    ORKSubheadlineLabel *_rightItemLabel1;
-    ORKSubheadlineLabel *_leftItemLabel2;
-    ORKSubheadlineLabel *_rightItemLabel2;
     ORKSubheadlineLabel *_leftDividerLabel;
     ORKSubheadlineLabel *_rightDividerLabel;
     
-    ORKHeadlineLabel *_wrongLabel;
     ORKBodyLabel *_hintLabel;
-    
-    NSNumberFormatter *_formatter;
 }
 
 - (instancetype)init {
@@ -135,7 +126,7 @@
         _tapButton2.translatesAutoresizingMaskIntoConstraints = NO;
         [_tapButton2 setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
         
-        _lastTappedButton = -1;
+        //_lastTappedButton = -1;
         
         [self addSubview:_leftItemContainer];
         [self addSubview:_rightItemContainer];

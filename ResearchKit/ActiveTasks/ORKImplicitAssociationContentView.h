@@ -35,17 +35,31 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKHeadlineLabel;
+@class ORKSubheadlineLabel;
 @class ORKRoundTappingButton;
 
 @interface ORKImplicitAssociationContentView : ORKActiveStepCustomView
 
-@property (nonatomic, assign) BOOL hasSkipButton;
+//@property (nonatomic, assign) BOOL hasSkipButton;
+
+@property (nonatomic, strong, readonly) ORKHeadlineLabel *termLabel;
+
+@property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel1;
+
+@property (nonatomic, strong) ORKSubheadlineLabel *rightItemLabel1;
+
+@property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel2;
+
+@property (nonatomic, strong) ORKSubheadlineLabel *rightItemLabel2;
+
+@property (nonatomic, strong) ORKHeadlineLabel *wrongLabel;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton2;
 
-@property (nonatomic, assign) NSInteger lastTappedButton;
+//@property (nonatomic, assign) NSInteger lastTappedButton;
 
 @end
 
