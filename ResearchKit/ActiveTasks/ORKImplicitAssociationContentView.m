@@ -113,6 +113,7 @@
         
         _hintLabel = [ORKBodyLabel new];
         _hintLabel.textAlignment = NSTextAlignmentCenter;
+        _hintLabel.numberOfLines = 0;
         _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _buttonContainer = [UIView new];
@@ -148,15 +149,18 @@
         
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftItemLabel1.text = @"LEFT_1";
-        _leftDividerLabel.text = @"LEFT_DIVIDER";
-        _rightItemLabel1.text = @"RIGHT_1";
-        _leftItemLabel2.text = @"LEFT_2";
-        _rightDividerLabel.text = @"RIGHT_DIVIDER";
-        _rightItemLabel2.text = @"RIGHT_2";
-        _termLabel.text = ORKLocalizedString(@"TERM_LABEL", nil);
-        _wrongLabel.text = @"X";
-        _hintLabel.text = ORKLocalizedString(@"HINT_LABEL", nil);
+        _leftDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
+        _rightDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
+        
+        NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @" X " attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
+        _wrongLabel.attributedText = wrongX;
+        NSAttributedString *hint1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
+        NSAttributedString *hint2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
+        NSMutableAttributedString *hint = [NSMutableAttributedString new];
+        [hint appendAttributedString:hint1];
+        [hint appendAttributedString:wrongX];
+        [hint appendAttributedString:hint2];
+        _hintLabel.attributedText = hint;
         
         [self setUpConstraints];
         
@@ -286,6 +290,14 @@
                                                         attribute:NSLayoutAttributeCenterX
                                                        multiplier:1.0
                                                          constant:0.0]];
+    
+    // hint
+    
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_hintLabel]-|"
+                                             options:(NSLayoutFormatOptions)0
+                                             metrics:nil
+                                               views:views]];
 
     // buttons
     
@@ -317,7 +329,7 @@
     // terms and buttons alignment
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=50)-[_termLabel]-(>=30)-[_wrongLabel]-(>=10)-[_hintLabel]-(>=10)-[_buttonContainer]-(>=36)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=40)-[_termLabel]-(>=30)-[_wrongLabel]-(>=10)-[_hintLabel]-(>=20)-[_buttonContainer]-(>=36)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];

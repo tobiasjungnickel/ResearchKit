@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //@property (nonatomic, assign) BOOL hasSkipButton;
 
-@property (nonatomic, strong, readonly) ORKHeadlineLabel *termLabel;
+@property (nonatomic, strong) ORKHeadlineLabel *termLabel;
 
 @property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel1;
 

@@ -32,6 +32,8 @@
 #import "ORKImplicitAssociationStepViewController.h"
 
 #import "ORKActiveStepTimer.h"
+#import "ORKHeadlineLabel.h"
+#import "ORKSubheadlineLabel.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKImplicitAssociationContentView.h"
 #import "ORKVerticalContainerView.h"
@@ -48,7 +50,7 @@
 
 @interface ORKImplicitAssociationStepViewController () <UIGestureRecognizerDelegate>
 
-//@property (nonatomic, strong) NSMutableArray *samples;
+@property (nonatomic, strong) NSMutableArray *samples;
 
 @end
 
@@ -103,8 +105,8 @@
     //_implicitAssociationContentView.hasSkipButton = self.step.optional;
     self.activeStepView.activeCustomView = _implicitAssociationContentView;
     
-    //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
-    //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
+    [_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
+    [_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
     //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
 }
@@ -115,9 +117,18 @@
     //_buttonRect1 = [self.view convertRect:_implicitAssociationContentView.tapButton1.bounds fromView:_implicitAssociationContentView.tapButton1];
     //_buttonRect2 = [self.view convertRect:_implicitAssociationContentView.tapButton2.bounds fromView:_implicitAssociationContentView.tapButton2];
     //_viewSize = self.view.frame.size;
+    
+    [self setupTerm];
 }
 
-/*
+- (void)setupTerm {
+    _implicitAssociationContentView.termLabel.text = @"TERM_LABEL";
+    _implicitAssociationContentView.leftItemLabel1.text = @"LEFT_1";
+    _implicitAssociationContentView.rightItemLabel1.text = @"RIGHT_1";
+    _implicitAssociationContentView.leftItemLabel2.text = @"LEFT_2";
+    _implicitAssociationContentView.rightItemLabel2.text = @"RIGHT_2";
+}
+
 - (ORKStepResult *)result {
     ORKStepResult *sResult = [super result];
     
@@ -130,9 +141,9 @@
     ORKTappingIntervalResult *tappingResult = [[ORKTappingIntervalResult alloc] initWithIdentifier:self.step.identifier];
     tappingResult.startDate = sResult.startDate;
     tappingResult.endDate = now;
-    tappingResult.buttonRect1 = _buttonRect1;
-    tappingResult.buttonRect2 = _buttonRect2;
-    tappingResult.stepViewSize = _viewSize;
+    //tappingResult.buttonRect1 = _buttonRect1;
+    //tappingResult.buttonRect2 = _buttonRect2;
+    //tappingResult.stepViewSize = _viewSize;
     
     tappingResult.samples = _samples;
     
@@ -143,20 +154,26 @@
 }
 
 - (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
+    /*
     if (_expired || self.samples == nil) {
         return;
     }
+    */
+    
     
     NSTimeInterval mediaTime = touch.timestamp;
-    
+    /*
     if (_tappingStart == 0) {
         _tappingStart = mediaTime;
     }
+    */
     
     CGPoint location = [touch locationInView:self.view];
     
+    /*
     // Add new sample
     mediaTime = mediaTime-_tappingStart;
+    */
     
     ORKTappingSample *sample = [[ORKTappingSample alloc] init];
     sample.buttonIdentifier = buttonIdentifier;
@@ -166,13 +183,18 @@
     
     [self.samples addObject:sample];
     
+    /*
     if (buttonIdentifier == ORKTappingButtonIdentifierLeft || buttonIdentifier == ORKTappingButtonIdentifierRight) {
         _hitButtonCount++;
     }
     // Update label
     [_implicitAssociationContentView setTapCount:_hitButtonCount];
+     */
+    
+    [self setupTerm];
 }
 
+/*
 - (void)releaseTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
     if (self.samples == nil) {
         return;
@@ -236,34 +258,41 @@
     //self.skipButtonItem = nil;
 }
 
-/*
+
 #pragma mark buttonAction
 
 - (IBAction)buttonPressed:(id)button forEvent:(UIEvent *)event {
     
+    /*
     if (self.samples == nil) {
         // Start timer on first touch event on button
         _samples = [NSMutableArray array];
         _hitButtonCount = 0;
         [self start];
     }
+     */
     
     NSInteger index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     
+    /*
     if ( _implicitAssociationContentView.lastTappedButton == index ) {
         UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKLocalizedString(@"TAP_BUTTON_TITLE", nil));
     }
     _implicitAssociationContentView.lastTappedButton = index;
+    */
     
     [self receiveTouch:[[event touchesForView:button] anyObject] onButton:index];
 }
 
+/*
 - (IBAction)buttonReleased:(id)button forEvent:(UIEvent *)event {
     ORKTappingButtonIdentifier index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     
     [self releaseTouch:[[event touchesForView:button] anyObject] onButton:index];
 }
+*/
 
+/*
 #pragma mark UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
