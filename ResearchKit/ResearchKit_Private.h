@@ -51,6 +51,7 @@
 #import "ORKFitnessStep.h"
 #import "ORKHolePegTestPlaceStep.h"
 #import "ORKHolePegTestRemoveStep.h"
+#import "ORKImplicitAssociationStep.h"
 #import "ORKPSATStep.h"
 #import "ORKReactionTimeStep.h"
 #import "ORKSpatialSpanMemoryStep.h"

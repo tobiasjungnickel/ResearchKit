@@ -57,9 +57,6 @@
     UIView *_rightItemContainer;
     UIView *_buttonContainer;
     
-    ORKSubheadlineLabel *_leftDividerLabel;
-    ORKSubheadlineLabel *_rightDividerLabel;
-    
     ORKBodyLabel *_hintLabel;
 }
 

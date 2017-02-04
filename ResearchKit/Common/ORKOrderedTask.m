@@ -50,6 +50,7 @@
 #import "ORKCountdownStep.h"
 #import "ORKFitnessStep.h"
 #import "ORKFormStep.h"
+#import "ORKImplicitAssociationStep.h"
 #import "ORKNavigableOrderedTask.h"
 #import "ORKPSATStep.h"
 #import "ORKQuestionStep.h"
@@ -61,11 +62,12 @@
 #import "ORKToneAudiometryStep.h"
 #import "ORKToneAudiometryPracticeStep.h"
 #import "ORKTowerOfHanoiStep.h"
-#import "ORKImplicitAssociationStep.h"
 #import "ORKVisualConsentStep.h"
 #import "ORKWaitStep.h"
 #import "ORKWalkingTaskStep.h"
 #import "ORKResultPredicate.h"
+
+#import "ORKImplicitAssociationTrial.h"
 
 #import "ORKHelpers_Internal.h"
 #import "UIImage+ResearchKit.h"
@@ -2101,6 +2103,27 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationStepIdentifier];
             
+            ORKImplicitAssociationTrial *trial1 = [ORKImplicitAssociationTrial new];
+            trial1.term = @"A";
+            trial1.leftItem1 = @"A";
+            trial1.rightItem1 = @"B";
+            trial1.correct = ORKTappingButtonIdentifierLeft;
+            
+            ORKImplicitAssociationTrial *trial2 = [ORKImplicitAssociationTrial new];
+            trial2.term = @"D";
+            trial2.leftItem1 = @"C";
+            trial2.rightItem1 = @"D";
+            trial2.correct = ORKTappingButtonIdentifierRight;
+            
+            ORKImplicitAssociationTrial *trial3 = [ORKImplicitAssociationTrial new];
+            trial3.term = @"F";
+            trial3.leftItem1 = @"G";
+            trial3.rightItem1 = @"F";
+            trial3.correct = ORKTappingButtonIdentifierRight;
+            
+            step.trials = @[trial1, trial2, trial3];
+            step.block = ORKImplicitAssociationBlockSort;
+            
             /*
             if (undefinedHand) {
                 step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION", nil);
@@ -2123,7 +2146,17 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             ORKStepArrayAddStep(steps, step);
         }
+    
+    {
+        NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
+        step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
         
+       
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+    
         // Flip to the other hand (ignored if handCount == 1)
         //rightHand = !rightHand;
     //}

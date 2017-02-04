@@ -36,8 +36,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
+typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlock) {
+    ORKImplicitAssociationBlockSort,
+    ORKImplicitAssociationBlockCombinedPractice,
+    ORKImplicitAssociationBlockCombinedCritical
+};
+
 @interface ORKImplicitAssociationStep : ORKActiveStep
+
+@property (nonatomic, strong) NSArray *trials;
+@property (nonatomic, assign) ORKImplicitAssociationBlock block;
 
 @end
 

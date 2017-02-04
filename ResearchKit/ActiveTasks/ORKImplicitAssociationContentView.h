@@ -53,6 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) ORKSubheadlineLabel *rightItemLabel2;
 
+@property (nonatomic, strong) ORKSubheadlineLabel *leftDividerLabel;
+
+@property (nonatomic, strong) ORKSubheadlineLabel *rightDividerLabel;
+
 @property (nonatomic, strong) ORKHeadlineLabel *wrongLabel;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;

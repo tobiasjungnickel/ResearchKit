@@ -31,6 +31,9 @@
 
 #import "ORKImplicitAssociationStepViewController.h"
 
+#import "ORKImplicitAssociationStep.h"
+#import "ORKImplicitAssociationTrial.h"
+
 #import "ORKActiveStepTimer.h"
 #import "ORKHeadlineLabel.h"
 #import "ORKSubheadlineLabel.h"
@@ -51,6 +54,7 @@
 @interface ORKImplicitAssociationStepViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *samples;
+@property (nonatomic) NSUInteger currentTrial;
 
 @end
 
@@ -109,6 +113,13 @@
     [_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
     //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
+    
+    if ([self block] == ORKImplicitAssociationBlockSort) {
+        _implicitAssociationContentView.leftItemLabel2.hidden = true;
+        _implicitAssociationContentView.rightItemLabel2.hidden = true;
+        _implicitAssociationContentView.leftDividerLabel.hidden = true;
+        _implicitAssociationContentView.rightDividerLabel.hidden = true;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -121,12 +132,32 @@
     [self setupTerm];
 }
 
+- (NSArray *)trials {
+    return ((ORKImplicitAssociationStep *)self.step).trials;
+}
+
+- (ORKImplicitAssociationBlock)block {
+    return ((ORKImplicitAssociationStep *)self.step).block;
+}
+
 - (void)setupTerm {
-    _implicitAssociationContentView.termLabel.text = @"TERM_LABEL";
-    _implicitAssociationContentView.leftItemLabel1.text = @"LEFT_1";
-    _implicitAssociationContentView.rightItemLabel1.text = @"RIGHT_1";
-    _implicitAssociationContentView.leftItemLabel2.text = @"LEFT_2";
-    _implicitAssociationContentView.rightItemLabel2.text = @"RIGHT_2";
+    
+    if (_currentTrial >= [self trials].count) {
+        [self stepDidFinish];
+        return;
+    }
+    
+    _implicitAssociationContentView.wrongLabel.hidden = true;
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    
+    _implicitAssociationContentView.termLabel.text = trial.term;
+    _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
+    _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
+    
+    if ([self block] == ORKImplicitAssociationBlockSort) {
+        _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
+        _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
+    }
 }
 
 - (ORKStepResult *)result {
@@ -191,7 +222,13 @@
     [_implicitAssociationContentView setTapCount:_hitButtonCount];
      */
     
-    [self setupTerm];
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    if (trial.correct == buttonIdentifier) {
+        _currentTrial += 1;
+        [self setupTerm];
+    } else {
+        _implicitAssociationContentView.wrongLabel.hidden = false;
+    }
 }
 
 /*
