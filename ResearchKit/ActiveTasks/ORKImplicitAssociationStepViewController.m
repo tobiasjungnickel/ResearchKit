@@ -154,9 +154,9 @@
     _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
     _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
     
-    if ([self block] == ORKImplicitAssociationBlockSort) {
-        _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
-        _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
+    if ([self block] != ORKImplicitAssociationBlockSort) {
+        _implicitAssociationContentView.leftItemLabel2.text = trial.leftItem2;
+        _implicitAssociationContentView.rightItemLabel2.text = trial.rightItem2;
     }
 }
 

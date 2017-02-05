@@ -349,7 +349,13 @@ NSString *const ORKPedometerRecorderIdentifier = @"pedometer";
 NSString *const ORKDeviceMotionRecorderIdentifier = @"deviceMotion";
 NSString *const ORKLocationRecorderIdentifier = @"location";
 NSString *const ORKHeartRateRecorderIdentifier = @"heartRate";
-NSString *const ORKImplicitAssociationStepIdentifier = @"implicitAssociation";
+NSString *const ORKImplicitAssociationBlock1StepIdentifier = @"implicitAssociation.block1";
+NSString *const ORKImplicitAssociationBlock2StepIdentifier = @"implicitAssociation.block2";
+NSString *const ORKImplicitAssociationBlock3StepIdentifier = @"implicitAssociation.block3";
+NSString *const ORKImplicitAssociationBlock4StepIdentifier = @"implicitAssociation.block4";
+NSString *const ORKImplicitAssociationBlock5StepIdentifier = @"implicitAssociation.block5";
+NSString *const ORKImplicitAssociationBlock6StepIdentifier = @"implicitAssociation.block6";
+NSString *const ORKImplicitAssociationBlock7StepIdentifier = @"implicitAssociation.block7";
 
 + (ORKCompletionStep *)makeCompletionStep {
     ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKConclusionStepIdentifier];
@@ -2101,7 +2107,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             
             
-            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationStepIdentifier];
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock1StepIdentifier];
             
             ORKImplicitAssociationTrial *trial1 = [ORKImplicitAssociationTrial new];
             trial1.term = @"A";
@@ -2147,15 +2153,49 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             ORKStepArrayAddStep(steps, step);
         }
     
-    {
-        NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
-        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
-        step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
+        {
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
+            
+            ORKImplicitAssociationTrial *trial1 = [ORKImplicitAssociationTrial new];
+            trial1.term = @"A";
+            trial1.leftItem1 = @"A";
+            trial1.leftItem2 = @"X";
+            trial1.rightItem1 = @"B";
+            trial1.rightItem2 = @"Z";
+            trial1.correct = ORKTappingButtonIdentifierLeft;
+            
+            ORKImplicitAssociationTrial *trial2 = [ORKImplicitAssociationTrial new];
+            trial2.term = @"X";
+            trial2.leftItem1 = @"C";
+            trial2.leftItem2 = @"W";
+            trial2.rightItem1 = @"D";
+            trial2.rightItem2 = @"X";
+            trial2.correct = ORKTappingButtonIdentifierRight;
+            
+            ORKImplicitAssociationTrial *trial3 = [ORKImplicitAssociationTrial new];
+            trial3.term = @"F";
+            trial3.leftItem1 = @"G";
+            trial3.leftItem2 = @"U";
+            trial3.rightItem1 = @"F";
+            trial3.rightItem2 = @"V";
+            trial3.correct = ORKTappingButtonIdentifierRight;
+            
+            step.trials = @[trial1, trial2, trial3];
+            step.block = ORKImplicitAssociationBlockCombinedPractice;
+            step.title = @"title";
+            step.stepDuration = duration;
+            step.shouldContinueOnFinish = YES;
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+    
+        {
+            NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
+            step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
         
-       
-        
-        ORKStepArrayAddStep(steps, step);
-    }
+            ORKStepArrayAddStep(steps, step);
+        }
     
         // Flip to the other hand (ignored if handCount == 1)
         //rightHand = !rightHand;
