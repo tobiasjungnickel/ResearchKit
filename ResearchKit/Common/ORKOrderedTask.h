@@ -672,10 +672,16 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
  Returns a predefined implicit association test.
  */
 + (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
-                                        intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                      duration:(NSTimeInterval)duration
-                                                   handOptions:(ORKPredefinedTaskHandOption)handOptions
-                                                       options:(ORKPredefinedTaskOption)options;
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       attributeACategory:(NSString *)attributeACategory
+                                          attributeAItems:(NSArray *)attributeAItems
+                                       attributeBCategory:(NSString *)attributeBCategory
+                                          attributeBItems:(NSArray *)attributeBItems
+                                          concepACategory:(NSString *)concepACategory
+                                            conceptAItems:(NSArray *)conceptAItems
+                                          concepBCategory:(NSString *)concepBCategory
+                                            conceptBItems:(NSArray *)conceptBItems
+                                                  options:(ORKPredefinedTaskOption)options;
 
 @end
 

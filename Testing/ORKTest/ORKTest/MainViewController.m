@@ -640,11 +640,17 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
                                                 handOptions:ORKPredefinedTaskHandOptionRight
                                                     options:ORKPredefinedTaskOptionNone];
     } else if ([identifier isEqualToString:ImplicitAssociationTaskIdentifier]) {
-        return [ORKOrderedTask implicitAssociationTaskWithIdentifier:TwoFingerTapTaskIdentifier
-                                                   intendedUseDescription:nil
-                                                                 duration:20.0
-                                                              handOptions:ORKPredefinedTaskHandOptionBoth
-                                                                  options:(ORKPredefinedTaskOption)0];
+        return [ORKOrderedTask implicitAssociationTaskWithIdentifier:ImplicitAssociationTaskIdentifier
+                                              intendedUseDescription:nil
+                                                  attributeACategory:@"attribute A"
+                                                     attributeAItems:@[ @"attribute A1", @"attribute A2", @"attribute A3", @"attribute A4", @"attribute A5", @"attribute A6", @"attribute A7", @"attribute A8" ]
+                                                  attributeBCategory:@"attribute B"
+                                                     attributeBItems:@[ @"attribute B1", @"attribute B2", @"attribute B3", @"attribute B4", @"attribute B5", @"attribute B6", @"attribute B7", @"attribute B8" ]
+                                                     concepACategory:@"concept A"
+                                                       conceptAItems:@[ @"concept A1", @"concept A2", @"concept A3", @"concept A4", @"concept A5", @"concept A6", @"concept A7", @"concept A8" ]
+                                                     concepBCategory:@"concept B"
+                                                       conceptBItems:@[ @"concept B1", @"concept B2", @"concept B3", @"concept B4", @"concept B5", @"concept B6", @"concept B7", @"concept B8" ]
+                                                             options:ORKPredefinedTaskOptionNone ];
     } else if ([identifier isEqualToString:AuxillaryImageTaskIdentifier]) {
         return [self makeAuxillaryImageTask];
     }
@@ -3580,7 +3586,7 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
     NSString *task_identifier = taskViewController.task.identifier;
 
     return ([step isKindOfClass:[ORKInstructionStep class]]
-            && NO == [@[AudioTaskIdentifier, FitnessTaskIdentifier, GaitTaskIdentifier, TwoFingerTapTaskIdentifier, ImplicitAssociationTaskIdentifier, NavigableOrderedTaskIdentifier, NavigableLoopTaskIdentifier] containsObject:task_identifier]);
+            && NO == [@[AudioTaskIdentifier, FitnessTaskIdentifier, GaitTaskIdentifier, TwoFingerTapTaskIdentifier, NavigableOrderedTaskIdentifier, NavigableLoopTaskIdentifier] containsObject:task_identifier]);
 }
 
 /*

@@ -1957,12 +1957,18 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
 
 
 + (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
-                                        intendedUseDescription:(NSString *)intendedUseDescription
-                                                      duration:(NSTimeInterval)duration
-                                                   handOptions:(ORKPredefinedTaskHandOption)handOptions
-                                                       options:(ORKPredefinedTaskOption)options {
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       attributeACategory:(NSString *)attributeACategory
+                                          attributeAItems:(NSArray *)attributeAItems
+                                       attributeBCategory:(NSString *)attributeBCategory
+                                          attributeBItems:(NSArray *)attributeBItems
+                                          concepACategory:(NSString *)concepACategory
+                                            conceptAItems:(NSArray *)conceptAItems
+                                          concepBCategory:(NSString *)concepBCategory
+                                            conceptBItems:(NSArray *)conceptBItems
+                                                  options:(ORKPredefinedTaskOption)options {
     
-    NSString *durationString = [ORKDurationStringFormatter() stringFromTimeInterval:duration];
+    //NSString *durationString = [ORKDurationStringFormatter() stringFromTimeInterval:duration];
     
     NSMutableArray *steps = [NSMutableArray array];
     
@@ -2105,30 +2111,44 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             
             
+            NSMutableArray *attributesAll = [NSMutableArray array];
+            [attributesAll addObjectsFromArray:attributeAItems];
+            [attributesAll addObjectsFromArray:attributeBItems];
+            NSMutableArray *conceptsAll = [NSMutableArray array];
+            [conceptsAll addObjectsFromArray:conceptAItems];
+            [conceptsAll addObjectsFromArray:conceptBItems];
             
+            static const NSUInteger trialsBlock1 = 20;
+            static const NSUInteger trialsBlock2 = 20;
+            static const NSUInteger trialsBlock3 = 20;
+            static const NSUInteger trialsBlock4 = 40;
+            static const NSUInteger trialsBlock5 = 28;
+            static const NSUInteger trialsBlock6 = 20;
+            static const NSUInteger trialsBlock7 = 40;
             
-            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock1StepIdentifier];
-            
-            ORKImplicitAssociationTrial *trial1 = [ORKImplicitAssociationTrial new];
-            trial1.term = @"A";
-            trial1.leftItem1 = @"A";
-            trial1.rightItem1 = @"B";
-            trial1.correct = ORKTappingButtonIdentifierLeft;
-            
-            ORKImplicitAssociationTrial *trial2 = [ORKImplicitAssociationTrial new];
-            trial2.term = @"D";
-            trial2.leftItem1 = @"C";
-            trial2.rightItem1 = @"D";
-            trial2.correct = ORKTappingButtonIdentifierRight;
-            
-            ORKImplicitAssociationTrial *trial3 = [ORKImplicitAssociationTrial new];
-            trial3.term = @"F";
-            trial3.leftItem1 = @"G";
-            trial3.rightItem1 = @"F";
-            trial3.correct = ORKTappingButtonIdentifierRight;
-            
-            step.trials = @[trial1, trial2, trial3];
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
+            step.title = @"title";
             step.block = ORKImplicitAssociationBlockSort;
+            step.shouldContinueOnFinish = YES;
+            NSMutableArray *trials =[NSMutableArray array];
+            
+            for (NSUInteger trial = 0; trial < trialsBlock2; trial++) {
+                
+                NSUInteger random = arc4random_uniform(attributesAll.count);
+                NSString *randomTerm = [conceptsAll objectAtIndex:random];
+                ORKTappingButtonIdentifier buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+                
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+                iaTrial.term = randomTerm;
+                iaTrial.leftItem1 = concepACategory;
+                iaTrial.rightItem1 = concepBCategory;
+                iaTrial.correct = buttonCorrect;
+                
+                [trials addObject:iaTrial];
+            }
+            
+            step.trials = trials;
+            
             
             /*
             if (undefinedHand) {
@@ -2140,19 +2160,19 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             }
              */
             
-            step.title = @"title";
             
             
             
             
-            step.stepDuration = duration;
-            step.shouldContinueOnFinish = YES;
+            
+            //step.stepDuration = duration;
+            
             //step.recorderConfigurations = recorderConfigurations;
             //step.optional = (handCount == 2);
             
             ORKStepArrayAddStep(steps, step);
         }
-    
+    /*
         {
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
             
@@ -2183,12 +2203,12 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             step.trials = @[trial1, trial2, trial3];
             step.block = ORKImplicitAssociationBlockCombinedPractice;
             step.title = @"title";
-            step.stepDuration = duration;
+            //step.stepDuration = duration;
             step.shouldContinueOnFinish = YES;
             
             ORKStepArrayAddStep(steps, step);
         }
-    
+    */
         {
             NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
