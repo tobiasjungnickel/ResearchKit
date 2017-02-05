@@ -1968,8 +1968,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
     
-    //NSString *durationString = [ORKDurationStringFormatter() stringFromTimeInterval:duration];
-    
     NSMutableArray *steps = [NSMutableArray array];
     
     /*
@@ -1993,185 +1991,99 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     */
     
     
+    // IMPLICIT ASSOCIATION STEP
     
     /*
-    // Setup which hand to start with and how many hands to add based on the handOptions parameter
-    // Hand order is randomly determined.
-    NSUInteger handCount = ((handOptions & ORKPredefinedTaskHandOptionBoth) == ORKPredefinedTaskHandOptionBoth) ? 2 : 1;
-    BOOL undefinedHand = (handOptions == 0);
-    BOOL rightHand;
-    switch (handOptions) {
-        case ORKPredefinedTaskHandOptionLeft:
-            rightHand = NO; break;
-        case ORKPredefinedTaskHandOptionRight:
-        case ORKPredefinedTaskHandOptionUnspecified:
-            rightHand = YES; break;
-        default:
-            rightHand = (arc4random()%2 == 0); break;
+    NSMutableArray *recorderConfigurations = [NSMutableArray arrayWithCapacity:5];
+    if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
+        [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
+                                                                                                  frequency:100]];
     }
     */
     
+    NSMutableArray *attributesAll = [NSMutableArray array];
+    [attributesAll addObjectsFromArray:attributeAItems];
+    [attributesAll addObjectsFromArray:attributeBItems];
+    NSMutableArray *conceptsAll = [NSMutableArray array];
+    [conceptsAll addObjectsFromArray:conceptAItems];
+    [conceptsAll addObjectsFromArray:conceptBItems];
     
+    static const NSUInteger trialsBlock1 = 1;
+    static const NSUInteger trialsBlock2 = 1;
+    static const NSUInteger trialsBlock3 = 20;
+    static const NSUInteger trialsBlock4 = 40;
+    static const NSUInteger trialsBlock5 = 28;
+    static const NSUInteger trialsBlock6 = 20;
+    static const NSUInteger trialsBlock7 = 40;
     
+    NSUInteger randomConcept = arc4random_uniform(2);
+    ORKTappingButtonIdentifier randomConceptA = random ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     
+    // Block 1 concept sorting
     
-    //for (NSUInteger hand = 1; hand <= handCount; hand++) {
-    
-    
-    
-    
-    
-        /*
-        NSString * (^appendIdentifier) (NSString *) = ^ (NSString * identifier) {
-            if (undefinedHand) {
-                return identifier;
-            } else {
-                NSString *handIdentifier = rightHand ? ORKActiveTaskRightHandIdentifier : ORKActiveTaskLeftHandIdentifier;
-                return [NSString stringWithFormat:@"%@.%@", identifier, handIdentifier];
-            }
-        };
-         */
+    {
+        ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock1StepIdentifier];
+        step.title = @"title";
+        step.block = ORKImplicitAssociationBlockSort;
+        step.shouldContinueOnFinish = YES;
+        NSMutableArray *trials =[NSMutableArray array];
         
-        
-        
-        
-        /*
-        if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
-            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:appendIdentifier(ORKInstruction1StepIdentifier)];
+        for (NSUInteger trial = 0; trial < trialsBlock1; trial++) {
             
-            // Set the title based on the hand
-            if (undefinedHand) {
-                step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE", nil);
-            } else if (rightHand) {
-                step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE_RIGHT", nil);
+            NSUInteger random = arc4random_uniform(conceptsAll.count);
+            NSString *randomTerm = [conceptsAll objectAtIndex:random];
+            ORKTappingButtonIdentifier buttonCorrect;
+            if (randomConcept) {
+                buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
             } else {
-                step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE_LEFT", nil);
+                buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierRight : ORKTappingButtonIdentifierLeft;
             }
             
-            // Set the instructions for the tapping test screen that is displayed prior to each hand test
-            NSString *restText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_REST_PHONE", nil);
-            NSString *tappingTextFormat = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_FORMAT", nil);
-            NSString *tappingText = [NSString localizedStringWithFormat:tappingTextFormat, durationString];
-            NSString *handText = nil;
+            ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+            iaTrial.term = randomTerm;
+            iaTrial.leftItem1 = randomConcept ? concepACategory : concepBCategory;
+            iaTrial.rightItem1 = randomConcept ? concepBCategory : concepACategory;
+            iaTrial.correct = buttonCorrect;
             
-            if (hand == 1) {
-                if (undefinedHand) {
-                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_MOST_AFFECTED", nil);
-                } else if (rightHand) {
-                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_RIGHT_FIRST", nil);
-                } else {
-                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_LEFT_FIRST", nil);
-                }
-            } else {
-                if (rightHand) {
-                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_RIGHT_SECOND", nil);
-                } else {
-                    handText = ORKLocalizedString(@"TAPPING_INTRO_TEXT_2_LEFT_SECOND", nil);
-                }
-            }
-            
-            step.text = [NSString localizedStringWithFormat:@"%@ %@ %@", restText, handText, tappingText];
-            
-            // Continue button will be different from first hand and second hand
-            if (hand == 1) {
-                step.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-            } else {
-                step.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-            }
-            
-            // Set the image
-            UIImage *im1 = [UIImage imageNamed:@"handtapping01" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-            UIImage *im2 = [UIImage imageNamed:@"handtapping02" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-            UIImage *imageAnimation = [UIImage animatedImageWithImages:@[im1, im2] duration:1];
-            
-            if (rightHand || undefinedHand) {
-                step.image = imageAnimation;
-            } else {
-                step.image = [imageAnimation ork_flippedImage:UIImageOrientationUpMirrored];
-            }
-            step.shouldTintImages = YES;
-            
-            ORKStepArrayAddStep(steps, step);
+            [trials addObject:iaTrial];
         }
-        */
+        
+        step.trials = trials;
+        //step.recorderConfigurations = recorderConfigurations;
+        
+        ORKStepArrayAddStep(steps, step);
+    }
     
+    // Block 2 attribute sorting
     
-    
-    
-    
-        // TAPPING STEP
-        {
-            /*
-            NSMutableArray *recorderConfigurations = [NSMutableArray arrayWithCapacity:5];
-            if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
-                [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
-                                                                                                          frequency:100]];
-            }
-             */
+    {
+        ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
+        step.title = @"title";
+        step.block = ORKImplicitAssociationBlockSort;
+        step.shouldContinueOnFinish = YES;
+        NSMutableArray *trials =[NSMutableArray array];
+        
+        for (NSUInteger trial = 0; trial < trialsBlock2; trial++) {
             
+            NSUInteger random = arc4random_uniform(attributesAll.count);
+            NSString *randomTerm = [attributesAll objectAtIndex:random];
+            ORKTappingButtonIdentifier buttonCorrect = [attributeAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
             
+            ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+            iaTrial.term = randomTerm;
+            iaTrial.leftItem1 = attributeACategory;
+            iaTrial.rightItem1 = attributeBCategory;
+            iaTrial.correct = buttonCorrect;
             
-            NSMutableArray *attributesAll = [NSMutableArray array];
-            [attributesAll addObjectsFromArray:attributeAItems];
-            [attributesAll addObjectsFromArray:attributeBItems];
-            NSMutableArray *conceptsAll = [NSMutableArray array];
-            [conceptsAll addObjectsFromArray:conceptAItems];
-            [conceptsAll addObjectsFromArray:conceptBItems];
-            
-            static const NSUInteger trialsBlock1 = 20;
-            static const NSUInteger trialsBlock2 = 20;
-            static const NSUInteger trialsBlock3 = 20;
-            static const NSUInteger trialsBlock4 = 40;
-            static const NSUInteger trialsBlock5 = 28;
-            static const NSUInteger trialsBlock6 = 20;
-            static const NSUInteger trialsBlock7 = 40;
-            
-            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
-            step.title = @"title";
-            step.block = ORKImplicitAssociationBlockSort;
-            step.shouldContinueOnFinish = YES;
-            NSMutableArray *trials =[NSMutableArray array];
-            
-            for (NSUInteger trial = 0; trial < trialsBlock2; trial++) {
-                
-                NSUInteger random = arc4random_uniform(attributesAll.count);
-                NSString *randomTerm = [conceptsAll objectAtIndex:random];
-                ORKTappingButtonIdentifier buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
-                
-                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-                iaTrial.term = randomTerm;
-                iaTrial.leftItem1 = concepACategory;
-                iaTrial.rightItem1 = concepBCategory;
-                iaTrial.correct = buttonCorrect;
-                
-                [trials addObject:iaTrial];
-            }
-            
-            step.trials = trials;
-            
-            
-            /*
-            if (undefinedHand) {
-                step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION", nil);
-            } else if (rightHand) {
-                step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION_RIGHT", nil);
-            } else {
-                step.title = ORKLocalizedString(@"TAPPING_INSTRUCTION_LEFT", nil);
-            }
-             */
-            
-            
-            
-            
-            
-            
-            //step.stepDuration = duration;
-            
-            //step.recorderConfigurations = recorderConfigurations;
-            //step.optional = (handCount == 2);
-            
-            ORKStepArrayAddStep(steps, step);
+            [trials addObject:iaTrial];
         }
+            
+        step.trials = trials;
+        //step.recorderConfigurations = recorderConfigurations;
+            
+        ORKStepArrayAddStep(steps, step);
+    }
+    
     /*
         {
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
@@ -2217,9 +2129,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             ORKStepArrayAddStep(steps, step);
         }
     
-        // Flip to the other hand (ignored if handCount == 1)
-        //rightHand = !rightHand;
-    //}
+
     
     
     
