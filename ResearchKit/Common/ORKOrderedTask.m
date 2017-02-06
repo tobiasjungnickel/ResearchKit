@@ -1962,9 +1962,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                           attributeAItems:(NSArray *)attributeAItems
                                        attributeBCategory:(NSString *)attributeBCategory
                                           attributeBItems:(NSArray *)attributeBItems
-                                          concepACategory:(NSString *)concepACategory
+                                         conceptACategory:(NSString *)conceptACategory
                                             conceptAItems:(NSArray *)conceptAItems
-                                          concepBCategory:(NSString *)concepBCategory
+                                         conceptBCategory:(NSString *)conceptBCategory
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
     
@@ -2007,6 +2007,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     NSMutableArray *conceptsAll = [NSMutableArray array];
     [conceptsAll addObjectsFromArray:conceptAItems];
     [conceptsAll addObjectsFromArray:conceptBItems];
+    NSMutableArray *stimuliAll = [NSMutableArray array];
+    [stimuliAll addObjectsFromArray:attributesAll];
+    [stimuliAll addObjectsFromArray:conceptsAll];
     
     const NSNumber *trialsBlock1 = [NSNumber numberWithUnsignedInteger:20];
     const NSNumber *trialsBlock2 = [NSNumber numberWithUnsignedInteger:20];
@@ -2039,12 +2042,12 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 iaTrial.term = randomTerm;
                 if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
                     buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
-                    iaTrial.leftItem1 = concepACategory;
-                    iaTrial.rightItem1 = concepBCategory;
+                    iaTrial.leftItem1 = conceptACategory;
+                    iaTrial.rightItem1 = conceptBCategory;
                 } else {
                     buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierRight : ORKTappingButtonIdentifierLeft;
-                    iaTrial.leftItem1 = concepBCategory;
-                    iaTrial.rightItem1 = concepACategory;
+                    iaTrial.leftItem1 = conceptBCategory;
+                    iaTrial.rightItem1 = conceptACategory;
                 }
                 iaTrial.correct = buttonCorrect;
                 [trials addObject:iaTrial];
@@ -2064,7 +2067,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
         
-        for (NSUInteger trial = 0; trial < trialsBlock2; trial++) {
+        for (NSUInteger trial = 0; trial < [trialsBlock2 unsignedIntegerValue]; trial++) {
             
             NSUInteger random = arc4random_uniform(attributesAll.count);
             NSString *randomTerm = [attributesAll objectAtIndex:random];
@@ -2082,6 +2085,42 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         step.trials = trials;
         //step.recorderConfigurations = recorderConfigurations;
             
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    //Block 3
+    
+    {
+        ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock3StepIdentifier];
+        step.title = @"Block 3";
+        step.block = ORKImplicitAssociationBlockCombinedPractice;
+        step.shouldContinueOnFinish = YES;
+        NSMutableArray *trials =[NSMutableArray array];
+        
+        for (NSUInteger trial = 0; trial < [trialsBlock3 unsignedIntegerValue]; trial++) {
+            
+            NSUInteger random = arc4random_uniform(stimuliAll.count);
+            NSString *randomTerm = [stimuliAll objectAtIndex:random];
+            ORKTappingButtonIdentifier buttonCorrect;
+            if ([conceptAItems containsObject:randomTerm] || [attributeAItems containsObject:randomTerm]) {
+                buttonCorrect = ORKTappingButtonIdentifierLeft;
+            } else {
+                buttonCorrect = ORKTappingButtonIdentifierRight;
+            }
+            ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+            iaTrial.term = randomTerm;
+            iaTrial.leftItem1 = attributeACategory;
+            iaTrial.leftItem2 = conceptACategory;
+            iaTrial.rightItem1 = attributeBCategory;
+            iaTrial.rightItem2 = conceptBCategory;
+            iaTrial.correct = buttonCorrect;
+            
+            [trials addObject:iaTrial];
+        }
+        
+        step.trials = trials;
+        //step.recorderConfigurations = recorderConfigurations;
+        
         ORKStepArrayAddStep(steps, step);
     }
     

@@ -677,9 +677,9 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
                                           attributeAItems:(NSArray *)attributeAItems
                                        attributeBCategory:(NSString *)attributeBCategory
                                           attributeBItems:(NSArray *)attributeBItems
-                                          concepACategory:(NSString *)concepACategory
+                                         conceptACategory:(NSString *)conceptACategory
                                             conceptAItems:(NSArray *)conceptAItems
-                                          concepBCategory:(NSString *)concepBCategory
+                                         conceptBCategory:(NSString *)conceptBCategory
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options;
 
