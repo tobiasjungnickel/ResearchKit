@@ -1968,7 +1968,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
     
-    NSMutableArray *steps = [NSMutableArray array];
+    NSMutableArray *steps = [[NSMutableArray alloc] initWithCapacity:7];
     
     /*
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
@@ -2008,57 +2008,58 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     [conceptsAll addObjectsFromArray:conceptAItems];
     [conceptsAll addObjectsFromArray:conceptBItems];
     
-    static const NSUInteger trialsBlock1 = 1;
-    static const NSUInteger trialsBlock2 = 1;
-    static const NSUInteger trialsBlock3 = 20;
-    static const NSUInteger trialsBlock4 = 40;
-    static const NSUInteger trialsBlock5 = 28;
-    static const NSUInteger trialsBlock6 = 20;
-    static const NSUInteger trialsBlock7 = 40;
+    const NSNumber *trialsBlock1 = [NSNumber numberWithUnsignedInteger:20];
+    const NSNumber *trialsBlock2 = [NSNumber numberWithUnsignedInteger:20];
+    const NSNumber *trialsBlock3 = [NSNumber numberWithUnsignedInteger:20];
+    const NSNumber *trialsBlock4 = [NSNumber numberWithUnsignedInteger:40];
+    const NSNumber *trialsBlock5 = [NSNumber numberWithUnsignedInteger:28];
+    const NSNumber *trialsBlock6 = [NSNumber numberWithUnsignedInteger:20];
+    const NSNumber *trialsBlock7 = [NSNumber numberWithUnsignedInteger:40];
     
-    NSUInteger randomConcept = arc4random_uniform(2);
-    ORKTappingButtonIdentifier randomConceptA = random ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+    NSUInteger randomConceptSide = arc4random_uniform(2);
     
-    // Block 1 concept sorting
+    NSDictionary *dictB1B5 = @{ @"identifier": @[ ORKImplicitAssociationBlock1StepIdentifier, ORKImplicitAssociationBlock5StepIdentifier ],
+                                @"title": @[ @"Block 1", @"Block 5" ],
+                                @"trials": @[ trialsBlock1, trialsBlock5 ] };
+    
+    // Block 1 & Block 5 concept sorting
     
     {
-        ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock1StepIdentifier];
-        step.title = @"title";
-        step.block = ORKImplicitAssociationBlockSort;
-        step.shouldContinueOnFinish = YES;
-        NSMutableArray *trials =[NSMutableArray array];
-        
-        for (NSUInteger trial = 0; trial < trialsBlock1; trial++) {
-            
-            NSUInteger random = arc4random_uniform(conceptsAll.count);
-            NSString *randomTerm = [conceptsAll objectAtIndex:random];
-            ORKTappingButtonIdentifier buttonCorrect;
-            if (randomConcept) {
-                buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
-            } else {
-                buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierRight : ORKTappingButtonIdentifierLeft;
+        for (NSUInteger index = 0; index <= 1; index++) {
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:[dictB1B5 objectForKey:@"identifier"][index]];
+            step.title = [dictB1B5 objectForKey:@"title"][index];
+            step.block = ORKImplicitAssociationBlockSort;
+            step.shouldContinueOnFinish = YES;
+            NSMutableArray *trials = [NSMutableArray array];
+            for (NSUInteger trial = 0; trial < [[dictB1B5 objectForKey:@"trials"][index] unsignedIntegerValue]; trial++) {
+                NSUInteger random = arc4random_uniform(conceptsAll.count);
+                NSString *randomTerm = [conceptsAll objectAtIndex:random];
+                ORKTappingButtonIdentifier buttonCorrect;
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+                iaTrial.term = randomTerm;
+                if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
+                    buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+                    iaTrial.leftItem1 = concepACategory;
+                    iaTrial.rightItem1 = concepBCategory;
+                } else {
+                    buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierRight : ORKTappingButtonIdentifierLeft;
+                    iaTrial.leftItem1 = concepBCategory;
+                    iaTrial.rightItem1 = concepACategory;
+                }
+                iaTrial.correct = buttonCorrect;
+                [trials addObject:iaTrial];
             }
-            
-            ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-            iaTrial.term = randomTerm;
-            iaTrial.leftItem1 = randomConcept ? concepACategory : concepBCategory;
-            iaTrial.rightItem1 = randomConcept ? concepBCategory : concepACategory;
-            iaTrial.correct = buttonCorrect;
-            
-            [trials addObject:iaTrial];
+            step.trials = trials;
+            //step.recorderConfigurations = recorderConfigurations;
+            ORKStepArrayAddStep(steps, step);
         }
-        
-        step.trials = trials;
-        //step.recorderConfigurations = recorderConfigurations;
-        
-        ORKStepArrayAddStep(steps, step);
     }
     
     // Block 2 attribute sorting
     
     {
         ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
-        step.title = @"title";
+        step.title = @"Block 2";
         step.block = ORKImplicitAssociationBlockSort;
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
@@ -2084,56 +2085,14 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         ORKStepArrayAddStep(steps, step);
     }
     
-    /*
-        {
-            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
-            
-            ORKImplicitAssociationTrial *trial1 = [ORKImplicitAssociationTrial new];
-            trial1.term = @"A";
-            trial1.leftItem1 = @"A";
-            trial1.leftItem2 = @"X";
-            trial1.rightItem1 = @"B";
-            trial1.rightItem2 = @"Z";
-            trial1.correct = ORKTappingButtonIdentifierLeft;
-            
-            ORKImplicitAssociationTrial *trial2 = [ORKImplicitAssociationTrial new];
-            trial2.term = @"X";
-            trial2.leftItem1 = @"C";
-            trial2.leftItem2 = @"W";
-            trial2.rightItem1 = @"D";
-            trial2.rightItem2 = @"X";
-            trial2.correct = ORKTappingButtonIdentifierRight;
-            
-            ORKImplicitAssociationTrial *trial3 = [ORKImplicitAssociationTrial new];
-            trial3.term = @"F";
-            trial3.leftItem1 = @"G";
-            trial3.leftItem2 = @"U";
-            trial3.rightItem1 = @"F";
-            trial3.rightItem2 = @"V";
-            trial3.correct = ORKTappingButtonIdentifierRight;
-            
-            step.trials = @[trial1, trial2, trial3];
-            step.block = ORKImplicitAssociationBlockCombinedPractice;
-            step.title = @"title";
-            //step.stepDuration = duration;
-            step.shouldContinueOnFinish = YES;
-            
-            ORKStepArrayAddStep(steps, step);
-        }
-    */
-        {
-            NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
-            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
-            step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
-        
-            ORKStepArrayAddStep(steps, step);
-        }
-    
 
-    
-    
-    
-    
+    {
+        NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
+        step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
+        
+        ORKStepArrayAddStep(steps, step);
+    }
     
     /*
     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
@@ -2142,10 +2101,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         ORKStepArrayAddStep(steps, step);
     }
     */
-    
-    
-    
-    
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
     
