@@ -326,7 +326,7 @@
     // terms and buttons alignment
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=40)-[_termLabel]-(>=30)-[_wrongLabel]-(>=10)-[_hintLabel]-(>=20)-[_buttonContainer]-(>=36)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=160)-[_termLabel]-(>=50)-[_wrongLabel]-(==10)-[_hintLabel]-(>=20)-[_buttonContainer]-(==150)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];

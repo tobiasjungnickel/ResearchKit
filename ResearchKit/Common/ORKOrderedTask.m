@@ -2053,7 +2053,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 [trials addObject:iaTrial];
             }
             step.trials = trials;
-            step.stepDuration = 1;
             //step.recorderConfigurations = recorderConfigurations;
             ORKStepArrayAddStep(steps, step);
         }
@@ -2084,7 +2083,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         }
             
         step.trials = trials;
-        step.stepDuration = 1;
         //step.recorderConfigurations = recorderConfigurations;
             
         ORKStepArrayAddStep(steps, step);
@@ -2119,12 +2117,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             [trials addObject:iaTrial];
         }
-        
-        step.trials = trials;
-        step.stepDuration = 1;
-        //step.recorderConfigurations = recorderConfigurations;
-        
-        ORKStepArrayAddStep(steps, step);
     }
     
 
