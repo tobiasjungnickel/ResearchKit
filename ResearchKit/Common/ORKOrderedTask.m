@@ -2088,34 +2088,45 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         ORKStepArrayAddStep(steps, step);
     }
     
-    //Block 3
+    NSDictionary *dictB3B4 = @{ @"identifier": @[ ORKImplicitAssociationBlock3StepIdentifier, ORKImplicitAssociationBlock4StepIdentifier ],
+                                @"title": @[ @"Block 3", @"Block 4" ],
+                                @"trials": @[ trialsBlock3, trialsBlock4 ] };
+    
+    //Block 3 & Block 4 combined practice and critical
     
     {
-        ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock3StepIdentifier];
-        step.title = @"Block 3";
-        step.block = ORKImplicitAssociationBlockCombinedPractice;
-        step.shouldContinueOnFinish = YES;
-        NSMutableArray *trials =[NSMutableArray array];
-        
-        for (NSUInteger trial = 0; trial < [trialsBlock3 unsignedIntegerValue]; trial++) {
+        for (NSUInteger index = 0; index <= 1; index++) {
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:[dictB3B4 objectForKey:@"identifier"][index]];
+            step.title = [dictB3B4 objectForKey:@"title"][index];
+            step.block = index == 0 ? ORKImplicitAssociationBlockCombinedPractice : ORKImplicitAssociationBlockCombinedCritical;
+            step.shouldContinueOnFinish = YES;
+            NSMutableArray *trials =[NSMutableArray array];
             
-            NSUInteger random = arc4random_uniform(stimuliAll.count);
-            NSString *randomTerm = [stimuliAll objectAtIndex:random];
-            ORKTappingButtonIdentifier buttonCorrect;
-            if ([conceptAItems containsObject:randomTerm] || [attributeAItems containsObject:randomTerm]) {
-                buttonCorrect = ORKTappingButtonIdentifierLeft;
-            } else {
-                buttonCorrect = ORKTappingButtonIdentifierRight;
+            for (NSUInteger trial = 0; trial < [[dictB3B4 objectForKey:@"trials"][index] unsignedIntegerValue]; trial++) {
+                
+                NSUInteger random = arc4random_uniform(stimuliAll.count);
+                NSString *randomTerm = [stimuliAll objectAtIndex:random];
+                ORKTappingButtonIdentifier buttonCorrect;
+                if ([conceptAItems containsObject:randomTerm] || [attributeAItems containsObject:randomTerm]) {
+                    buttonCorrect = ORKTappingButtonIdentifierLeft;
+                } else {
+                    buttonCorrect = ORKTappingButtonIdentifierRight;
+                }
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+                iaTrial.term = randomTerm;
+                iaTrial.leftItem1 = attributeACategory;
+                iaTrial.leftItem2 = conceptACategory;
+                iaTrial.rightItem1 = attributeBCategory;
+                iaTrial.rightItem2 = conceptBCategory;
+                iaTrial.correct = buttonCorrect;
+                
+                [trials addObject:iaTrial];
             }
-            ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-            iaTrial.term = randomTerm;
-            iaTrial.leftItem1 = attributeACategory;
-            iaTrial.leftItem2 = conceptACategory;
-            iaTrial.rightItem1 = attributeBCategory;
-            iaTrial.rightItem2 = conceptBCategory;
-            iaTrial.correct = buttonCorrect;
             
-            [trials addObject:iaTrial];
+            step.trials = trials;
+            //step.recorderConfigurations = recorderConfigurations;
+            
+            ORKStepArrayAddStep(steps, step);
         }
     }
     
