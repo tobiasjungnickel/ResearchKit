@@ -2011,30 +2011,26 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     [stimuliAll addObjectsFromArray:attributesAll];
     [stimuliAll addObjectsFromArray:conceptsAll];
     
-    const NSNumber *trialsBlock1 = [NSNumber numberWithUnsignedInteger:20];
-    const NSNumber *trialsBlock2 = [NSNumber numberWithUnsignedInteger:20];
-    const NSNumber *trialsBlock3 = [NSNumber numberWithUnsignedInteger:20];
-    const NSNumber *trialsBlock4 = [NSNumber numberWithUnsignedInteger:40];
-    const NSNumber *trialsBlock5 = [NSNumber numberWithUnsignedInteger:28];
-    const NSNumber *trialsBlock6 = [NSNumber numberWithUnsignedInteger:20];
-    const NSNumber *trialsBlock7 = [NSNumber numberWithUnsignedInteger:40];
+    static const NSUInteger trialsBlock1 = 20;
+    static const NSUInteger trialsBlock2 = 20;
+    static const NSUInteger trialsBlock3 = 20;
+    static const NSUInteger trialsBlock4 = 40;
+    static const NSUInteger trialsBlock5 = 28;
+    static const NSUInteger trialsBlock6 = 20;
+    static const NSUInteger trialsBlock7 = 40;
     
     NSUInteger randomConceptSide = arc4random_uniform(2);
-    
-    NSDictionary *dictB1B5 = @{ @"identifier": @[ ORKImplicitAssociationBlock1StepIdentifier, ORKImplicitAssociationBlock5StepIdentifier ],
-                                @"title": @[ @"Block 1", @"Block 5" ],
-                                @"trials": @[ trialsBlock1, trialsBlock5 ] };
-    
+
     // Block 1 & Block 5 concept sorting
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
-            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:[dictB1B5 objectForKey:@"identifier"][index]];
-            step.title = [dictB1B5 objectForKey:@"title"][index];
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1StepIdentifier : ORKImplicitAssociationBlock5StepIdentifier];
+            step.title = index == 0 ? @"Block 1" : @"Block 5";
             step.block = ORKImplicitAssociationBlockSort;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials = [NSMutableArray array];
-            for (NSUInteger trial = 0; trial < [[dictB1B5 objectForKey:@"trials"][index] unsignedIntegerValue]; trial++) {
+            for (NSUInteger trial = 0; trial < (index == 0 ? trialsBlock1 : trialsBlock5); trial++) {
                 NSUInteger random = arc4random_uniform(conceptsAll.count);
                 NSString *randomTerm = [conceptsAll objectAtIndex:random];
                 ORKTappingButtonIdentifier buttonCorrect;
@@ -2067,7 +2063,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
         
-        for (NSUInteger trial = 0; trial < [trialsBlock2 unsignedIntegerValue]; trial++) {
+        for (NSUInteger trial = 0; trial < trialsBlock2; trial++) {
             
             NSUInteger random = arc4random_uniform(attributesAll.count);
             NSString *randomTerm = [attributesAll objectAtIndex:random];
@@ -2088,21 +2084,17 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         ORKStepArrayAddStep(steps, step);
     }
     
-    NSDictionary *dictB3B4 = @{ @"identifier": @[ ORKImplicitAssociationBlock3StepIdentifier, ORKImplicitAssociationBlock4StepIdentifier ],
-                                @"title": @[ @"Block 3", @"Block 4" ],
-                                @"trials": @[ trialsBlock3, trialsBlock4 ] };
-    
     //Block 3 & Block 4 combined practice and critical
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
-            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:[dictB3B4 objectForKey:@"identifier"][index]];
-            step.title = [dictB3B4 objectForKey:@"title"][index];
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3StepIdentifier : ORKImplicitAssociationBlock4StepIdentifier];
+            step.title = index == 0 ? @"Block 3" : @"Block 4";
             step.block = index == 0 ? ORKImplicitAssociationBlockCombinedPractice : ORKImplicitAssociationBlockCombinedCritical;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials =[NSMutableArray array];
             
-            for (NSUInteger trial = 0; trial < [[dictB3B4 objectForKey:@"trials"][index] unsignedIntegerValue]; trial++) {
+            for (NSUInteger trial = 0; trial < (index == 0 ? trialsBlock3 : trialsBlock4); trial++) {
                 
                 NSUInteger random = arc4random_uniform(stimuliAll.count);
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
