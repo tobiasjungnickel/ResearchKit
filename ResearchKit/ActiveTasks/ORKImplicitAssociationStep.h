@@ -37,9 +37,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlockType) {
-    ORKImplicitAssociationBlockTypeSort,
+    ORKImplicitAssociationBlockTypeSortCategory,
+    ORKImplicitAssociationBlockTypeSortAttribute,
     ORKImplicitAssociationBlockTypeCombinedPractice,
-    ORKImplicitAssociationBlockTypeCombinedCritical
+    ORKImplicitAssociationBlockTypeCombinedCritical,
+    ORKImplicitAssociationBlockTypeSortCategoryReverse,
+    ORKImplicitAssociationBlockTypeCombinedPracticeReverse,
+    ORKImplicitAssociationBlockTypeCombinedCriticalReverse
 };
 
 @interface ORKImplicitAssociationStep : ORKActiveStep

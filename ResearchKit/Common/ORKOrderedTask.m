@@ -2320,7 +2320,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         for (NSUInteger index = 0; index <= 1; index++) {
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1StepIdentifier : ORKImplicitAssociationBlock5StepIdentifier];
             step.title = index == 0 ? @"Block 1" : @"Block 5";
-            step.type = ORKImplicitAssociationBlockTypeSort;
+            step.type = index == 0 ? ORKImplicitAssociationBlockTypeSortCategory : ORKImplicitAssociationBlockTypeSortCategoryReverse;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials = [NSMutableArray array];
             for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials1 : ORKImplicitAssociationBlockTrials5); trial++) {
@@ -2354,7 +2354,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     {
         ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
         step.title = @"Block 2";
-        step.type = ORKImplicitAssociationBlockTypeSort;
+        step.type = ORKImplicitAssociationBlockTypeSortAttribute;
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
         
@@ -2426,7 +2426,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         for (NSUInteger index = 0; index <= 1; index++) {
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6StepIdentifier : ORKImplicitAssociationBlock7StepIdentifier];
             step.title = index == 0 ? @"Block 6" : @"Block 7";
-            step.type = index == 0 ? ORKImplicitAssociationBlockTypeCombinedPractice : ORKImplicitAssociationBlockTypeCombinedCritical;
+            step.type = index == 0 ? ORKImplicitAssociationBlockTypeCombinedPracticeReverse : ORKImplicitAssociationBlockTypeCombinedCriticalReverse;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials =[NSMutableArray array];
             

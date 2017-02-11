@@ -114,7 +114,7 @@
     //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     
-    if ([self type] == ORKImplicitAssociationBlockTypeSort) {
+    if ([self type] == ORKImplicitAssociationBlockTypeSortCategory || [self type] == ORKImplicitAssociationBlockTypeSortAttribute || [self type] == ORKImplicitAssociationBlockTypeSortCategoryReverse) {
         _implicitAssociationContentView.leftItemLabel2.hidden = true;
         _implicitAssociationContentView.rightItemLabel2.hidden = true;
         _implicitAssociationContentView.leftDividerLabel.hidden = true;
@@ -170,7 +170,7 @@
     _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
     _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
     
-    if ([self type] != ORKImplicitAssociationBlockTypeSort) {
+    if ([self type] != ORKImplicitAssociationBlockTypeSortCategory || [self type] != ORKImplicitAssociationBlockTypeSortAttribute || [self type] != ORKImplicitAssociationBlockTypeSortCategoryReverse) {
         _implicitAssociationContentView.leftItemLabel2.text = trial.leftItem2;
         _implicitAssociationContentView.rightItemLabel2.text = trial.rightItem2;
     }
