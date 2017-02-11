@@ -36,20 +36,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlockType) {
-    ORKImplicitAssociationBlockTypeSortCategory = 20,
-    ORKImplicitAssociationBlockTypeSortAttribute = 20,
-    ORKImplicitAssociationBlockTypeCombinedPractice = 20,
-    ORKImplicitAssociationBlockTypeCombinedCritical = 40,
-    ORKImplicitAssociationBlockTypeSortCategoryReverse = 28,
-    ORKImplicitAssociationBlockTypeCombinedPracticeReverse = 20,
-    ORKImplicitAssociationBlockTypeCombinedCriticalReverse = 40
+typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlock) {
+    ORKImplicitAssociationBlockSortCategory,
+    ORKImplicitAssociationBlockSortAttribute,
+    ORKImplicitAssociationBlockCombinedPractice,
+    ORKImplicitAssociationBlockCombinedCritical,
+    ORKImplicitAssociationBlockSortCategoryReverse,
+    ORKImplicitAssociationBlockCombinedPracticeReverse,
+    ORKImplicitAssociationBlockCombinedCriticalReverse
 };
+#define kORKImplicitAssociationBlockTrials @20, @20, @20, @40, @28, @20, @40, nil
 
 @interface ORKImplicitAssociationStep : ORKActiveStep
 
 @property (nonatomic, strong) NSArray *trials;
-@property (nonatomic, assign) ORKImplicitAssociationBlockType type;
+@property (nonatomic, assign) ORKImplicitAssociationBlock block;
+
++ (NSUInteger)trialsInBlock:(ORKImplicitAssociationBlock)block;
 
 @end
 

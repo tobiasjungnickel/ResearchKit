@@ -106,7 +106,7 @@
     //_expired = NO;
     
     _implicitAssociationContentView = [[ORKImplicitAssociationContentView alloc] init];
-    [_implicitAssociationContentView setType:[self type]];
+    [_implicitAssociationContentView setBlock:[self block]];
     //_implicitAssociationContentView.hasSkipButton = self.step.optional;
     self.activeStepView.activeCustomView = _implicitAssociationContentView;
     
@@ -115,7 +115,7 @@
     //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     
-    if ([self type] == ORKImplicitAssociationBlockTypeSortCategory || [self type] == ORKImplicitAssociationBlockTypeSortAttribute || [self type] == ORKImplicitAssociationBlockTypeSortCategoryReverse) {
+    if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortAttribute || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
         _implicitAssociationContentView.leftItemLabel2.hidden = true;
         _implicitAssociationContentView.rightItemLabel2.hidden = true;
         _implicitAssociationContentView.leftDividerLabel.hidden = true;
@@ -137,8 +137,8 @@
     return ((ORKImplicitAssociationStep *)self.step).trials;
 }
 
-- (ORKImplicitAssociationBlockType)type {
-    return ((ORKImplicitAssociationStep *)self.step).type;
+- (ORKImplicitAssociationBlock)block {
+    return ((ORKImplicitAssociationStep *)self.step).block;
 }
 
 - (void)setupInstruction {
@@ -171,7 +171,7 @@
     _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
     _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
     
-    if ([self type] != ORKImplicitAssociationBlockTypeSortCategory || [self type] != ORKImplicitAssociationBlockTypeSortAttribute || [self type] != ORKImplicitAssociationBlockTypeSortCategoryReverse) {
+    if ([self block] != ORKImplicitAssociationBlockSortCategory || [self block] != ORKImplicitAssociationBlockSortAttribute || [self block] != ORKImplicitAssociationBlockSortCategoryReverse) {
         _implicitAssociationContentView.leftItemLabel2.text = trial.leftItem2;
         _implicitAssociationContentView.rightItemLabel2.text = trial.rightItem2;
     }
