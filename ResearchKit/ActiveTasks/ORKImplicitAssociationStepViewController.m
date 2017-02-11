@@ -106,6 +106,7 @@
     //_expired = NO;
     
     _implicitAssociationContentView = [[ORKImplicitAssociationContentView alloc] init];
+    [_implicitAssociationContentView setType:[self type]];
     //_implicitAssociationContentView.hasSkipButton = self.step.optional;
     self.activeStepView.activeCustomView = _implicitAssociationContentView;
     

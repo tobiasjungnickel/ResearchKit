@@ -31,6 +31,7 @@
 
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
+#import "ORKImplicitAssociationStep.h";
 #import "ORKBodyLabel.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -66,6 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton2;
 
 //@property (nonatomic, assign) NSInteger lastTappedButton;
+
+- (void)setType:(ORKImplicitAssociationBlockType)type;
 
 @end
 

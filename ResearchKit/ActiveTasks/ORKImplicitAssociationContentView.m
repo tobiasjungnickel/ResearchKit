@@ -172,20 +172,11 @@
         _leftDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
         _rightDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
         
-        NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @" X " attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
-        _wrongLabel.attributedText = wrongX;
-        NSAttributedString *hint1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
-        NSAttributedString *hint2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
-        NSMutableAttributedString *hint = [NSMutableAttributedString new];
-        [hint appendAttributedString:hint1];
-        [hint appendAttributedString:wrongX];
-        [hint appendAttributedString:hint2];
-        _hintLabel.attributedText = hint;
+        _hintLabel.attributedText = [self wrongHint];
         
         _instructionTermsLabel.text = @"Use the E key for Fat people and for Bad words.\nUse the I key for Thin people and for Good words.\nItems will appear one at a time.";
-        _instructionWrongLabel.text = @"If you make a mistake, a red X will appear. Press the other key to continue.\nGo as fast as you can while being accurate.";
         
-        NSAttributedString *start1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil) ];
+        NSAttributedString *start1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil)];
         NSAttributedString *startButton = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON", nil) attributes : @{ NSFontAttributeName : [UIFont systemFontOfSize:17.0 weight:UIFontWeightBold] }];
         NSAttributedString *start2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2", nil)];
         NSMutableAttributedString *start = [NSMutableAttributedString new];
@@ -212,6 +203,31 @@
 
 - (void)tintColorDidChange {
     [super tintColorDidChange];
+}
+
+- (void)setType:(ORKImplicitAssociationBlockType)type {
+    NSAttributedString *go1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_1", nil) attributes : @{ NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleSingle] }];
+    NSAttributedString *go2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_2", nil)];
+    NSMutableAttributedString *wrong = [NSMutableAttributedString new];
+    if (type == ORKImplicitAssociationBlockTypeSortCategory || type == ORKImplicitAssociationBlockTypeSortAttribute || type == ORKImplicitAssociationBlockTypeCombinedPractice || type == ORKImplicitAssociationBlockTypeCombinedPracticeReverse) {
+        [wrong appendAttributedString:[self wrongHint]];
+        [wrong appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+    }
+    [wrong appendAttributedString:go1];
+    [wrong appendAttributedString:go2];
+    _instructionWrongLabel.attributedText = wrong;
+}
+
+- (NSAttributedString *)wrongHint {
+    NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @" X " attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
+    _wrongLabel.attributedText = wrongX;
+    NSAttributedString *hint1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
+    NSAttributedString *hint2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
+    NSMutableAttributedString *hint = [NSMutableAttributedString new];
+    [hint appendAttributedString:hint1];
+    [hint appendAttributedString:wrongX];
+    [hint appendAttributedString:hint2];
+    return [hint copy];
 }
 
 - (void)resetStep:(ORKActiveStepViewController *)viewController {
