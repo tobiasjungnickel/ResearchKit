@@ -57,7 +57,9 @@
     UIView *_rightItemContainer;
     UIView *_buttonContainer;
     
-    ORKBodyLabel *_hintLabel;
+    ORKSubheadlineLabel *_instructionTermsLabel;
+    ORKSubheadlineLabel *_instructionWrongLabel;
+    UILabel *_instructionStartLabel;
 }
 
 - (instancetype)init {
@@ -124,6 +126,24 @@
         _tapButton2.translatesAutoresizingMaskIntoConstraints = NO;
         [_tapButton2 setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
         
+        _instructionTermsLabel = [ORKSubheadlineLabel new];
+        _instructionTermsLabel.textColor = [UIColor blackColor];
+        _instructionTermsLabel.textAlignment = NSTextAlignmentLeft;
+        _instructionTermsLabel.numberOfLines = 0;
+        _instructionTermsLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _instructionWrongLabel = [ORKSubheadlineLabel new];
+        _instructionWrongLabel.textColor = [UIColor blackColor];
+        _instructionWrongLabel.textAlignment = NSTextAlignmentLeft;
+        _instructionWrongLabel.numberOfLines = 0;
+        _instructionWrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _instructionStartLabel = [UILabel new];
+        _instructionStartLabel.textColor = [UIColor blackColor];
+        _instructionStartLabel.textAlignment = NSTextAlignmentCenter;
+        _instructionStartLabel.numberOfLines = 0;
+        _instructionStartLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
         //_lastTappedButton = -1;
         
         [self addSubview:_leftItemContainer];
@@ -132,6 +152,9 @@
         [self addSubview:_wrongLabel];
         [self addSubview:_hintLabel];
         [self addSubview:_buttonContainer];
+        [self addSubview:_instructionTermsLabel];
+        [self addSubview:_instructionWrongLabel];
+        [self addSubview:_instructionStartLabel];
         
         [_buttonContainer addSubview:_tapButton1];
         [_buttonContainer addSubview:_tapButton2];
@@ -158,6 +181,18 @@
         [hint appendAttributedString:wrongX];
         [hint appendAttributedString:hint2];
         _hintLabel.attributedText = hint;
+        
+        _instructionTermsLabel.text = @"Use the E key for Fat people and for Bad words.\nUse the I key for Thin people and for Good words.\nItems will appear one at a time.";
+        _instructionWrongLabel.text = @"If you make a mistake, a red X will appear. Press the other key to continue.\nGo as fast as you can while being accurate.";
+        
+        NSAttributedString *start1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil) ];
+        NSAttributedString *startButton = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON", nil) attributes : @{ NSFontAttributeName : [UIFont systemFontOfSize:17.0 weight:UIFontWeightBold] }];
+        NSAttributedString *start2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2", nil)];
+        NSMutableAttributedString *start = [NSMutableAttributedString new];
+        [start appendAttributedString:start1];
+        [start appendAttributedString:startButton];
+        [start appendAttributedString:start2];
+        _instructionStartLabel.attributedText = start;
         
         [self setUpConstraints];
         
@@ -194,7 +229,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _wrongLabel, _hintLabel, _buttonContainer, _tapButton1, _tapButton2);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _wrongLabel, _hintLabel, _buttonContainer, _tapButton1, _tapButton2, _instructionTermsLabel, _instructionWrongLabel, _instructionStartLabel);
     
     // left items
     
@@ -331,7 +366,38 @@
                                              metrics:nil
                                                views:views]];
 
+    // instruction
+    
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_instructionTermsLabel]-|"
+                                             options:(NSLayoutFormatOptions)0
+                                             metrics:nil
+                                               views:views]];
+    
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_instructionWrongLabel]-|"
+                                             options:(NSLayoutFormatOptions)0
+                                             metrics:nil
+                                               views:views]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_instructionStartLabel
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=120)-[_instructionTermsLabel]-(>=50)-[_instructionWrongLabel]-(>=50)-[_instructionStartLabel]-(>=300)-|"
+                                             options:(NSLayoutFormatOptions)0
+                                             metrics:nil
+                                               views:views]];
+    
+    
     [NSLayoutConstraint activateConstraints:constraints];
+    
+    
 }
 
 @end

@@ -447,6 +447,9 @@
 "IMPLICIT_ASSOCIATION_ITEM_DIVIDER" = "or";
 "IMPLICIT_ASSOCIATION_HINT_LABEL_1" = "If you make a mistake, a red";
 "IMPLICIT_ASSOCIATION_HINT_LABEL_2" = "will appear. Press the other key to continue.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1" = "Tap";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON" = " any button ";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2" = "when you are ready to start.";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";

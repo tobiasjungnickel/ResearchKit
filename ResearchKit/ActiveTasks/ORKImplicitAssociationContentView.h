@@ -31,7 +31,7 @@
 
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
-
+#import "ORKBodyLabel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ORKSubheadlineLabel *rightDividerLabel;
 
 @property (nonatomic, strong) ORKHeadlineLabel *wrongLabel;
+
+@property (nonatomic, strong) ORKBodyLabel *hintLabel;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;
 

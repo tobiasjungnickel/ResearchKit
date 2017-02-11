@@ -129,7 +129,7 @@
     //_buttonRect2 = [self.view convertRect:_implicitAssociationContentView.tapButton2.bounds fromView:_implicitAssociationContentView.tapButton2];
     //_viewSize = self.view.frame.size;
     
-    [self setupTerm];
+    [self setupInstruction];
 }
 
 - (NSArray *)trials {
@@ -140,17 +140,33 @@
     return ((ORKImplicitAssociationStep *)self.step).type;
 }
 
-- (void)setupTerm {
+- (void)setupInstruction {
+    _implicitAssociationContentView.termLabel.hidden = true;
+    _implicitAssociationContentView.wrongLabel.hidden = true;
+    _implicitAssociationContentView.hintLabel.hidden = true;
     
+    [self setupItems];
+}
+
+- (void) setupTrial {
     if (_currentTrial >= [self trials].count) {
         [self stepDidFinish];
         return;
     }
     
     _implicitAssociationContentView.wrongLabel.hidden = true;
+    [self setupItems];
+    [self setupTerm];
+}
+
+- (void)setupTerm {
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    _implicitAssociationContentView.termLabel.text = trial.term;
+}
+
+- (void)setupItems {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     
-    _implicitAssociationContentView.termLabel.text = trial.term;
     _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
     _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
     
@@ -225,7 +241,7 @@
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     if (trial.correct == buttonIdentifier) {
         _currentTrial += 1;
-        [self setupTerm];
+        [self setupTrial];
     } else {
         _implicitAssociationContentView.wrongLabel.hidden = false;
     }
