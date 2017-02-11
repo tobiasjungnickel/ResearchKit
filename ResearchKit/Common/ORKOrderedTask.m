@@ -2291,17 +2291,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     NSMutableArray *stimuliAll = [NSMutableArray array];
     [stimuliAll addObjectsFromArray:attributesAll];
     [stimuliAll addObjectsFromArray:conceptsAll];
-    
-    typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlockTrials) {
-        ORKImplicitAssociationBlockTrials1 = 20,
-        ORKImplicitAssociationBlockTrials2 = 20,
-        ORKImplicitAssociationBlockTrials3 = 20,
-        ORKImplicitAssociationBlockTrials4 = 40,
-        ORKImplicitAssociationBlockTrials5 = 28,
-        ORKImplicitAssociationBlockTrials6 = 20,
-        ORKImplicitAssociationBlockTrials7 = 40
-    };
-    
+
     typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlockNumber) {
         ORKImplicitAssociationBlockNumber1,
         ORKImplicitAssociationBlockNumber2,
@@ -2323,7 +2313,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             step.type = index == 0 ? ORKImplicitAssociationBlockTypeSortCategory : ORKImplicitAssociationBlockTypeSortCategoryReverse;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials = [NSMutableArray array];
-            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials1 : ORKImplicitAssociationBlockTrials5); trial++) {
+            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTypeSortCategory : ORKImplicitAssociationBlockTypeSortCategoryReverse); trial++) {
                 NSUInteger random = arc4random_uniform(conceptsAll.count);
                 NSString *randomTerm = [conceptsAll objectAtIndex:random];
                 ORKTappingButtonIdentifier buttonCorrect;
@@ -2358,7 +2348,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
         
-        for (NSUInteger trial = 0; trial < ORKImplicitAssociationBlockTrials2; trial++) {
+        for (NSUInteger trial = 0; trial < ORKImplicitAssociationBlockTypeSortAttribute; trial++) {
             
             NSUInteger random = arc4random_uniform(attributesAll.count);
             NSString *randomTerm = [attributesAll objectAtIndex:random];
@@ -2390,7 +2380,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials =[NSMutableArray array];
             
-            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials3 : ORKImplicitAssociationBlockTrials4); trial++) {
+            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTypeCombinedPractice : ORKImplicitAssociationBlockTypeCombinedCritical); trial++) {
                 
                 NSUInteger random = arc4random_uniform(stimuliAll.count);
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
@@ -2430,7 +2420,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials =[NSMutableArray array];
             
-            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials6 : ORKImplicitAssociationBlockTrials7); trial++) {
+            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTypeCombinedPracticeReverse : ORKImplicitAssociationBlockTypeCombinedCriticalReverse); trial++) {
                 
                 NSUInteger random = arc4random_uniform(stimuliAll.count);
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
