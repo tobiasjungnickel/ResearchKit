@@ -214,6 +214,11 @@
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
     }
     
+    if (block == ORKImplicitAssociationBlockSortCategoryReverse) {
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+    }
+    
     if (block == ORKImplicitAssociationBlockSortCategory || block == ORKImplicitAssociationBlockSortAttribute || block == ORKImplicitAssociationBlockSortCategoryReverse) {
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
