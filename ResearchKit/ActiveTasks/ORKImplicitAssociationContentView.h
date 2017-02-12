@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //@property (nonatomic, assign) NSInteger lastTappedButton;
 
-- (void)setInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftItem:(NSString *)left andRightItem:(NSString *)right;
+- (void)setInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftUpperItem:(NSString *)leftUpper rightUpperItem:(NSString *)rightUpper LeftLowerItem:(NSString *)leftLower rightLowerItem:(NSString *)rightLower;
 
 @end
 

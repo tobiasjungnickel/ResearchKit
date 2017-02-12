@@ -150,7 +150,7 @@
     [self setupItems];
     
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    [_implicitAssociationContentView setInstructionForBlock:[self block] withLeftItem:trial.leftItem1 andRightItem:trial.rightItem1];
+    [_implicitAssociationContentView setInstructionForBlock:[self block] withLeftUpperItem:trial.leftItem1 rightUpperItem:trial.rightItem1 LeftLowerItem:trial.leftItem2 rightLowerItem:trial.rightItem2];
 }
 
 - (void)setupTrial {
