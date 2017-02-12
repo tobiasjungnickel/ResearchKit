@@ -106,7 +106,6 @@
     //_expired = NO;
     
     _implicitAssociationContentView = [[ORKImplicitAssociationContentView alloc] init];
-    [_implicitAssociationContentView setBlock:[self block]];
     //_implicitAssociationContentView.hasSkipButton = self.step.optional;
     self.activeStepView.activeCustomView = _implicitAssociationContentView;
     
@@ -121,6 +120,8 @@
         _implicitAssociationContentView.leftDividerLabel.hidden = true;
         _implicitAssociationContentView.rightDividerLabel.hidden = true;
     }
+    
+    [self setupInstruction];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -130,7 +131,7 @@
     //_buttonRect2 = [self.view convertRect:_implicitAssociationContentView.tapButton2.bounds fromView:_implicitAssociationContentView.tapButton2];
     //_viewSize = self.view.frame.size;
     
-    [self setupInstruction];
+    
 }
 
 - (NSArray *)trials {
@@ -147,9 +148,12 @@
     _implicitAssociationContentView.hintLabel.hidden = true;
     
     [self setupItems];
+    
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    [_implicitAssociationContentView setInstructionForBlock:[self block] withLeftItem:trial.leftItem1 andRightItem:trial.rightItem1];
 }
 
-- (void) setupTrial {
+- (void)setupTrial {
     if (_currentTrial >= [self trials].count) {
         [self stepDidFinish];
         return;

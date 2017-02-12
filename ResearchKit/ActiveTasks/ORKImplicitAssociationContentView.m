@@ -174,11 +174,9 @@
         
         _hintLabel.attributedText = [self wrongHint];
         
-        _instructionTermsLabel.text = @"Use the E key for Fat people and for Bad words.\nUse the I key for Thin people and for Good words.\nItems will appear one at a time.";
-        
-        NSAttributedString *start1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil)];
-        NSAttributedString *startButton = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON", nil) attributes : @{ NSFontAttributeName : [UIFont systemFontOfSize:17.0 weight:UIFontWeightBold] }];
-        NSAttributedString *start2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2", nil)];
+        NSAttributedString *start1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil)];
+        NSAttributedString *startButton = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON", nil) attributes : @{ NSFontAttributeName : [UIFont systemFontOfSize:17.0 weight:UIFontWeightBold] }];
+        NSAttributedString *start2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2", nil)];
         NSMutableAttributedString *start = [NSMutableAttributedString new];
         [start appendAttributedString:start1];
         [start appendAttributedString:startButton];
@@ -205,9 +203,37 @@
     [super tintColorDidChange];
 }
 
-- (void)setBlock:(ORKImplicitAssociationBlock)block {
-    NSAttributedString *go1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_1", nil) attributes : @{ NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleSingle] }];
-    NSAttributedString *go2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_2", nil)];
+- (void)setInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftItem:(NSString *)left andRightItem:(NSString *)right {
+    NSMutableAttributedString *items = [NSMutableAttributedString new];
+    NSAttributedString *items1;
+    NSAttributedString *items2;
+    NSAttributedString *items3;
+    if (block == ORKImplicitAssociationBlockSortCategory || block == ORKImplicitAssociationBlockSortAttribute || block == ORKImplicitAssociationBlockSortCategoryReverse) {
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_2", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_3", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", left]]];
+        
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_2", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_3", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", right]]];
+    }
+    
+    if (block == ORKImplicitAssociationBlockSortCategory) {
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)]];
+    }
+    
+    _instructionItemsLabel.attributedText = items;
+    
+    NSAttributedString *go1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_1", nil) attributes : @{ NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleSingle] }];
+    NSAttributedString *go2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_2", nil)];
     NSMutableAttributedString *wrong = [NSMutableAttributedString new];
     if (block == ORKImplicitAssociationBlockSortCategory || block == ORKImplicitAssociationBlockSortAttribute || block == ORKImplicitAssociationBlockCombinedPractice || block == ORKImplicitAssociationBlockCombinedPracticeReverse) {
         [wrong appendAttributedString:[self wrongHint]];
@@ -221,8 +247,8 @@
 - (NSAttributedString *)wrongHint {
     NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @" X " attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
     _wrongLabel.attributedText = wrongX;
-    NSAttributedString *hint1 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
-    NSAttributedString *hint2 = [[NSAttributedString alloc] initWithString : ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
+    NSAttributedString *hint1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
+    NSAttributedString *hint2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
     NSMutableAttributedString *hint = [NSMutableAttributedString new];
     [hint appendAttributedString:hint1];
     [hint appendAttributedString:wrongX];
