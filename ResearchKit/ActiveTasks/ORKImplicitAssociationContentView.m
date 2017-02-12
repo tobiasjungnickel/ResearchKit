@@ -437,16 +437,18 @@
 
     // instruction
     
+    NSDictionary *metrics = @{ @"margin" : [NSNumber numberWithFloat:ORKGetMetricForWindow(ORKScreenMetricFontSizeSubheadline, self.window)] };
+    
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_instructionItemsLabel]-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_instructionItemsLabel]-(margin)-|"
                                              options:(NSLayoutFormatOptions)0
-                                             metrics:nil
+                                             metrics:metrics
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_instructionWrongLabel]-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_instructionWrongLabel]-(margin)-|"
                                              options:(NSLayoutFormatOptions)0
-                                             metrics:nil
+                                             metrics:metrics
                                                views:views]];
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_instructionStartLabel
@@ -465,7 +467,6 @@
     
     
     [NSLayoutConstraint activateConstraints:constraints];
-    
     
 }
 
