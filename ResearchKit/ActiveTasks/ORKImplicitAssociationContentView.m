@@ -208,6 +208,12 @@
     NSAttributedString *items1;
     NSAttributedString *items2;
     NSAttributedString *items3;
+    
+    if (block == ORKImplicitAssociationBlockCombinedCritical || block == ORKImplicitAssociationBlockCombinedCriticalReverse) {
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+    }
+    
     if (block == ORKImplicitAssociationBlockSortCategory || block == ORKImplicitAssociationBlockSortAttribute || block == ORKImplicitAssociationBlockSortCategoryReverse) {
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
@@ -215,7 +221,6 @@
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_3", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", leftUpper]]];
-        
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
@@ -232,7 +237,6 @@
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@ ", leftUpper]]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_3", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", leftLower]]];
-        
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_1", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
@@ -240,7 +244,6 @@
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@ ", rightUpper]]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_3", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", rightLower]]];
-        
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)]];
     }
