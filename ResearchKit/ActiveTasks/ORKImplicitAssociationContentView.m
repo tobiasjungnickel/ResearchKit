@@ -240,6 +240,9 @@
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@ ", rightUpper]]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_3", nil)]];
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", rightLower]]];
+        
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)]];
     }
     if (block == ORKImplicitAssociationBlockSortCategory) {
         [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
