@@ -115,10 +115,10 @@
     //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     
     if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortAttribute || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
-        _implicitAssociationContentView.leftItemLabel2.hidden = true;
-        _implicitAssociationContentView.rightItemLabel2.hidden = true;
-        _implicitAssociationContentView.leftDividerLabel.hidden = true;
-        _implicitAssociationContentView.rightDividerLabel.hidden = true;
+        _implicitAssociationContentView.leftItemLabel2.hidden = YES;
+        _implicitAssociationContentView.rightItemLabel2.hidden = YES;
+        _implicitAssociationContentView.leftDividerLabel.hidden = YES;
+        _implicitAssociationContentView.rightDividerLabel.hidden = YES;
     }
     
     [self setupInstruction];
@@ -130,8 +130,6 @@
     //_buttonRect1 = [self.view convertRect:_implicitAssociationContentView.tapButton1.bounds fromView:_implicitAssociationContentView.tapButton1];
     //_buttonRect2 = [self.view convertRect:_implicitAssociationContentView.tapButton2.bounds fromView:_implicitAssociationContentView.tapButton2];
     //_viewSize = self.view.frame.size;
-    
-    
 }
 
 - (NSArray *)trials {
@@ -143,14 +141,10 @@
 }
 
 - (void)setupInstruction {
-    _implicitAssociationContentView.termLabel.hidden = true;
-    _implicitAssociationContentView.wrongLabel.hidden = true;
-    _implicitAssociationContentView.hintLabel.hidden = true;
-    
     [self setupItems];
     
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    [_implicitAssociationContentView setInstructionForBlock:[self block] withLeftUpperItem:trial.leftItem1 rightUpperItem:trial.rightItem1 LeftLowerItem:trial.leftItem2 rightLowerItem:trial.rightItem2];
+    [_implicitAssociationContentView presentInstructionForBlock:[self block] withLeftUpperItem:trial.leftItem1 rightUpperItem:trial.rightItem1 LeftLowerItem:trial.leftItem2 rightLowerItem:trial.rightItem2];
 }
 
 - (void)setupTrial {
@@ -158,8 +152,7 @@
         [self stepDidFinish];
         return;
     }
-    
-    _implicitAssociationContentView.wrongLabel.hidden = true;
+    _implicitAssociationContentView.wrongLabel.hidden = YES;
     [self setupItems];
     [self setupTerm];
 }
@@ -211,7 +204,6 @@
         return;
     }
     */
-    
     
     NSTimeInterval mediaTime = touch.timestamp;
     /*
@@ -313,6 +305,8 @@
 */
 - (void)start {
     [super start];
+    [_implicitAssociationContentView presentTrial];
+    [self setupTrial];
     //self.skipButtonItem = nil;
 }
 
@@ -329,6 +323,11 @@
         [self start];
     }
      */
+    
+    if (!self.started) {
+        [self start];
+        return;
+    }
     
     NSInteger index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     

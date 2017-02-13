@@ -55,6 +55,7 @@
     
     UIView *_leftItemContainer;
     UIView *_rightItemContainer;
+    ORKBodyLabel *_hintLabel;
     UIView *_buttonContainer;
     
     ORKSubheadlineLabel *_instructionItemsLabel;
@@ -144,8 +145,6 @@
         _instructionStartLabel.numberOfLines = 0;
         _instructionStartLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        //_lastTappedButton = -1;
-        
         [self addSubview:_leftItemContainer];
         [self addSubview:_rightItemContainer];
         [self addSubview:_termLabel];
@@ -203,7 +202,14 @@
     [super tintColorDidChange];
 }
 
-- (void)setInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftUpperItem:(NSString *)leftUpper rightUpperItem:(NSString *)rightUpper LeftLowerItem:(NSString *)leftLower rightLowerItem:(NSString *)rightLower {
+- (void)presentInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftUpperItem:(NSString *)leftUpper rightUpperItem:(NSString *)rightUpper LeftLowerItem:(NSString *)leftLower rightLowerItem:(NSString *)rightLower {
+    _termLabel.hidden = YES;
+    _wrongLabel.hidden = YES;
+    _hintLabel.hidden = YES;
+    _instructionItemsLabel.hidden = NO;
+    _instructionWrongLabel.hidden = NO;
+    _instructionStartLabel.hidden = NO;
+    
     NSMutableAttributedString *items = [NSMutableAttributedString new];
     NSAttributedString *items1;
     NSAttributedString *items2;
@@ -269,6 +275,15 @@
     [wrong appendAttributedString:go1];
     [wrong appendAttributedString:go2];
     _instructionWrongLabel.attributedText = wrong;
+}
+
+- (void)presentTrial {
+    _termLabel.hidden = NO;
+    _wrongLabel.hidden = NO;
+    _hintLabel.hidden = NO;
+    _instructionItemsLabel.hidden = YES;
+    _instructionWrongLabel.hidden = YES;
+    _instructionStartLabel.hidden = YES;
 }
 
 - (NSAttributedString *)wrongHint {
