@@ -57,10 +57,6 @@
     UIView *_rightItemContainer;
     ORKBodyLabel *_hintLabel;
     UIView *_buttonContainer;
-    
-    ORKSubheadlineLabel *_instructionItemsLabel;
-    ORKSubheadlineLabel *_instructionWrongLabel;
-    UILabel *_instructionStartLabel;
 }
 
 - (instancetype)init {
@@ -107,6 +103,11 @@
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
+        _startLabel = [ORKSubheadlineLabel new];
+        _startLabel.textAlignment = NSTextAlignmentCenter;
+        _startLabel.numberOfLines = 0;
+        _startLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
         _wrongLabel = [ORKHeadlineLabel new];
         _wrongLabel.textAlignment = NSTextAlignmentCenter;
         _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -127,33 +128,13 @@
         _tapButton2.translatesAutoresizingMaskIntoConstraints = NO;
         [_tapButton2 setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
         
-        _instructionItemsLabel = [ORKSubheadlineLabel new];
-        _instructionItemsLabel.textColor = [UIColor blackColor];
-        _instructionItemsLabel.textAlignment = NSTextAlignmentLeft;
-        _instructionItemsLabel.numberOfLines = 0;
-        _instructionItemsLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        _instructionWrongLabel = [ORKSubheadlineLabel new];
-        _instructionWrongLabel.textColor = [UIColor blackColor];
-        _instructionWrongLabel.textAlignment = NSTextAlignmentLeft;
-        _instructionWrongLabel.numberOfLines = 0;
-        _instructionWrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        _instructionStartLabel = [UILabel new];
-        _instructionStartLabel.textColor = [UIColor blackColor];
-        _instructionStartLabel.textAlignment = NSTextAlignmentCenter;
-        _instructionStartLabel.numberOfLines = 0;
-        _instructionStartLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        
         [self addSubview:_leftItemContainer];
         [self addSubview:_rightItemContainer];
         [self addSubview:_termLabel];
+        [self addSubview:_startLabel];
         [self addSubview:_wrongLabel];
         [self addSubview:_hintLabel];
         [self addSubview:_buttonContainer];
-        [self addSubview:_instructionItemsLabel];
-        [self addSubview:_instructionWrongLabel];
-        [self addSubview:_instructionStartLabel];
         
         [_buttonContainer addSubview:_tapButton1];
         [_buttonContainer addSubview:_tapButton2];
@@ -171,8 +152,6 @@
         _leftDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
         _rightDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
         
-        _hintLabel.attributedText = [self wrongHint];
-        
         NSAttributedString *start1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil)];
         NSAttributedString *startButton = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON", nil) attributes : @{ NSFontAttributeName : [UIFont systemFontOfSize:17.0 weight:UIFontWeightBold] }];
         NSAttributedString *start2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2", nil)];
@@ -180,7 +159,9 @@
         [start appendAttributedString:start1];
         [start appendAttributedString:startButton];
         [start appendAttributedString:start2];
-        _instructionStartLabel.attributedText = start;
+        _startLabel.attributedText = start;
+        
+        _hintLabel.attributedText = [self wrongHint];
         
         [self setUpConstraints];
         
@@ -192,7 +173,6 @@
         _wrongLabel.backgroundColor = [UIColor greenColor];
         _hintLabel.backgroundColor = [UIColor yellowColor];
         _buttonContainer.backgroundColor = [UIColor blueColor];
-        
 #endif
     }
     return self;
@@ -200,90 +180,6 @@
 
 - (void)tintColorDidChange {
     [super tintColorDidChange];
-}
-
-- (void)presentInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftUpperItem:(NSString *)leftUpper rightUpperItem:(NSString *)rightUpper LeftLowerItem:(NSString *)leftLower rightLowerItem:(NSString *)rightLower {
-    _termLabel.hidden = YES;
-    _wrongLabel.hidden = YES;
-    _hintLabel.hidden = YES;
-    _instructionItemsLabel.hidden = NO;
-    _instructionWrongLabel.hidden = NO;
-    _instructionStartLabel.hidden = NO;
-    
-    NSMutableAttributedString *items = [NSMutableAttributedString new];
-    NSAttributedString *items1;
-    NSAttributedString *items2;
-    NSAttributedString *items3;
-    
-    if (block == ORKImplicitAssociationBlockCombinedCritical || block == ORKImplicitAssociationBlockCombinedCriticalReverse) {
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-    }
-    
-    if (block == ORKImplicitAssociationBlockSortCategoryReverse) {
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-    }
-    
-    if (block == ORKImplicitAssociationBlockSortCategory || block == ORKImplicitAssociationBlockSortAttribute || block == ORKImplicitAssociationBlockSortCategoryReverse) {
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_2", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_3", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", leftUpper]]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_1", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_2", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL_3", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", rightUpper]]];
-    }
-    
-    if (block == ORKImplicitAssociationBlockCombinedPractice || block == ORKImplicitAssociationBlockCombinedCritical || block == ORKImplicitAssociationBlockCombinedPracticeReverse || block == ORKImplicitAssociationBlockCombinedCriticalReverse) {
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_1", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_2", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@ ", leftUpper]]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_3", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", leftLower]]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_1", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_2", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@ ", rightUpper]]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL_3", nil)]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", rightLower]]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)]];
-    }
-    if (block == ORKImplicitAssociationBlockSortCategory) {
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        [items appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)]];
-    }
-    
-    _instructionItemsLabel.attributedText = items;
-    
-    NSAttributedString *go1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_1", nil) attributes : @{ NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleSingle] }];
-    NSAttributedString *go2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL_2", nil)];
-    NSMutableAttributedString *wrong = [NSMutableAttributedString new];
-    if (block == ORKImplicitAssociationBlockSortCategory || block == ORKImplicitAssociationBlockSortAttribute || block == ORKImplicitAssociationBlockCombinedPractice || block == ORKImplicitAssociationBlockCombinedPracticeReverse) {
-        [wrong appendAttributedString:[self wrongHint]];
-        [wrong appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-    }
-    [wrong appendAttributedString:go1];
-    [wrong appendAttributedString:go2];
-    _instructionWrongLabel.attributedText = wrong;
-}
-
-- (void)presentTrial {
-    _termLabel.hidden = NO;
-    _wrongLabel.hidden = NO;
-    _hintLabel.hidden = NO;
-    _instructionItemsLabel.hidden = YES;
-    _instructionWrongLabel.hidden = YES;
-    _instructionStartLabel.hidden = YES;
 }
 
 - (NSAttributedString *)wrongHint {
@@ -313,7 +209,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _wrongLabel, _hintLabel, _buttonContainer, _tapButton1, _tapButton2, _instructionItemsLabel, _instructionWrongLabel, _instructionStartLabel);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _startLabel, _wrongLabel, _hintLabel, _buttonContainer, _tapButton1, _tapButton2);
     
     // left items
     
@@ -407,6 +303,12 @@
                                                        multiplier:1.0
                                                          constant:0.0]];
     
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_startLabel]-|"
+                                             options:(NSLayoutFormatOptions)0
+                                             metrics:nil
+                                               views:views]];
+    
     // hint
     
     [constraints addObjectsFromArray:
@@ -442,44 +344,39 @@
                                                        multiplier:1.0
                                                          constant:0.0]];
     
-    // terms and buttons alignment
+    UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
     
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=160)-[_termLabel]-(>=50)-[_wrongLabel]-(==10)-[_hintLabel]-(>=20)-[_buttonContainer]-(==150)-|"
-                                             options:NSLayoutFormatAlignAllCenterX
-                                             metrics:nil
-                                               views:views]];
-
-    // instruction
-    
-    NSDictionary *metrics = @{ @"margin" : [NSNumber numberWithFloat:ORKGetMetricForWindow(ORKScreenMetricFontSizeSubheadline, self.window)] };
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_instructionItemsLabel]-(margin)-|"
-                                             options:(NSLayoutFormatOptions)0
-                                             metrics:metrics
-                                               views:views]];
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[_instructionWrongLabel]-(margin)-|"
-                                             options:(NSLayoutFormatOptions)0
-                                             metrics:metrics
-                                               views:views]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_instructionStartLabel
-                                                        attribute:NSLayoutAttributeCenterX
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_buttonContainer
+                                                        attribute:NSLayoutAttributeTop
                                                         relatedBy:NSLayoutRelationEqual
                                                            toItem:self
+                                                        attribute:NSLayoutAttributeTop
+                                                       multiplier:1.0
+                                                         constant:window.bounds.size.height - 300]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:self
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_buttonContainer
                                                         attribute:NSLayoutAttributeCenterX
                                                        multiplier:1.0
                                                          constant:0.0]];
     
+    // terms and buttons alignment
+    
+    
+    
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=120)-[_instructionItemsLabel]-(>=50)-[_instructionWrongLabel]-(>=50)-[_instructionStartLabel]-(>=300)-|"
-                                             options:(NSLayoutFormatOptions)0
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=200)-[_wrongLabel]-(==10)-[_hintLabel]-(==10)-[_buttonContainer]-|"
+                                             options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
     
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=150)-[_termLabel]-[_startLabel]-(>=8)-|"
+                                             options:NSLayoutFormatAlignAllCenterX
+                                             metrics:nil
+                                               views:views]];
     
     [NSLayoutConstraint activateConstraints:constraints];
     

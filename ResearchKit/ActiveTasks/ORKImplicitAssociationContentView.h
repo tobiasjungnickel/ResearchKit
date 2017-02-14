@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) ORKHeadlineLabel *termLabel;
 
+@property (nonatomic, strong) ORKSubheadlineLabel *startLabel;
+
 @property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel1;
 
 @property (nonatomic, strong) ORKSubheadlineLabel *rightItemLabel1;
@@ -61,9 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton2;
-
-- (void)presentInstructionForBlock:(ORKImplicitAssociationBlock)block withLeftUpperItem:(NSString *)leftUpper rightUpperItem:(NSString *)rightUpper LeftLowerItem:(NSString *)leftLower rightLowerItem:(NSString *)rightLower;
-- (void)presentTrial;
 
 @end
 

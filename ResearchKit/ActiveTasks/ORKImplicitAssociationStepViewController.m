@@ -121,6 +121,7 @@
         _implicitAssociationContentView.rightDividerLabel.hidden = YES;
     }
     
+    [self setupItems];
     [self setupInstruction];
 }
 
@@ -141,10 +142,9 @@
 }
 
 - (void)setupInstruction {
-    [self setupItems];
-    
-    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    [_implicitAssociationContentView presentInstructionForBlock:[self block] withLeftUpperItem:trial.leftItem1 rightUpperItem:trial.rightItem1 LeftLowerItem:trial.leftItem2 rightLowerItem:trial.rightItem2];
+    _implicitAssociationContentView.wrongLabel.hidden = YES;
+    _implicitAssociationContentView.termLabel.hidden = YES;
+    _implicitAssociationContentView.startLabel.hidden = NO;
 }
 
 - (void)setupTrial {
@@ -153,11 +153,8 @@
         return;
     }
     _implicitAssociationContentView.wrongLabel.hidden = YES;
-    [self setupItems];
-    [self setupTerm];
-}
-
-- (void)setupTerm {
+    _implicitAssociationContentView.termLabel.hidden = NO;
+    _implicitAssociationContentView.startLabel.hidden = YES;
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     _implicitAssociationContentView.termLabel.text = trial.term;
 }
@@ -305,7 +302,6 @@
 */
 - (void)start {
     [super start];
-    [_implicitAssociationContentView presentTrial];
     [self setupTrial];
     //self.skipButtonItem = nil;
 }
