@@ -364,6 +364,13 @@ NSString *const ORKImplicitAssociationBlock4StepIdentifier = @"implicitAssociati
 NSString *const ORKImplicitAssociationBlock5StepIdentifier = @"implicitAssociation.block5";
 NSString *const ORKImplicitAssociationBlock6StepIdentifier = @"implicitAssociation.block6";
 NSString *const ORKImplicitAssociationBlock7StepIdentifier = @"implicitAssociation.block7";
+NSString *const ORKImplicitAssociationBlock1IntroductionStepIdentifier = @"implicitAssociation.intro1";
+NSString *const ORKImplicitAssociationBlock2IntroductionStepIdentifier = @"implicitAssociation.intro2";
+NSString *const ORKImplicitAssociationBlock3IntroductionStepIdentifier = @"implicitAssociation.intro3";
+NSString *const ORKImplicitAssociationBlock4IntroductionStepIdentifier = @"implicitAssociation.intro4";
+NSString *const ORKImplicitAssociationBlock5IntroductionStepIdentifier = @"implicitAssociation.intro5";
+NSString *const ORKImplicitAssociationBlock6IntroductionStepIdentifier = @"implicitAssociation.intro6";
+NSString *const ORKImplicitAssociationBlock7IntroductionStepIdentifier = @"implicitAssociation.intro7";
 
 + (ORKCompletionStep *)makeCompletionStep {
     ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKConclusionStepIdentifier];
@@ -2249,7 +2256,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
     
-    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
+    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
     /*
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
@@ -2292,15 +2299,27 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     [stimuliAll addObjectsFromArray:attributesAll];
     [stimuliAll addObjectsFromArray:conceptsAll];
 
-    typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlockNumber) {
-        ORKImplicitAssociationBlockNumber1,
-        ORKImplicitAssociationBlockNumber2,
-        ORKImplicitAssociationBlockNumber3,
-        ORKImplicitAssociationBlockNumber4,
-        ORKImplicitAssociationBlockNumber5,
-        ORKImplicitAssociationBlockNumber6,
-        ORKImplicitAssociationBlockNumber7
+    typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlock) {
+        ORKImplicitAssociationBlock1Intro,
+        ORKImplicitAssociationBlock1Test,
+        ORKImplicitAssociationBlock2Intro,
+        ORKImplicitAssociationBlock2Test,
+        ORKImplicitAssociationBlock3Intro,
+        ORKImplicitAssociationBlock3Test,
+        ORKImplicitAssociationBlock4Intro,
+        ORKImplicitAssociationBlock4Test,
+        ORKImplicitAssociationBlock5Intro,
+        ORKImplicitAssociationBlock5Test,
+        ORKImplicitAssociationBlock6Intro,
+        ORKImplicitAssociationBlock6Test,
+        ORKImplicitAssociationBlock7Intro,
+        ORKImplicitAssociationBlock7Test
     };
+    
+    NSString *left = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil);
+    NSString *right = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil);
+    NSString *sorting = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL", nil);
+    NSString *combined = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL", nil);
     
     NSUInteger randomConceptSide = arc4random_uniform(2);
 
@@ -2308,6 +2327,30 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
+            
+            if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+                {
+                    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1IntroductionStepIdentifier : ORKImplicitAssociationBlock5IntroductionStepIdentifier];
+                    step.title = index == 0 ? @"Block 1" : @"Block 5";
+                    step.text = intendedUseDescription;
+                    NSMutableString *detailText = [NSMutableString string];
+                    [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
+                    step.detailText = detailText;
+                    
+                    NSString *imageName = @"phonetapping";
+                    if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                        imageName = [imageName stringByAppendingString:@"_notap"];
+                    }
+                    step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    step.shouldTintImages = YES;
+                    
+                    [step validateParameters];
+                    index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock1Intro withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Intro withObject:step];
+                }
+            }
+            
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1StepIdentifier : ORKImplicitAssociationBlock5StepIdentifier];
             step.title = index == 0 ? @"Block 1" : @"Block 5";
             step.block = (index == 0) ? ORKImplicitAssociationBlockSortCategory : ORKImplicitAssociationBlockSortCategoryReverse;
@@ -2335,13 +2378,36 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             //step.recorderConfigurations = recorderConfigurations;
             
             [step validateParameters];
-            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber1 withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber5 withObject:step];
+            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock1Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Test withObject:step];
         }
     }
     
     // Block 2 attribute sorting
     
     {
+        if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+            {
+                ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2IntroductionStepIdentifier];
+                step.title = @"Block 2";
+                step.text = intendedUseDescription;
+                NSMutableString *detailText = [NSMutableString string];
+                [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, attributeACategory]];
+                [detailText appendString:@"\n\n"];
+                [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, attributeBCategory]];
+                step.detailText = detailText;
+                
+                NSString *imageName = @"phonetapping";
+                if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                    imageName = [imageName stringByAppendingString:@"_notap"];
+                }
+                step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                step.shouldTintImages = YES;
+                
+                [step validateParameters];
+                [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Intro withObject:step];
+            }
+        }
+        
         ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
         step.title = @"Block 2";
         step.block = ORKImplicitAssociationBlockSortAttribute;
@@ -2367,7 +2433,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         //step.recorderConfigurations = recorderConfigurations;
             
         [step validateParameters];
-        [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber2 withObject:step];
+        [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Test withObject:step];
     }
     
     //Block 3 & Block 4 combined practice and critical
@@ -2406,7 +2472,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             //step.recorderConfigurations = recorderConfigurations;
             
             [step validateParameters];
-            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber3 withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber4 withObject:step];
+            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Test withObject:step];
         }
     }
     
@@ -2446,7 +2512,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             //step.recorderConfigurations = recorderConfigurations;
             
             [step validateParameters];
-            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber6 withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlockNumber7 withObject:step];
+            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Test withObject:step];
         }
     }
     
@@ -2458,6 +2524,8 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         
         ORKStepArrayAddStep(steps, step);
     }
+    
+    [steps removeObject:[NSNull null]];
     
     /*
     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {

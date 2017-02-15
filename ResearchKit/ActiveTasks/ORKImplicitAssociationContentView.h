@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) ORKHeadlineLabel *termLabel;
 
-@property (nonatomic, strong) ORKSubheadlineLabel *startLabel;
+@property (nonatomic, strong) ORKHeadlineLabel *startLabel;
 
 @property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel1;
 

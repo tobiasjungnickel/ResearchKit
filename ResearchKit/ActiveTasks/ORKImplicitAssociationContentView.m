@@ -103,7 +103,7 @@
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _startLabel = [ORKSubheadlineLabel new];
+        _startLabel = [ORKHeadlineLabel new];
         _startLabel.textAlignment = NSTextAlignmentCenter;
         _startLabel.numberOfLines = 0;
         _startLabel.translatesAutoresizingMaskIntoConstraints = NO;
