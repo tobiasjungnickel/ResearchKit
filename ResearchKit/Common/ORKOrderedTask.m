@@ -2334,6 +2334,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     step.title = index == 0 ? @"Block 1" : @"Block 5";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
+                    if (index == 1) {
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL", nil)];
+                        [detailText appendString:@"\n\n"];
+                    }
                     [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
