@@ -2451,6 +2451,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     step.title = index == 0 ? @"Block 3" : @"Block 4";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
+                    if (index == 1) {
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
+                        [detailText appendString:@"\n\n"];
+                    }
                     [detailText appendString:[NSString localizedStringWithFormat:combined, left, attributeACategory, randomConceptSide == 0 ? conceptBCategory : conceptACategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:[NSString localizedStringWithFormat:combined, right, attributeBCategory, randomConceptSide == 0 ? conceptACategory : conceptBCategory]];
@@ -2517,6 +2521,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     step.title = index == 0 ? @"Block 6" : @"Block 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
+                    if (index == 1) {
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
+                        [detailText appendString:@"\n\n"];
+                    }
                     [detailText appendString:[NSString localizedStringWithFormat:combined, left, attributeACategory, randomConceptSide == 0 ? conceptACategory : conceptBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:[NSString localizedStringWithFormat:combined, right, attributeBCategory, randomConceptSide == 0 ? conceptBCategory : conceptACategory]];
