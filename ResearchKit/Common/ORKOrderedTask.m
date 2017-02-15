@@ -2337,6 +2337,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
+                    if (index == 0) {
+                        [detailText appendString:@"\n\n"];
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)];
+                    }
                     step.detailText = detailText;
                     
                     NSString *imageName = @"phonetapping";
