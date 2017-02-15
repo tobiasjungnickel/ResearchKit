@@ -2440,6 +2440,30 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
+            
+            if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+                {
+                    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3IntroductionStepIdentifier : ORKImplicitAssociationBlock4IntroductionStepIdentifier];
+                    step.title = index == 0 ? @"Block 3" : @"Block 4";
+                    step.text = intendedUseDescription;
+                    NSMutableString *detailText = [NSMutableString string];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, attributeACategory, randomConceptSide == 0 ? conceptBCategory : conceptACategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, attributeBCategory, randomConceptSide == 0 ? conceptACategory : conceptBCategory]];
+                    step.detailText = detailText;
+                    
+                    NSString *imageName = @"phonetapping";
+                    if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                        imageName = [imageName stringByAppendingString:@"_notap"];
+                    }
+                    step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    step.shouldTintImages = YES;
+                    
+                    [step validateParameters];
+                    index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Intro withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Intro withObject:step];
+                }
+            }
+            
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3StepIdentifier : ORKImplicitAssociationBlock4StepIdentifier];
             step.title = index == 0 ? @"Block 3" : @"Block 4";
             step.block = index == 0 ? ORKImplicitAssociationBlockCombinedPractice : ORKImplicitAssociationBlockCombinedCritical;
@@ -2480,6 +2504,30 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
+            
+            if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+                {
+                    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6IntroductionStepIdentifier : ORKImplicitAssociationBlock7IntroductionStepIdentifier];
+                    step.title = index == 0 ? @"Block 6" : @"Block 7";
+                    step.text = intendedUseDescription;
+                    NSMutableString *detailText = [NSMutableString string];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, attributeACategory, randomConceptSide == 0 ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, attributeBCategory, randomConceptSide == 0 ? conceptBCategory : conceptACategory]];
+                    step.detailText = detailText;
+                    
+                    NSString *imageName = @"phonetapping";
+                    if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                        imageName = [imageName stringByAppendingString:@"_notap"];
+                    }
+                    step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    step.shouldTintImages = YES;
+                    
+                    [step validateParameters];
+                    index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Intro withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Intro withObject:step];
+                }
+            }
+            
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6StepIdentifier : ORKImplicitAssociationBlock7StepIdentifier];
             step.title = index == 0 ? @"Block 6" : @"Block 7";
             step.block = index == 0 ? ORKImplicitAssociationBlockCombinedPracticeReverse : ORKImplicitAssociationBlockCombinedCriticalReverse;
