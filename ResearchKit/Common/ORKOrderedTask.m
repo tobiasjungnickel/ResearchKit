@@ -2321,6 +2321,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     NSString *sorting = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL", nil);
     NSString *combined = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL", nil);
     NSString *go = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL", nil);
+    NSMutableString *wrong = [NSMutableString string];
+    [wrong appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
+    [wrong appendString:@" X "];
+    [wrong appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
     
     NSUInteger randomConceptSide = arc4random_uniform(2);
 
@@ -2348,6 +2352,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
+                    if (index == 0) {
+                        [detailText appendString:wrong];
+                    }
                     step.detailText = detailText;
                     
                     NSString *imageName = @"phonetapping";
@@ -2407,6 +2414,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, attributeBCategory]];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:go];
+                [detailText appendString:wrong];
                 step.detailText = detailText;
                 
                 NSString *imageName = @"phonetapping";
@@ -2471,6 +2479,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
+                    if (index == 0) {
+                        [detailText appendString:wrong];
+                    }
                     step.detailText = detailText;
                     
                     NSString *imageName = @"phonetapping";
@@ -2543,6 +2554,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
+                    if (index == 0) {
+                        [detailText appendString:wrong];
+                    }
                     step.detailText = detailText;
                     
                     NSString *imageName = @"phonetapping";
