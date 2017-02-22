@@ -357,6 +357,8 @@ NSString *const ORKPedometerRecorderIdentifier = @"pedometer";
 NSString *const ORKDeviceMotionRecorderIdentifier = @"deviceMotion";
 NSString *const ORKLocationRecorderIdentifier = @"location";
 NSString *const ORKHeartRateRecorderIdentifier = @"heartRate";
+NSString *const ORKImplicitAssociationIntroductionCategoriesStepIdentifier = @"implicitAssociation.introductionCategories";
+NSString *const ORKImplicitAssociationIntroductionBlocksStepIdentifier = @"implicitAssociation.introductionBlocks";
 NSString *const ORKImplicitAssociationBlock1StepIdentifier = @"implicitAssociation.block1";
 NSString *const ORKImplicitAssociationBlock2StepIdentifier = @"implicitAssociation.block2";
 NSString *const ORKImplicitAssociationBlock3StepIdentifier = @"implicitAssociation.block3";
@@ -2256,28 +2258,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
     
-    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
-    
-    /*
-    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
-        {
-            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            step.title = ORKLocalizedString(@"TAPPING_TASK_TITLE", nil);
-            step.text = intendedUseDescription;
-            step.detailText = ORKLocalizedString(@"TAPPING_INTRO_TEXT", nil);
-            
-            NSString *imageName = @"phonetapping";
-            if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
-                imageName = [imageName stringByAppendingString:@"_notap"];
-            }
-            step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-            step.shouldTintImages = YES;
-            
-            ORKStepArrayAddStep(steps, step);
-        }
-    }
-    */
-    
+    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
     // IMPLICIT ASSOCIATION STEP
     
@@ -2300,6 +2281,8 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     [stimuliAll addObjectsFromArray:conceptsAll];
 
     typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlock) {
+        ORKImplicitAssociationIntroductionCategories,
+        ORKImplicitAssociationIntroductionBlocks,
         ORKImplicitAssociationBlock1Intro,
         ORKImplicitAssociationBlock1Test,
         ORKImplicitAssociationBlock2Intro,
@@ -2328,6 +2311,64 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     NSUInteger randomConceptSide = arc4random_uniform(2);
 
+    
+    // Introduction
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+        {
+            ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:ORKImplicitAssociationIntroductionCategoriesStepIdentifier title:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil) text:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL", nil)];
+            step.optional = NO;
+            NSMutableArray *items = [NSMutableArray new];
+
+            {
+                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionAttributeA" text:attributeACategory
+                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[attributeAItems componentsJoinedByString:@", "]]
+                                                                             ]];
+                [items addObject:item];
+            }
+            
+            {
+                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionAttributeB" text:attributeBCategory
+                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[attributeBItems componentsJoinedByString:@", "]]
+                                                                             ]];
+                [items addObject:item];
+            }
+            
+            {
+                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionConceptA" text:conceptACategory
+                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[conceptAItems componentsJoinedByString:@", "]]
+                                                                             ]];
+                [items addObject:item];
+            }
+            
+            {
+                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionConceptB" text:conceptACategory
+                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[conceptBItems componentsJoinedByString:@", "]]
+                                                                             ]];
+                [items addObject:item];
+            }
+            
+            [step setFormItems:items];
+            [steps replaceObjectAtIndex:ORKImplicitAssociationIntroductionCategories withObject:step];
+        }
+        
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationIntroductionBlocksStepIdentifier];
+            step.title = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil);
+            step.text = intendedUseDescription;
+            step.detailText = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL", nil);
+            NSString *imageName = @"phonetapping";
+            if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                imageName = [imageName stringByAppendingString:@"_notap"];
+            }
+            step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.shouldTintImages = YES;
+            [step validateParameters];
+            [steps replaceObjectAtIndex:ORKImplicitAssociationIntroductionBlocks withObject:step];
+        }
+        
+    }
+    
     // Block 1 & Block 5 concept sorting
     
     {

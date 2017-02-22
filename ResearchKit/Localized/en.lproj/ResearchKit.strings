@@ -444,6 +444,9 @@
 "TREMOR_SKIP_NEITHER" = "I can perform this activity with both hands.";
 
 /* Implicit Association active task. */
+"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL" = "Implicit Association Test";
+"IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL" = "Next, you will use a left and a right button to categorize items into groups as fast as you can. These are the four groups and the items that belong to each:";
+"IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL" = "There are seven parts. The instructions change for each part. Pay attention!";
 "IMPLICIT_ASSOCIATION_ITEM_DIVIDER" = "or";
 "IMPLICIT_ASSOCIATION_HINT_LABEL_1" = "If you make a mistake, a red";
 "IMPLICIT_ASSOCIATION_HINT_LABEL_2" = "will appear. Press the other key to continue.";
