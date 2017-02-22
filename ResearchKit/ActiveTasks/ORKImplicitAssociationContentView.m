@@ -46,6 +46,21 @@
 //#define LAYOUT_DEBUG 1
 
 
+@interface ORKWrongLabel : ORKLabel
+
+@end
+
+@implementation ORKWrongLabel
+
++ (UIFont *)defaultFont {
+    // Medium, 56
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    return ORKMediumFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]+ 39.0);
+}
+
+@end
+
+
 @interface ORKImplicitAssociationContentView ()
 
 @end
@@ -55,7 +70,8 @@
     
     UIView *_leftItemContainer;
     UIView *_rightItemContainer;
-    ORKBodyLabel *_hintLabel;
+    ORKWrongLabel *_wrongLabel;
+    ORKFormSectionTitleLabel *_hintLabel;
     UIView *_buttonContainer;
 }
 
@@ -108,7 +124,7 @@
         _startLabel.numberOfLines = 0;
         _startLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _wrongLabel = [ORKHeadlineLabel new];
+        _wrongLabel = [ORKWrongLabel new];
         _wrongLabel.textAlignment = NSTextAlignmentCenter;
         _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -176,6 +192,10 @@
 #endif
     }
     return self;
+}
+
+- (void)setWrong:(BOOL)wrong {
+    _wrongLabel.hidden = !wrong;
 }
 
 - (void)tintColorDidChange {

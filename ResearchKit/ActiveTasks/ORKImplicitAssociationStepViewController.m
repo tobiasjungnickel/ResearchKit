@@ -142,7 +142,7 @@
 }
 
 - (void)setupInstruction {
-    _implicitAssociationContentView.wrongLabel.hidden = YES;
+    [_implicitAssociationContentView setWrong:NO];
     _implicitAssociationContentView.termLabel.hidden = YES;
     _implicitAssociationContentView.startLabel.hidden = NO;
 }
@@ -152,7 +152,7 @@
         [self stepDidFinish];
         return;
     }
-    _implicitAssociationContentView.wrongLabel.hidden = YES;
+    [_implicitAssociationContentView setWrong:NO];
     _implicitAssociationContentView.termLabel.hidden = NO;
     _implicitAssociationContentView.startLabel.hidden = YES;
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
@@ -237,7 +237,7 @@
         _currentTrial += 1;
         [self setupTrial];
     } else {
-        _implicitAssociationContentView.wrongLabel.hidden = false;
+        [_implicitAssociationContentView setWrong:YES];
     }
 }
 
