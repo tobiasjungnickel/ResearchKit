@@ -33,9 +33,9 @@
 
 #import "ORKActiveStepTimer.h"
 #import "ORKRoundTappingButton.h"
+#import "ORKFormSectionTitleLabel.h"
 #import "ORKHeadlineLabel.h"
 #import "ORKSubheadlineLabel.h"
-#import "ORKBodyLabel.h"
 
 #import "ORKResult.h"
 
@@ -112,7 +112,7 @@
         _wrongLabel.textAlignment = NSTextAlignmentCenter;
         _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _hintLabel = [ORKBodyLabel new];
+        _hintLabel = [ORKFormSectionTitleLabel new];
         _hintLabel.textAlignment = NSTextAlignmentCenter;
         _hintLabel.numberOfLines = 0;
         _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;

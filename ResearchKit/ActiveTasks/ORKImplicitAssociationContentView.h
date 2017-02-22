@@ -32,7 +32,6 @@
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
 #import "ORKImplicitAssociationStep.h";
-#import "ORKBodyLabel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
