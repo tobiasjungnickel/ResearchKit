@@ -2474,9 +2474,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, attributeACategory, randomConceptSide == 0 ? conceptBCategory : conceptACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeACategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, attributeBCategory, randomConceptSide == 0 ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
@@ -2550,9 +2550,9 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, attributeACategory, randomConceptSide == 0 ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeACategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, attributeBCategory, randomConceptSide == 0 ? conceptBCategory : conceptACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
