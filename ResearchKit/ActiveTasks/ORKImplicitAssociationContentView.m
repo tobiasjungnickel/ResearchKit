@@ -199,7 +199,8 @@
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
         _leftItemContainer.backgroundColor = [UIColor redColor];
         _rightItemContainer.backgroundColor = [UIColor purpleColor];
-        self.termLabel.backgroundColor = [UIColor orangeColor];
+        _termLabel.backgroundColor = [UIColor orangeColor];
+        _startLabel.backgroundColor = [UIColor cyanColor];
         _wrongLabel.backgroundColor = [UIColor greenColor];
         _hintLabel.backgroundColor = [UIColor yellowColor];
         _buttonContainer.backgroundColor = [UIColor blueColor];
@@ -407,10 +408,19 @@
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=180)-[_termLabel]-[_startLabel]-(>=8)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=180)-[_termLabel]-(>=8)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
+                                                        attribute:NSLayoutAttributeFirstBaseline
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_startLabel
+                                                        attribute:NSLayoutAttributeFirstBaseline
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
     
     [NSLayoutConstraint activateConstraints:constraints];
     
