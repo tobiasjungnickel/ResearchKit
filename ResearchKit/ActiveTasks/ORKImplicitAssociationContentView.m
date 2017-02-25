@@ -46,18 +46,36 @@
 //#define LAYOUT_DEBUG 1
 
 
-@interface ORKWrongLabel : ORKLabel
-
+@implementation ORKItemLabel : ORKLabel
++ (UIFont *)defaultFont {
+    // Medium, 25
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    return ORKLightFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 8);
+}
 @end
 
-@implementation ORKWrongLabel
+@implementation ORKStartLabel : ORKLabel
++ (UIFont *)defaultFont {
+    // Medium, 28
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    return ORKLightFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 11);
+}
+@end
 
+@implementation ORKWrongLabel : ORKLabel
 + (UIFont *)defaultFont {
     // Medium, 56
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    return ORKMediumFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]+ 39.0);
+    return ORKMediumFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 39.0);
 }
+@end
 
+@implementation ORKHintLabel : ORKLabel
++ (UIFont *)defaultFont {
+    // regular, 14
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] - 3.0];
+}
 @end
 
 
@@ -71,7 +89,7 @@
     UIView *_leftItemContainer;
     UIView *_rightItemContainer;
     ORKWrongLabel *_wrongLabel;
-    ORKFormSectionTitleLabel *_hintLabel;
+    ORKHintLabel *_hintLabel;
     UIView *_buttonContainer;
 }
 
@@ -85,29 +103,29 @@
         _rightItemContainer = [UIView new];
         _rightItemContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftItemLabel1 = [ORKSubheadlineLabel new];
+        _leftItemLabel1 = [ORKItemLabel new];
         _leftItemLabel1.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftDividerLabel = [ORKSubheadlineLabel new];
+        _leftDividerLabel = [ORKItemLabel new];
         _leftDividerLabel.textColor = [UIColor blackColor];
         _leftDividerLabel.textAlignment = NSTextAlignmentCenter;
         _leftDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftItemLabel2 = [ORKSubheadlineLabel new];
+        _leftItemLabel2 = [ORKItemLabel new];
         _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightItemLabel1 = [ORKSubheadlineLabel new];
+        _rightItemLabel1 = [ORKItemLabel new];
         _rightItemLabel1.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightDividerLabel = [ORKSubheadlineLabel new];
+        _rightDividerLabel = [ORKItemLabel new];
         _rightDividerLabel.textColor = [UIColor blackColor];
         _rightDividerLabel.textAlignment = NSTextAlignmentCenter;
         _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightItemLabel2 = [ORKSubheadlineLabel new];
+        _rightItemLabel2 = [ORKItemLabel new];
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -115,7 +133,7 @@
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _startLabel = [ORKHeadlineLabel new];
+        _startLabel = [ORKStartLabel new];
         _startLabel.textAlignment = NSTextAlignmentCenter;
         _startLabel.numberOfLines = 0;
         _startLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -124,7 +142,7 @@
         _wrongLabel.textAlignment = NSTextAlignmentCenter;
         _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _hintLabel = [ORKFormSectionTitleLabel new];
+        _hintLabel = [ORKHintLabel new];
         _hintLabel.textAlignment = NSTextAlignmentCenter;
         _hintLabel.numberOfLines = 0;
         _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -389,7 +407,7 @@
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=150)-[_termLabel]-[_startLabel]-(>=8)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=180)-[_termLabel]-[_startLabel]-(>=8)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
