@@ -2422,6 +2422,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 ORKTappingButtonIdentifier buttonCorrect;
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
+                iaTrial.category = ORKImplicitAssociationCategoryConcept;
                 if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
                     buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
                     iaTrial.leftItem1 = conceptACategory;
@@ -2486,6 +2487,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
             iaTrial.term = randomTerm;
+            iaTrial.category = ORKImplicitAssociationCategoryAttribute;
             iaTrial.leftItem1 = attributeACategory;
             iaTrial.rightItem1 = attributeBCategory;
             iaTrial.correct = buttonCorrect;
@@ -2559,6 +2561,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 }
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
+                iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
                 iaTrial.leftItem1 = attributeACategory;
                 iaTrial.leftItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
                 iaTrial.rightItem1 = attributeBCategory;
@@ -2635,6 +2638,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 }
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
+                iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
                 iaTrial.leftItem1 = attributeACategory;
                 iaTrial.leftItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
                 iaTrial.rightItem1 = attributeBCategory;

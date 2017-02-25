@@ -12,9 +12,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCategory) {
+    ORKImplicitAssociationCategoryAttribute,
+    ORKImplicitAssociationCategoryConcept
+};
+
 @interface ORKImplicitAssociationTrial : NSObject
 
 @property (nonatomic, strong) NSString *term;
+
+@property (nonatomic, assign) ORKImplicitAssociationCategory category;
 
 @property (nonatomic, strong) NSString *leftItem1;
 

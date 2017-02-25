@@ -86,7 +86,6 @@
         _rightItemContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
         _leftItemLabel1 = [ORKSubheadlineLabel new];
-        _leftItemLabel1.textColor = [UIColor blueColor];
         _leftItemLabel1.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -96,12 +95,10 @@
         _leftDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _leftItemLabel2 = [ORKSubheadlineLabel new];
-        _leftItemLabel2.textColor = [UIColor colorWithRed:45.0/255.0 green:145.0/255.0 blue:0.0 alpha:1.0];
         _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
         _rightItemLabel1 = [ORKSubheadlineLabel new];
-        _rightItemLabel1.textColor = [UIColor blueColor];
         _rightItemLabel1.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -111,7 +108,6 @@
         _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _rightItemLabel2 = [ORKSubheadlineLabel new];
-        _rightItemLabel2.textColor = [UIColor colorWithRed:45.0/255.0 green:145.0/255.0 blue:0.0 alpha:1.0];
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
