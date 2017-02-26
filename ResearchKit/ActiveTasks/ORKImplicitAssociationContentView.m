@@ -33,15 +33,14 @@
 
 #import "ORKActiveStepTimer.h"
 #import "ORKRoundTappingButton.h"
-#import "ORKFormSectionTitleLabel.h"
 #import "ORKHeadlineLabel.h"
-#import "ORKSubheadlineLabel.h"
-
 #import "ORKResult.h"
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
+#define kAttributeColor [UIColor blueColor]
+#define kConceptColor [UIColor colorWithRed:45.0/255.0 green:145.0/255.0 blue:0.0 alpha:1.0]
 
 //#define LAYOUT_DEBUG 1
 
@@ -88,6 +87,14 @@
     
     UIView *_leftItemContainer;
     UIView *_rightItemContainer;
+    ORKHeadlineLabel *_termLabel;
+    ORKItemLabel *_leftItemLabel1;
+    ORKItemLabel *_leftDividerLabel;
+    ORKItemLabel *_leftItemLabel2;
+    ORKItemLabel *_rightItemLabel1;
+    ORKItemLabel *_rightDividerLabel;
+    ORKItemLabel *_rightItemLabel2;
+    ORKStartLabel *_startLabel;
     ORKWrongLabel *_wrongLabel;
     ORKHintLabel *_hintLabel;
     UIView *_buttonContainer;
@@ -113,6 +120,7 @@
         _leftDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _leftItemLabel2 = [ORKItemLabel new];
+        _leftItemLabel2.textColor = kConceptColor;
         _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -126,6 +134,7 @@
         _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _rightItemLabel2 = [ORKItemLabel new];
+        _rightItemLabel2.textColor = kConceptColor;
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -207,6 +216,41 @@
 #endif
     }
     return self;
+}
+
+- (void)setMode:(ORKImplicitAssociationMode)mode {
+    if (mode == ORKImplicitAssociationModeInstruction) {
+        _termLabel.hidden = YES;
+        _startLabel.hidden = NO;
+    } else {
+        _termLabel.hidden = NO;
+        _startLabel.hidden = YES;
+    }
+}
+
+- (void)setTerm:(NSString *)term fromCategory:(ORKImplicitAssociationCategory)category {
+    _termLabel.text = term;
+    _termLabel.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
+}
+
+- (void)setItemLeft:(NSString *)left itemRight:(NSString *)right fromCategory:(ORKImplicitAssociationCategory)category {
+    _leftItemLabel2.hidden = YES;
+    _rightItemLabel2.hidden = YES;
+    _leftDividerLabel.hidden = YES;
+    _rightDividerLabel.hidden = YES;
+    _leftItemLabel1.text = left;
+    _rightItemLabel1.text = right;
+    _leftItemLabel1.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
+    _rightItemLabel1.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
+}
+
+- (void)setItemLeftUpper:(NSString *)leftUpper itemRightUpper:(NSString *)rightUpper itemLeftLowerr:(NSString *)leftLower itemRightLower:(NSString *)rightLower {
+    _leftItemLabel1.text = leftUpper;
+    _rightItemLabel1.text = rightUpper;
+    _leftItemLabel2.text = leftLower;
+    _rightItemLabel2.text = rightLower;
+    _leftItemLabel1.textColor = kAttributeColor;
+    _rightItemLabel1.textColor = kAttributeColor;
 }
 
 - (void)setWrong:(BOOL)wrong {

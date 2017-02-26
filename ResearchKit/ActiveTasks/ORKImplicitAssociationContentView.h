@@ -31,35 +31,30 @@
 
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
-#import "ORKImplicitAssociationStep.h";
+#import "ORKImplicitAssociationTrial.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKHeadlineLabel;
-@class ORKSubheadlineLabel;
+typedef NS_ENUM(NSUInteger, ORKImplicitAssociationMode) {
+    ORKImplicitAssociationModeInstruction,
+    ORKImplicitAssociationModeTrial
+};
+
 @class ORKRoundTappingButton;
 
 @interface ORKImplicitAssociationContentView : ORKActiveStepCustomView
 
-@property (nonatomic, strong) ORKHeadlineLabel *termLabel;
-
-@property (nonatomic, strong) ORKHeadlineLabel *startLabel;
-
-@property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel1;
-
-@property (nonatomic, strong) ORKSubheadlineLabel *rightItemLabel1;
-
-@property (nonatomic, strong) ORKSubheadlineLabel *leftItemLabel2;
-
-@property (nonatomic, strong) ORKSubheadlineLabel *rightItemLabel2;
-
-@property (nonatomic, strong) ORKSubheadlineLabel *leftDividerLabel;
-
-@property (nonatomic, strong) ORKSubheadlineLabel *rightDividerLabel;
-
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton2;
+
+- (void)setMode:(ORKImplicitAssociationMode)mode;
+
+- (void)setTerm:(NSString *)term fromCategory:(ORKImplicitAssociationCategory)category;
+
+- (void)setItemLeft:(NSString *)left itemRight:(NSString *)right fromCategory:(ORKImplicitAssociationCategory)category;
+
+- (void)setItemLeftUpper:(NSString *)leftUpper itemRightUpper:(NSString *)rightUpper itemLeftLowerr:(NSString *)leftLower itemRightLower:(NSString *)rightLower;
 
 - (void)setWrong:(BOOL)wrong;
 

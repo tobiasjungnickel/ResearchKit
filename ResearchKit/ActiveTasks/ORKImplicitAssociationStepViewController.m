@@ -50,9 +50,6 @@
 
 #import "ORKHelpers_Internal.h"
 
-#define kAttributeColor [UIColor blueColor]
-#define kConceptColor [UIColor colorWithRed:45.0/255.0 green:145.0/255.0 blue:0.0 alpha:1.0]
-
 
 @interface ORKImplicitAssociationStepViewController () <UIGestureRecognizerDelegate>
 
@@ -117,13 +114,6 @@
     //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     
-    if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortAttribute || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
-        _implicitAssociationContentView.leftItemLabel2.hidden = YES;
-        _implicitAssociationContentView.rightItemLabel2.hidden = YES;
-        _implicitAssociationContentView.leftDividerLabel.hidden = YES;
-        _implicitAssociationContentView.rightDividerLabel.hidden = YES;
-    }
-    
     [self setupItems];
     [self setupInstruction];
 }
@@ -146,8 +136,7 @@
 
 - (void)setupInstruction {
     [_implicitAssociationContentView setWrong:NO];
-    _implicitAssociationContentView.termLabel.hidden = YES;
-    _implicitAssociationContentView.startLabel.hidden = NO;
+    [_implicitAssociationContentView setMode:ORKImplicitAssociationModeInstruction];
 }
 
 - (void)setupTrial {
@@ -156,32 +145,20 @@
         return;
     }
     [_implicitAssociationContentView setWrong:NO];
-    _implicitAssociationContentView.termLabel.hidden = NO;
-    _implicitAssociationContentView.startLabel.hidden = YES;
+    [_implicitAssociationContentView setMode:ORKImplicitAssociationModeTrial];
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    _implicitAssociationContentView.termLabel.text = trial.term;
-    _implicitAssociationContentView.termLabel.textColor = trial.category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
+    [_implicitAssociationContentView setTerm:trial.term fromCategory:trial.category];
 }
 
 - (void)setupItems {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    
-    _implicitAssociationContentView.leftItemLabel1.text = trial.leftItem1;
-    _implicitAssociationContentView.rightItemLabel1.text = trial.rightItem1;
-    
-    if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
-        _implicitAssociationContentView.leftItemLabel1.textColor = kConceptColor;
-        _implicitAssociationContentView.rightItemLabel1.textColor = kConceptColor;
+    if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortAttribute || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
+        //sorting
+        [_implicitAssociationContentView setItemLeft:trial.leftItem1 itemRight:trial.rightItem1 fromCategory:trial.category];
+        
     } else {
-        _implicitAssociationContentView.leftItemLabel1.textColor = kAttributeColor;
-        _implicitAssociationContentView.rightItemLabel1.textColor = kAttributeColor;
-    }
-    
-    if ([self block] == ORKImplicitAssociationBlockCombinedPractice || [self block] == ORKImplicitAssociationBlockCombinedCritical || [self block] == ORKImplicitAssociationBlockCombinedPracticeReverse || [self block] == ORKImplicitAssociationBlockCombinedCriticalReverse) {
-        _implicitAssociationContentView.leftItemLabel2.text = trial.leftItem2;
-        _implicitAssociationContentView.rightItemLabel2.text = trial.rightItem2;
-        _implicitAssociationContentView.leftItemLabel2.textColor = kConceptColor;
-        _implicitAssociationContentView.rightItemLabel2.textColor = kConceptColor;
+        //combined
+        [_implicitAssociationContentView setItemLeftUpper:trial.leftItem1 itemRightUpper:trial.rightItem1 itemLeftLowerr:trial.leftItem2 itemRightLower:trial.rightItem2];
     }
 }
 
