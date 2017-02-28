@@ -83,11 +83,7 @@
 
 - (void)initializeInternalButtonItems {
     [super initializeInternalButtonItems];
-    
-    // Don't show next button
     self.internalContinueButtonItem = nil;
-    self.internalDoneButtonItem = nil;
-    self.internalSkipButtonItem.title = ORKLocalizedString(@"TAPPING_SKIP_TITLE", nil);
 }
 
 - (void)viewDidLoad {
@@ -294,7 +290,7 @@
 - (void)start {
     [super start];
     [self setupTrial];
-    //self.skipButtonItem = nil;
+    self.backButtonItem = nil;
 }
 
 
