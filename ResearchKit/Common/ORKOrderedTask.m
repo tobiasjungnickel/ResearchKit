@@ -53,6 +53,7 @@
 #import "ORKFitnessStep.h"
 #import "ORKFormStep.h"
 #import "ORKImplicitAssociationStep.h"
+#import "ORKImplicitAssociationCategoriesInstructionStep.h"
 #import "ORKNavigableOrderedTask.h"
 #import "ORKPSATStep.h"
 #import "ORKQuestionStep.h"
@@ -2316,39 +2317,17 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
-            ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:ORKImplicitAssociationIntroductionCategoriesStepIdentifier title:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil) text:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL", nil)];
-            step.optional = NO;
-            NSMutableArray *items = [NSMutableArray new];
-
-            {
-                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionAttributeA" text:attributeACategory
-                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[attributeAItems componentsJoinedByString:@", "]]
-                                                                             ]];
-                [items addObject:item];
-            }
-            
-            {
-                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionAttributeB" text:attributeBCategory
-                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[attributeBItems componentsJoinedByString:@", "]]
-                                                                             ]];
-                [items addObject:item];
-            }
-            
-            {
-                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionConceptA" text:conceptACategory
-                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[conceptAItems componentsJoinedByString:@", "]]
-                                                                             ]];
-                [items addObject:item];
-            }
-            
-            {
-                ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:@"implicitAssociation.introductionConceptB" text:conceptACategory
-                                                               answerFormat:[ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:@[[conceptBItems componentsJoinedByString:@", "]]
-                                                                             ]];
-                [items addObject:item];
-            }
-            
-            [step setFormItems:items];
+            ORKImplicitAssociationCategoriesInstructionStep *step = [[ORKImplicitAssociationCategoriesInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationIntroductionCategoriesStepIdentifier];
+            step.title = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil);
+            step.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL", nil);
+            step.attributeACategory = attributeACategory;
+            step.attributeAItems = attributeAItems;
+            step.attributeBCategory = attributeBCategory;
+            step.attributeBItems = attributeBItems;
+            step.conceptACategory = conceptACategory;
+            step.conceptAItems = conceptAItems;
+            step.conceptBCategory = conceptBCategory;
+            step.conceptBItems = conceptBItems;
             [steps replaceObjectAtIndex:ORKImplicitAssociationIntroductionCategories withObject:step];
         }
         

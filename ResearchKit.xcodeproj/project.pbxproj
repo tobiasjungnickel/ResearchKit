@@ -542,6 +542,8 @@
 		CBD34A5B1BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD34A591BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.m */; };
 		D42FEFB81AF7557000A124F8 /* ORKImageCaptureView.h in Headers */ = {isa = PBXBuildFile; fileRef = D42FEFB61AF7557000A124F8 /* ORKImageCaptureView.h */; };
 		D42FEFB91AF7557000A124F8 /* ORKImageCaptureView.m in Sources */ = {isa = PBXBuildFile; fileRef = D42FEFB71AF7557000A124F8 /* ORKImageCaptureView.m */; };
+		D4369B991E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = D4369B971E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.h */; };
+		D4369B9A1E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = D4369B981E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.m */; };
 		D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */ = {isa = PBXBuildFile; fileRef = D44239771AF17F5100559D96 /* ORKImageCaptureStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D442397A1AF17F5100559D96 /* ORKImageCaptureStep.m in Sources */ = {isa = PBXBuildFile; fileRef = D44239781AF17F5100559D96 /* ORKImageCaptureStep.m */; };
 		D442397D1AF17F7600559D96 /* ORKImageCaptureStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D442397B1AF17F7600559D96 /* ORKImageCaptureStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1164,6 +1166,8 @@
 		CBD34A591BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKSurveyAnswerCellForLocation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D42FEFB61AF7557000A124F8 /* ORKImageCaptureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImageCaptureView.h; sourceTree = "<group>"; };
 		D42FEFB71AF7557000A124F8 /* ORKImageCaptureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKImageCaptureView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		D4369B971E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImplicitAssociationCategoriesInstructionStep.h; sourceTree = "<group>"; };
+		D4369B981E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImplicitAssociationCategoriesInstructionStep.m; sourceTree = "<group>"; };
 		D44239771AF17F5100559D96 /* ORKImageCaptureStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImageCaptureStep.h; sourceTree = "<group>"; };
 		D44239781AF17F5100559D96 /* ORKImageCaptureStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureStep.m; sourceTree = "<group>"; };
 		D442397B1AF17F7600559D96 /* ORKImageCaptureStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImageCaptureStepViewController.h; sourceTree = "<group>"; };
@@ -2464,6 +2468,8 @@
 			children = (
 				D4B39BDF1E4CAC1D00459787 /* ORKImplicitAssociationStep.h */,
 				D4B39BE01E4CAC1D00459787 /* ORKImplicitAssociationStep.m */,
+				D4369B971E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.h */,
+				D4369B981E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.m */,
 				D4B39BE11E4CAC1D00459787 /* ORKImplicitAssociationStepViewController.h */,
 				D4B39BE21E4CAC1D00459787 /* ORKImplicitAssociationStepViewController.m */,
 				D4B39BDD1E4CAC1D00459787 /* ORKImplicitAssociationContentView.h */,
@@ -2697,6 +2703,7 @@
 				805685791C90C19500BF437A /* UIImage+ResearchKit.h in Headers */,
 				106FF2AE1B6FACA8004EACF2 /* ORKDirectionView.h in Headers */,
 				86C40DA61A8D7C5C00081FAC /* ORKSurveyAnswerCellForImageSelection.h in Headers */,
+				D4369B991E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.h in Headers */,
 				86C40D5E1A8D7C5C00081FAC /* ORKQuestionStep.h in Headers */,
 				6146D0A31B84A91E0068491D /* ORKLineGraphAccessibilityElement.h in Headers */,
 				FFDF60D11D19E47D0004156F /* ORKTextButton_Internal.h in Headers */,
@@ -3142,6 +3149,7 @@
 				86C40C2C1A8D7C5C00081FAC /* ORKFitnessContentView.m in Sources */,
 				CBD34A571BB1FB9000F204EA /* ORKLocationSelectionView.m in Sources */,
 				D458520B1AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m in Sources */,
+				D4369B9A1E62D9CC0094FC52 /* ORKImplicitAssociationCategoriesInstructionStep.m in Sources */,
 				86C40E1A1A8D7C5C00081FAC /* ORKConsentSection.m in Sources */,
 				86C40C241A8D7C5C00081FAC /* ORKCountdownStep.m in Sources */,
 				BCB6E65C1B7D534C000D5B34 /* ORKDiscreteGraphChartView.m in Sources */,
