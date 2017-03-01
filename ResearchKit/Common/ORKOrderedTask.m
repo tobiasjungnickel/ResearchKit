@@ -374,6 +374,12 @@ NSString *const ORKImplicitAssociationBlock4IntroductionStepIdentifier = @"impli
 NSString *const ORKImplicitAssociationBlock5IntroductionStepIdentifier = @"implicitAssociation.intro5";
 NSString *const ORKImplicitAssociationBlock6IntroductionStepIdentifier = @"implicitAssociation.intro6";
 NSString *const ORKImplicitAssociationBlock7IntroductionStepIdentifier = @"implicitAssociation.intro7";
+NSString *const ORKImplicitAssociationBlock2WaitStepIdentifier = @"implicitAssociation.wait2";
+NSString *const ORKImplicitAssociationBlock3WaitStepIdentifier = @"implicitAssociation.wait3";
+NSString *const ORKImplicitAssociationBlock4WaitStepIdentifier = @"implicitAssociation.wait4";
+NSString *const ORKImplicitAssociationBlock5WaitStepIdentifier = @"implicitAssociation.wait5";
+NSString *const ORKImplicitAssociationBlock6WaitStepIdentifier = @"implicitAssociation.wait6";
+NSString *const ORKImplicitAssociationBlock7WaitStepIdentifier = @"implicitAssociation.wait7";
 
 + (ORKCompletionStep *)makeCompletionStep {
     ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKConclusionStepIdentifier];
@@ -2257,7 +2263,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
     
-    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
+    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
     // IMPLICIT ASSOCIATION STEP
     
@@ -2284,16 +2290,22 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         ORKImplicitAssociationIntroductionBlocks,
         ORKImplicitAssociationBlock1Intro,
         ORKImplicitAssociationBlock1Test,
+        ORKImplicitAssociationBlock2Wait,
         ORKImplicitAssociationBlock2Intro,
         ORKImplicitAssociationBlock2Test,
+        ORKImplicitAssociationBlock3Wait,
         ORKImplicitAssociationBlock3Intro,
         ORKImplicitAssociationBlock3Test,
+        ORKImplicitAssociationBlock4Wait,
         ORKImplicitAssociationBlock4Intro,
         ORKImplicitAssociationBlock4Test,
+        ORKImplicitAssociationBlock5Wait,
         ORKImplicitAssociationBlock5Intro,
         ORKImplicitAssociationBlock5Test,
+        ORKImplicitAssociationBlock6Wait,
         ORKImplicitAssociationBlock6Intro,
         ORKImplicitAssociationBlock6Test,
+        ORKImplicitAssociationBlock7Wait,
         ORKImplicitAssociationBlock7Intro,
         ORKImplicitAssociationBlock7Test
     };
@@ -2350,6 +2362,12 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
+            
+            if (index == 0) {
+                ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:ORKImplicitAssociationBlock5WaitStepIdentifier];
+                stepWait.stepDuration = 3.0;
+                [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Wait withObject:stepWait];
+            }
             
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
@@ -2423,6 +2441,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     // Block 2 attribute sorting
     
     {
+        ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2WaitStepIdentifier];
+        stepWait.stepDuration = 3.0;
+        [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Wait withObject:stepWait];
+        
         if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
             {
                 ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2IntroductionStepIdentifier];
@@ -2483,6 +2505,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
+            
+            ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3WaitStepIdentifier : ORKImplicitAssociationBlock4WaitStepIdentifier];
+            stepWait.stepDuration = 3.0;
+            index== 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Wait withObject:stepWait] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Wait withObject:stepWait];
             
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
@@ -2560,6 +2586,10 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     
     {
         for (NSUInteger index = 0; index <= 1; index++) {
+            
+            ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6WaitStepIdentifier : ORKImplicitAssociationBlock7WaitStepIdentifier];
+            stepWait.stepDuration = 3.0;
+            index== 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Wait withObject:stepWait] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Wait withObject:stepWait];
             
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
