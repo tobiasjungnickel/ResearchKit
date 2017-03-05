@@ -200,7 +200,10 @@
         [start appendAttributedString:start2];
         _startLabel.attributedText = start;
         
-        _hintLabel.attributedText = [self wrongHint];
+        NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @"X" attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
+        _wrongLabel.attributedText = wrongX;
+        
+        _hintLabel.attributedText = [self convertToAttributedHTML:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil)];
         
         [self setUpConstraints];
         
@@ -261,18 +264,6 @@
     [super tintColorDidChange];
 }
 
-- (NSAttributedString *)wrongHint {
-    NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @" X " attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
-    _wrongLabel.attributedText = wrongX;
-    NSAttributedString *hint1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
-    NSAttributedString *hint2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
-    NSMutableAttributedString *hint = [NSMutableAttributedString new];
-    [hint appendAttributedString:hint1];
-    [hint appendAttributedString:wrongX];
-    [hint appendAttributedString:hint2];
-    return [hint copy];
-}
-
 - (void)resetStep:(ORKActiveStepViewController *)viewController {
     [super resetStep:viewController];
     _tapButton1.enabled = YES;
@@ -283,6 +274,27 @@
     [super finishStep:viewController];
     _tapButton1.enabled = NO;
     _tapButton2.enabled = NO;
+}
+
+- (NSAttributedString *)convertToAttributedHTML:(NSString *)taggedString {
+    NSMutableArray *tagsToConverrt = [NSMutableArray arrayWithObjects:
+                                               [NSArray arrayWithObjects:@"<red>",@"<font color='red'>",nil],
+                                               [NSArray arrayWithObjects:@"</red>",@"</font>",nil],
+                                               nil];
+    
+    while ([tagsToConverrt count] > 0) {
+        taggedString = [taggedString stringByReplacingOccurrencesOfString:[[tagsToConverrt objectAtIndex:0] objectAtIndex:0]
+                                                               withString:[[tagsToConverrt objectAtIndex:0] objectAtIndex:1]];
+        [tagsToConverrt removeObjectAtIndex:0];
+    }
+    
+    NSAttributedString *attributedString = [[NSAttributedString alloc]
+                                            initWithData: [taggedString dataUsingEncoding:NSUnicodeStringEncoding]
+                                            options: @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType }
+                                            documentAttributes: nil
+                                            error: nil
+                                            ];
+    return attributedString;
 }
 
 - (void)setUpConstraints {
