@@ -2315,10 +2315,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     NSString *sorting = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL", nil);
     NSString *combined = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL", nil);
     NSString *go = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL", nil);
-    NSMutableString *wrong = [NSMutableString string];
-    [wrong appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_1", nil)];
-    [wrong appendString:@" X "];
-    [wrong appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL_2", nil)];
+    NSString *hint = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil);
     
     NSUInteger randomConceptSide = arc4random_uniform(2);
 
@@ -2388,7 +2385,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     }
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
-                        [detailText appendString:wrong];
+                        [detailText appendString:hint];
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
@@ -2455,7 +2452,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, attributeBCategory]];
                 [detailText appendString:@"\n\n"];
-                [detailText appendString:wrong];
+                [detailText appendString:hint];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:go];
                 step.detailText = detailText;
@@ -2527,7 +2524,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
-                        [detailText appendString:wrong];
+                        [detailText appendString:hint];
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
@@ -2608,7 +2605,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
-                        [detailText appendString:wrong];
+                        [detailText appendString:hint];
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
