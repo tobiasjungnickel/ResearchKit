@@ -451,16 +451,14 @@
 "IMPLICIT_ASSOCIATION_HINT_LABEL" = "If you make a mistake, a red <red>X</red> will appear. Press the other key to continue.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL" = "left";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL" = "right";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL" = "Put a %@ finger on the %@ button for items that belong to the category %@.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL" = "Use the %@ button for %@ and for %@.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL" = "Put a %@ finger on the <b>%@</b> button for items that belong to the category %@.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL" = "Use the <b>%@</b> button for %@ and for %@.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL" = "Each item belongs to only one category.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL" = "This is the same as the previous part.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL" = "Items will appear one at a time.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL" = "Watch out, the labels have changed position!";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL" = "Go as fast as you can while being accurate.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1" = "Tap";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON" = " any button ";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2" = "when you are ready to start.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL" = "<b>Watch out, the labels have changed position!</b>";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL" = "<u>Go as fast as you can</u> while being accurate.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL" = "Tap <b>any button</b> when you are ready to start.";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";

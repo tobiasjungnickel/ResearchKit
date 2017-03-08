@@ -45,36 +45,69 @@
 //#define LAYOUT_DEBUG 1
 
 
-@implementation ORKItemLabel : ORKLabel
+@implementation ORKImplicitAssociationLabel : UILabel
+
+- (void)setFormattedText:(NSString *)formattedString {
+     NSMutableArray *tagsToConvert = [NSMutableArray arrayWithObjects:
+     [NSArray arrayWithObjects:@"<red>",@"<font color='red'>",nil],
+     [NSArray arrayWithObjects:@"</red>",@"</font>",nil],
+     nil];
+     
+     while ([tagsToConvert count] > 0) {
+         formattedString = [formattedString stringByReplacingOccurrencesOfString:[[tagsToConvert objectAtIndex:0] objectAtIndex:0]
+                                                                      withString:[[tagsToConvert objectAtIndex:0] objectAtIndex:1]];
+         [tagsToConvert removeObjectAtIndex:0];
+     }
+
+    
+    formattedString = [formattedString stringByAppendingString:[NSString stringWithFormat:@"<style>body{font-family: '%@'; font-size:%fpx;}</style>", self.font.fontName, self.font.pointSize]];
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[formattedString dataUsingEncoding:NSUnicodeStringEncoding]
+                                                                            options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                      NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                                 documentAttributes:nil
+                                                                              error:nil];
+    self.attributedText = attributedString;
+}
+@end
+
+@implementation ORKItemLabel : ORKImplicitAssociationLabel
+
 + (UIFont *)defaultFont {
     // Medium, 25
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     return ORKLightFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 8);
 }
+
 @end
 
-@implementation ORKStartLabel : ORKLabel
+@implementation ORKStartLabel : ORKImplicitAssociationLabel
+
 + (UIFont *)defaultFont {
     // Medium, 28
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     return ORKLightFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 11);
 }
+
 @end
 
-@implementation ORKWrongLabel : ORKLabel
+@implementation ORKWrongLabel : ORKImplicitAssociationLabel
+
 + (UIFont *)defaultFont {
     // Medium, 56
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     return ORKMediumFontWithSize([[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 39.0);
 }
+
 @end
 
-@implementation ORKHintLabel : ORKLabel
+@implementation ORKHintLabel : ORKImplicitAssociationLabel
+
 + (UIFont *)defaultFont {
     // regular, 14
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] - 3.0];
 }
+
 @end
 
 
@@ -190,20 +223,13 @@
         
         _leftDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
         _rightDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
-        
-        NSAttributedString *start1 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_1", nil)];
-        NSAttributedString *startButton = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_BUTTON", nil) attributes : @{ NSFontAttributeName : [UIFont systemFontOfSize:17.0 weight:UIFontWeightBold] }];
-        NSAttributedString *start2 = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL_2", nil)];
-        NSMutableAttributedString *start = [NSMutableAttributedString new];
-        [start appendAttributedString:start1];
-        [start appendAttributedString:startButton];
-        [start appendAttributedString:start2];
-        _startLabel.attributedText = start;
-        
+
+        [_startLabel setFormattedText:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL", nil)];
+
         NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @"X" attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
         _wrongLabel.attributedText = wrongX;
         
-        _hintLabel.attributedText = [self convertToAttributedHTML:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil)];
+        [_hintLabel setFormattedText:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil)];
         
         [self setUpConstraints];
         
@@ -274,27 +300,6 @@
     [super finishStep:viewController];
     _tapButton1.enabled = NO;
     _tapButton2.enabled = NO;
-}
-
-- (NSAttributedString *)convertToAttributedHTML:(NSString *)taggedString {
-    NSMutableArray *tagsToConverrt = [NSMutableArray arrayWithObjects:
-                                               [NSArray arrayWithObjects:@"<red>",@"<font color='red'>",nil],
-                                               [NSArray arrayWithObjects:@"</red>",@"</font>",nil],
-                                               nil];
-    
-    while ([tagsToConverrt count] > 0) {
-        taggedString = [taggedString stringByReplacingOccurrencesOfString:[[tagsToConverrt objectAtIndex:0] objectAtIndex:0]
-                                                               withString:[[tagsToConverrt objectAtIndex:0] objectAtIndex:1]];
-        [tagsToConverrt removeObjectAtIndex:0];
-    }
-    
-    NSAttributedString *attributedString = [[NSAttributedString alloc]
-                                            initWithData: [taggedString dataUsingEncoding:NSUnicodeStringEncoding]
-                                            options: @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType }
-                                            documentAttributes: nil
-                                            error: nil
-                                            ];
-    return attributedString;
 }
 
 - (void)setUpConstraints {
