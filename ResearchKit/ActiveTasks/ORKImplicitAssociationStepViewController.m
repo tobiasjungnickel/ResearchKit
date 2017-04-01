@@ -61,6 +61,9 @@
 
 @implementation ORKImplicitAssociationStepViewController {
     ORKImplicitAssociationContentView *_implicitAssociationContentView;
+    NSMutableArray *_results;
+    NSTimeInterval _stimulusTimestamp;
+    
     //NSTimeInterval _tappingStart;
     //BOOL _expired;
     
@@ -88,6 +91,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _results = [NSMutableArray new];
     
     //_tappingStart = 0;
     
@@ -144,6 +149,12 @@
     [_implicitAssociationContentView setMode:ORKImplicitAssociationModeTrial];
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     [_implicitAssociationContentView setTerm:trial.term fromCategory:trial.category];
+    
+    
+    
+    _stimulusTimestamp = [NSProcessInfo processInfo].systemUptime;
+    
+    
 }
 
 - (void)setupItems {
@@ -159,27 +170,9 @@
 }
 
 - (ORKStepResult *)result {
-    ORKStepResult *sResult = [super result];
-    
-    // "Now" is the end time of the result, which is either actually now,
-    // or the last time we were in the responder chain.
-    NSDate *now = sResult.endDate;
-    
-    NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
-    
-    ORKTappingIntervalResult *tappingResult = [[ORKTappingIntervalResult alloc] initWithIdentifier:self.step.identifier];
-    tappingResult.startDate = sResult.startDate;
-    tappingResult.endDate = now;
-    //tappingResult.buttonRect1 = _buttonRect1;
-    //tappingResult.buttonRect2 = _buttonRect2;
-    //tappingResult.stepViewSize = _viewSize;
-    
-    tappingResult.samples = _samples;
-    
-    [results addObject:tappingResult];
-    sResult.results = [results copy];
-    
-    return sResult;
+    ORKStepResult *stepResult = [super result];
+    stepResult.results = [self.addedResults arrayByAddingObjectsFromArray:_results] ? : _results;
+    return stepResult;
 }
 
 - (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
@@ -221,6 +214,27 @@
     
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     if (trial.correct == buttonIdentifier) {
+        
+        
+        
+        
+        
+        ORKReactionTimeResult *reactionTimeResult = [[ORKReactionTimeResult alloc] initWithIdentifier:self.step.identifier];
+        
+        NSTimeInterval correct = [NSProcessInfo processInfo].systemUptime;
+        reactionTimeResult.timestamp = correct - _stimulusTimestamp;
+        //reactionTimeResult.timestamp = _stimulusTimestamp;
+        
+        
+        [_results addObject:reactionTimeResult];
+        
+        
+        
+        
+        //[_stimulusTimer invalidate];
+        
+        
+        
         _currentTrial += 1;
         [self setupTrial];
     } else {
