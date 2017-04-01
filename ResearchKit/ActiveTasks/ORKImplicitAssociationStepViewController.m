@@ -219,14 +219,14 @@
         
         
         
-        ORKReactionTimeResult *reactionTimeResult = [[ORKReactionTimeResult alloc] initWithIdentifier:self.step.identifier];
+        ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
         
         NSTimeInterval correct = [NSProcessInfo processInfo].systemUptime;
-        reactionTimeResult.timestamp = correct - _stimulusTimestamp;
-        //reactionTimeResult.timestamp = _stimulusTimestamp;
+        implicitAssociationResult.latency = correct - _stimulusTimestamp;
         
         
-        [_results addObject:reactionTimeResult];
+        
+        [_results addObject:implicitAssociationResult];
         
         
         

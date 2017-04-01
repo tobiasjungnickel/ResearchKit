@@ -857,6 +857,14 @@ ORK_CLASS_AVAILABLE
 @end
 
 
+ORK_CLASS_AVAILABLE
+@interface ORKImplicitAssociationResult: ORKResult
+
+@property (nonatomic, assign) NSTimeInterval latency;
+
+@end
+
+
 /**
  The `ORKQuestionResult` class is the base class for leaf results from an item that uses an answer format (`ORKAnswerFormat`).
  
