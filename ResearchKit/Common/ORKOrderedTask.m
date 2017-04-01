@@ -2308,13 +2308,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     return task;
 }
 
-
-
-
-
-
-
-
 + (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
                                    intendedUseDescription:(nullable NSString *)intendedUseDescription
                                        attributeACategory:(NSString *)attributeACategory
@@ -2328,16 +2321,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                                   options:(ORKPredefinedTaskOption)options {
     
     NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
-    
-    // IMPLICIT ASSOCIATION STEP
-    
-    /*
-    NSMutableArray *recorderConfigurations = [NSMutableArray arrayWithCapacity:5];
-    if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
-        [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
-                                                                                                  frequency:100]];
-    }
-    */
     
     NSMutableArray *attributesAll = [NSMutableArray array];
     [attributesAll addObjectsFromArray:attributeAItems];
@@ -2495,7 +2478,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 [trials addObject:iaTrial];
             }
             step.trials = trials;
-            //step.recorderConfigurations = recorderConfigurations;
             
             [step validateParameters];
             index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock1Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Test withObject:step];
@@ -2559,7 +2541,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         }
             
         step.trials = trials;
-        //step.recorderConfigurations = recorderConfigurations;
             
         [step validateParameters];
         [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Test withObject:step];
@@ -2639,7 +2620,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             }
             
             step.trials = trials;
-            //step.recorderConfigurations = recorderConfigurations;
             
             [step validateParameters];
             index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Test withObject:step];
@@ -2720,7 +2700,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             }
             
             step.trials = trials;
-            //step.recorderConfigurations = recorderConfigurations;
             
             [step validateParameters];
             index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Test withObject:step];
