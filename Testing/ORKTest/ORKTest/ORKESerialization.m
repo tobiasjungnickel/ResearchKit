@@ -1352,6 +1352,11 @@ encondingTable =
             PROPERTY(totalDistance, NSNumber, NSObject, NO, nil, nil),
             PROPERTY(samples, ORKHolePegTestSample, NSArray, NO, nil, nil),
             })),
+   ENTRY(ORKImplicitAssociationResult,
+         nil,
+         (@{
+            PROPERTY(latency, NSNumber, NSObject, NO, nil, nil),
+            })),
    ENTRY(ORKPasscodeResult,
          nil,
          (@{
