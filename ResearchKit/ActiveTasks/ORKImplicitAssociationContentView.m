@@ -44,8 +44,9 @@
 
 //#define LAYOUT_DEBUG 1
 
-
-@implementation ORKItemLabel : ORKLabel
+@interface ORKItemLabel : ORKLabel
+@end
+@implementation ORKItemLabel
 + (UIFont *)defaultFont {
     // Medium, 25
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
@@ -53,7 +54,9 @@
 }
 @end
 
-@implementation ORKStartLabel : ORKLabel
+@interface ORKStartLabel : ORKLabel
+@end
+@implementation ORKStartLabel
 + (UIFont *)defaultFont {
     // Medium, 28
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
@@ -61,7 +64,9 @@
 }
 @end
 
-@implementation ORKWrongLabel : ORKLabel
+@interface ORKWrongLabel : ORKLabel
+@end
+@implementation ORKWrongLabel
 + (UIFont *)defaultFont {
     // Medium, 56
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
@@ -69,7 +74,9 @@
 }
 @end
 
-@implementation ORKHintLabel : ORKLabel
+@interface ORKHintLabel : ORKLabel
+@end
+@implementation ORKHintLabel
 + (UIFont *)defaultFont {
     // regular, 14
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
