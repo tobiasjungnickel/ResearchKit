@@ -93,7 +93,7 @@
     return ((ORKImplicitAssociationStep *)self.step).trials;
 }
 
-- (ORKImplicitAssociationBlock)block {
+- (ORKImplicitAssociationBlockType)block {
     return ((ORKImplicitAssociationStep *)self.step).block;
 }
 
@@ -116,10 +116,9 @@
 
 - (void)setupItems {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortAttribute || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
+    if ([self block] == ORKImplicitAssociationBlockTypeSort) {
         //sorting
         [_implicitAssociationContentView setItemLeft:trial.leftItem1 itemRight:trial.rightItem1 fromCategory:trial.category];
-        
     } else {
         //combined
         [_implicitAssociationContentView setItemLeftUpper:trial.leftItem1 itemRightUpper:trial.rightItem1 itemLeftLowerr:trial.leftItem2 itemRightLower:trial.rightItem2];
