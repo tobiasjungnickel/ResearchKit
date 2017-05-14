@@ -2319,6 +2319,44 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                                          conceptBCategory:(NSString *)conceptBCategory
                                             conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options {
+    return [self implicitAssociationTaskWithIdentifier:identifier
+                                intendedUseDescription:intendedUseDescription
+                                    attributeACategory:attributeACategory
+                                       attributeAItems:attributeAItems
+                                    attributeBCategory:attributeBCategory
+                                       attributeBItems:attributeBItems
+                                      conceptACategory:conceptACategory
+                                         conceptAItems:conceptAItems
+                                      conceptBCategory:conceptBCategory
+                                         conceptBItems:conceptBItems
+                                          trialsBlock1:@20
+                                          trialsBlock2:@20
+                                          trialsBlock3:@20
+                                          trialsBlock4:@40
+                                          trialsBlock5:@28
+                                          trialsBlock6:@20
+                                          trialsBlock7:@40
+                                               options:options];
+}
+
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       attributeACategory:(NSString *)attributeACategory
+                                          attributeAItems:(NSArray *)attributeAItems
+                                       attributeBCategory:(NSString *)attributeBCategory
+                                          attributeBItems:(NSArray *)attributeBItems
+                                         conceptACategory:(NSString *)conceptACategory
+                                            conceptAItems:(NSArray *)conceptAItems
+                                         conceptBCategory:(NSString *)conceptBCategory
+                                            conceptBItems:(NSArray *)conceptBItems
+                                             trialsBlock1:(NSNumber *)trialsBlock1
+                                             trialsBlock2:(NSNumber *)trialsBlock2
+                                             trialsBlock3:(NSNumber *)trialsBlock3
+                                             trialsBlock4:(NSNumber *)trialsBlock4
+                                             trialsBlock5:(NSNumber *)trialsBlock5
+                                             trialsBlock6:(NSNumber *)trialsBlock6
+                                             trialsBlock7:(NSNumber *)trialsBlock7
+                                                  options:(ORKPredefinedTaskOption)options {
     
     NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
@@ -2341,7 +2379,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         ORKImplicitAssociationStepBlockCombinedPracticeReverse,
         ORKImplicitAssociationStepBlockCombinedCriticalReverse
     };
-    #define ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlock) [[@[@20, @20, @20, @40, @28, @20, @40] objectAtIndex:ORKImplicitAssociationStepBlock] unsignedIntegerValue]
+    #define ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlock) [[@[trialsBlock1, trialsBlock2, trialsBlock3, trialsBlock4, trialsBlock5, trialsBlock6, trialsBlock7] objectAtIndex:ORKImplicitAssociationStepBlock] unsignedIntegerValue]
 
     typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlock) {
         ORKImplicitAssociationIntroductionCategories,

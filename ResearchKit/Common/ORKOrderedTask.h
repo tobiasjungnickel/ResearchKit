@@ -778,6 +778,25 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
                                             conceptAItems:(NSArray *)conceptAItems
                                          conceptBCategory:(NSString *)conceptBCategory
                                             conceptBItems:(NSArray *)conceptBItems
+                                             trialsBlock1:(NSNumber *)trialsblock1
+                                             trialsBlock2:(NSNumber *)trialsBlock2
+                                             trialsBlock3:(NSNumber *)trialsBlock3
+                                             trialsBlock4:(NSNumber *)trialsBlock4
+                                             trialsBlock5:(NSNumber *)trialsBlock5
+                                             trialsBlock6:(NSNumber *)trialsBlock6
+                                             trialsBlock7:(NSNumber *)trialsBlock7
+                                                  options:(ORKPredefinedTaskOption)options;
+    
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       attributeACategory:(NSString *)attributeACategory
+                                          attributeAItems:(NSArray *)attributeAItems
+                                       attributeBCategory:(NSString *)attributeBCategory
+                                          attributeBItems:(NSArray *)attributeBItems
+                                         conceptACategory:(NSString *)conceptACategory
+                                            conceptAItems:(NSArray *)conceptAItems
+                                         conceptBCategory:(NSString *)conceptBCategory
+                                            conceptBItems:(NSArray *)conceptBItems
                                                   options:(ORKPredefinedTaskOption)options;
 
 @end
