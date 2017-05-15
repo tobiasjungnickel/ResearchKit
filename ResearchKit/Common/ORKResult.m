@@ -46,7 +46,7 @@
 #import "ORKHelpers_Internal.h"
 
 @import CoreMotion;
-#import <CoreLocation/CoreLocation.h>
+@import CoreLocation;
 
 
 const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
@@ -250,6 +250,7 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
 
 @end
 
+
 @implementation ORKRangeOfMotionResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -295,6 +296,7 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
 }
 
 @end
+
 
 @implementation ORKTowerOfHanoiResult
 
@@ -1137,6 +1139,50 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
 @end
 
 
+@implementation ORKImplicitAssociationResult
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_DOUBLE(aCoder, latency);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, latency);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            (self.latency == castObject.latency)) ;
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ [NSNumber numberWithDouble:self.latency].hash;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKImplicitAssociationResult *result = [super copyWithZone:zone];
+    result.latency = self.latency;
+    return result;
+}
+
+- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+    return [NSString stringWithFormat:@"%@; latency: %f%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.latency, self.descriptionSuffix];
+}
+
+@end
+
+
 @implementation ORKDataResult
 
 - (BOOL)isSaveable {
@@ -1453,6 +1499,63 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
 @end
 
 
+@implementation ORKMultipleComponentQuestionResult
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, componentsAnswer);
+    ORK_ENCODE_OBJ(aCoder, separator);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_ARRAY(aDecoder, componentsAnswer, NSObject);
+        ORK_DECODE_OBJ_CLASS(aDecoder, separator, NSString);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.componentsAnswer, castObject.componentsAnswer) &&
+            ORKEqualObjects(self.separator, castObject.separator));
+}
+
+- (NSUInteger)hash {
+    return super.hash;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    __typeof(self) copy = [super copyWithZone:zone];
+    copy.componentsAnswer = self.componentsAnswer;
+    copy.separator = self.separator;
+    return copy;
+}
+
++ (Class)answerClass {
+    return [NSArray class];
+}
+
+- (void)setAnswer:(id)answer {
+    answer = [self validateAnswer:answer];
+    self.componentsAnswer = answer;
+}
+
+- (id)answer {
+    return self.componentsAnswer;
+}
+
+@end
+
+
 @implementation ORKBooleanQuestionResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -1671,8 +1774,12 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
 }
 
 - (void)setAnswer:(id)answer {
-    answer = [self validateAnswer:answer];
-    self.dateComponentsAnswer = answer;
+    NSDateComponents *dateComponents = (NSDateComponents *)[self validateAnswer:answer];
+    // For time of day, the day, month and year should be zero
+    dateComponents.day = 0;
+    dateComponents.month = 0;
+    dateComponents.year = 0;
+    self.dateComponentsAnswer = dateComponents;
 }
 
 - (id)answer {
@@ -2371,6 +2478,112 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
     typeof(self) copy = [[[self class] alloc] initWithTaskIdentifier:self.identifier taskRunUUID:self.taskRunUUID outputDirectory:outputDirectory];
     copy.results = self.results;
     return copy;
+}
+
+@end
+
+
+@implementation ORKTrailmakingResult
+
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        _taps = @[];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_INTEGER(aCoder, numberOfErrors);
+    ORK_ENCODE_OBJ(aCoder, taps);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_INTEGER(aDecoder, numberOfErrors);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, taps, ORKTrailmakingTap);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ self.numberOfErrors ^ self.taps.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            self.numberOfErrors == castObject.numberOfErrors &&
+            ORKEqualObjects(self.taps, castObject.taps));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTrailmakingResult *result = [super copyWithZone:zone];
+    result.numberOfErrors = self.numberOfErrors;
+    result.taps = ORKArrayCopyObjects(self.taps);
+    return result;
+}
+
+@end
+
+
+@implementation ORKTrailmakingTap
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    ORK_ENCODE_DOUBLE(aCoder, timestamp);
+    ORK_ENCODE_INTEGER(aCoder, index);
+    ORK_ENCODE_BOOL(aCoder, incorrect);
+    
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, timestamp);
+        ORK_DECODE_INTEGER(aDecoder, index);
+        ORK_DECODE_BOOL(aDecoder, incorrect);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (NSUInteger)hash {
+    return [super hash] ^ (NSUInteger)self.timestamp*100 ^ self.index;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    __typeof(self) castObject = object;
+    
+    return self.timestamp == castObject.timestamp &&
+           self.index == castObject.index &&
+           self.incorrect == castObject.incorrect;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTrailmakingTap *tap = [[[self class] allocWithZone:zone] init];
+    tap.timestamp = self.timestamp;
+    tap.index = self.index;
+    tap.incorrect = self.incorrect;
+    return tap;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p; timestamp: %@; index: %@; error: %@>", self.class.description, self, @(self.timestamp), @(self.index), @(self.incorrect)];
 }
 
 @end

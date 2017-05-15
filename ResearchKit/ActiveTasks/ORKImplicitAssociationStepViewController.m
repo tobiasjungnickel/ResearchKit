@@ -61,16 +61,8 @@
 
 @implementation ORKImplicitAssociationStepViewController {
     ORKImplicitAssociationContentView *_implicitAssociationContentView;
-    //NSTimeInterval _tappingStart;
-    //BOOL _expired;
-    
-    //CGRect _buttonRect1;
-    //CGRect _buttonRect2;
-    //CGSize _viewSize;
-    
-    //NSUInteger _hitButtonCount;
-    
-    //UIGestureRecognizer *_touchDownRecognizer;
+    NSMutableArray *_results;
+    NSTimeInterval _stimulusTimestamp;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -88,45 +80,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //_tappingStart = 0;
-    
-    //_touchDownRecognizer = [UIGestureRecognizer new];
-    //_touchDownRecognizer.delegate = self;
-    //[self.view addGestureRecognizer:_touchDownRecognizer];
-    
-    //self.activeStepView.stepViewFillsAvailableSpace = YES;
-    
-    //self.timerUpdateInterval = 0.1;
-    
-    //_expired = NO;
-    
+    _results = [NSMutableArray new];
     _implicitAssociationContentView = [[ORKImplicitAssociationContentView alloc] init];
-    //_implicitAssociationContentView.hasSkipButton = self.step.optional;
     self.activeStepView.activeCustomView = _implicitAssociationContentView;
-    
     [_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
     [_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
-    //[_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
-    //[_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonReleased:forEvent:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
-    
     [self setupItems];
     [self setupInstruction];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    //_buttonRect1 = [self.view convertRect:_implicitAssociationContentView.tapButton1.bounds fromView:_implicitAssociationContentView.tapButton1];
-    //_buttonRect2 = [self.view convertRect:_implicitAssociationContentView.tapButton2.bounds fromView:_implicitAssociationContentView.tapButton2];
-    //_viewSize = self.view.frame.size;
 }
 
 - (NSArray *)trials {
     return ((ORKImplicitAssociationStep *)self.step).trials;
 }
 
-- (ORKImplicitAssociationBlock)block {
+- (ORKImplicitAssociationBlockType)block {
     return ((ORKImplicitAssociationStep *)self.step).block;
 }
 
@@ -144,14 +111,14 @@
     [_implicitAssociationContentView setMode:ORKImplicitAssociationModeTrial];
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     [_implicitAssociationContentView setTerm:trial.term fromCategory:trial.category];
+    _stimulusTimestamp = [NSProcessInfo processInfo].systemUptime;
 }
 
 - (void)setupItems {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    if ([self block] == ORKImplicitAssociationBlockSortCategory || [self block] == ORKImplicitAssociationBlockSortAttribute || [self block] == ORKImplicitAssociationBlockSortCategoryReverse) {
+    if ([self block] == ORKImplicitAssociationBlockTypeSort) {
         //sorting
         [_implicitAssociationContentView setItemLeft:trial.leftItem1 itemRight:trial.rightItem1 fromCategory:trial.category];
-        
     } else {
         //combined
         [_implicitAssociationContentView setItemLeftUpper:trial.leftItem1 itemRightUpper:trial.rightItem1 itemLeftLowerr:trial.leftItem2 itemRightLower:trial.rightItem2];
@@ -159,68 +126,17 @@
 }
 
 - (ORKStepResult *)result {
-    ORKStepResult *sResult = [super result];
-    
-    // "Now" is the end time of the result, which is either actually now,
-    // or the last time we were in the responder chain.
-    NSDate *now = sResult.endDate;
-    
-    NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
-    
-    ORKTappingIntervalResult *tappingResult = [[ORKTappingIntervalResult alloc] initWithIdentifier:self.step.identifier];
-    tappingResult.startDate = sResult.startDate;
-    tappingResult.endDate = now;
-    //tappingResult.buttonRect1 = _buttonRect1;
-    //tappingResult.buttonRect2 = _buttonRect2;
-    //tappingResult.stepViewSize = _viewSize;
-    
-    tappingResult.samples = _samples;
-    
-    [results addObject:tappingResult];
-    sResult.results = [results copy];
-    
-    return sResult;
+    ORKStepResult *stepResult = [super result];
+    stepResult.results = [self.addedResults arrayByAddingObjectsFromArray:_results] ? : _results;
+    return stepResult;
 }
 
 - (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
-    /*
-    if (_expired || self.samples == nil) {
-        return;
-    }
-    */
-    
-    NSTimeInterval mediaTime = touch.timestamp;
-    /*
-    if (_tappingStart == 0) {
-        _tappingStart = mediaTime;
-    }
-    */
-    
-    CGPoint location = [touch locationInView:self.view];
-    
-    /*
-    // Add new sample
-    mediaTime = mediaTime-_tappingStart;
-    */
-    
-    ORKTappingSample *sample = [[ORKTappingSample alloc] init];
-    sample.buttonIdentifier = buttonIdentifier;
-    sample.location = location;
-    sample.duration = 0;
-    sample.timestamp = mediaTime;
-    
-    [self.samples addObject:sample];
-    
-    /*
-    if (buttonIdentifier == ORKTappingButtonIdentifierLeft || buttonIdentifier == ORKTappingButtonIdentifierRight) {
-        _hitButtonCount++;
-    }
-    // Update label
-    [_implicitAssociationContentView setTapCount:_hitButtonCount];
-     */
-    
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     if (trial.correct == buttonIdentifier) {
+        ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
+        implicitAssociationResult.latency = touch.timestamp - _stimulusTimestamp;
+        [_results addObject:implicitAssociationResult];
         _currentTrial += 1;
         [self setupTrial];
     } else {
@@ -228,65 +144,12 @@
     }
 }
 
-/*
-- (void)releaseTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
-    if (self.samples == nil) {
-        return;
-    }
-    NSTimeInterval mediaTime = touch.timestamp;
-    
-    // Take last sample for buttonIdentifier, and fill duration
-    ORKTappingSample *sample = [self lastSampleWithEmptyDurationForButton:buttonIdentifier];
-    sample.duration = mediaTime - sample.timestamp - _tappingStart;
-}
-
-- (ORKTappingSample *)lastSampleWithEmptyDurationForButton:(ORKTappingButtonIdentifier)buttonIdentifier{
-    NSEnumerator *enumerator = [self.samples reverseObjectEnumerator];
-    for (ORKTappingSample *sample in enumerator) {
-        if (sample.buttonIdentifier == buttonIdentifier && sample.duration == 0) {
-            return sample;
-        }
-    }
-    return nil;
-}
-*/
- 
- /*
-- (void)fillSampleDurationIfAnyButtonPressed {
-    /*
-     * Because we will not able to get UITouch from UIButton, we will use systemUptime.
-     * Documentation for -[UITouch timestamp] tells:
-     * The value of this property is the time, in seconds, since system startup the touch either originated or was last changed.
-     * For a definition of the time-since-boot value, see the description of the systemUptime method of the NSProcessInfo class.
-     */
-  /*  NSTimeInterval mediaTime = [[NSProcessInfo processInfo] systemUptime];
-    
-    ORKTappingSample *tapButton1LastSample = [self lastSampleWithEmptyDurationForButton:ORKTappingButtonIdentifierLeft];
-    if (tapButton1LastSample) {
-        tapButton1LastSample.duration = mediaTime - tapButton1LastSample.timestamp - _tappingStart;
-    }
-    
-    ORKTappingSample *tapButton2LastSample = [self lastSampleWithEmptyDurationForButton:ORKTappingButtonIdentifierRight];
-    if (tapButton2LastSample) {
-        tapButton2LastSample.duration = mediaTime - tapButton2LastSample.timestamp - _tappingStart;
-    }
-}
-*/
 - (void)stepDidFinish {
     [super stepDidFinish];
-    
-    // If user didn't release touch from button, fill manually duration for last sample
-    //[self fillSampleDurationIfAnyButtonPressed];
-    
-    //_expired = YES;
     [_implicitAssociationContentView finishStep:self];
     [self goForward];
 }
-/*
-- (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished {
-    [super countDownTimerFired:timer finished:finished];
-}
-*/
+
 - (void)start {
     [super start];
     [self setupTrial];
@@ -297,54 +160,11 @@
 #pragma mark buttonAction
 
 - (IBAction)buttonPressed:(id)button forEvent:(UIEvent *)event {
-    
-    /*
-    if (self.samples == nil) {
-        // Start timer on first touch event on button
-        _samples = [NSMutableArray array];
-        _hitButtonCount = 0;
-        [self start];
-    }
-     */
-    
     if (!self.started) {
         [self start];
         return;
     }
-    
     NSInteger index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
-    
-    /*
-    if ( _implicitAssociationContentView.lastTappedButton == index ) {
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKLocalizedString(@"TAP_BUTTON_TITLE", nil));
-    }
-    _implicitAssociationContentView.lastTappedButton = index;
-    */
-    
     [self receiveTouch:[[event touchesForView:button] anyObject] onButton:index];
 }
-
-/*
-- (IBAction)buttonReleased:(id)button forEvent:(UIEvent *)event {
-    ORKTappingButtonIdentifier index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
-    
-    [self releaseTouch:[[event touchesForView:button] anyObject] onButton:index];
-}
-*/
-
-/*
-#pragma mark UIGestureRecognizerDelegate
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    CGPoint location = [touch locationInView:self.view];
-    
-    BOOL shouldReceive = !(CGRectContainsPoint(_buttonRect1, location) || CGRectContainsPoint(_buttonRect2, location));
-    
-    if (shouldReceive && touch.phase == UITouchPhaseBegan) {
-        [self receiveTouch:touch onButton:ORKTappingButtonIdentifierNone];
-    }
-    
-    return NO;
-}
-*/
 @end

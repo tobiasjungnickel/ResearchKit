@@ -60,9 +60,4 @@
      */
 }
 
-+ (NSUInteger)trialsInBlock:(ORKImplicitAssociationBlock)block {
-    NSArray *trials = [[NSArray alloc] initWithObjects:kORKImplicitAssociationBlockTrials];
-    return [[trials objectAtIndex:block] unsignedIntegerValue];
-}
-
 @end
