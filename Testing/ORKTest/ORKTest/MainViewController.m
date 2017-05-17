@@ -660,14 +660,14 @@ static const CGFloat HeaderSideLayoutMargin = 16.0;
     } else if ([identifier isEqualToString:ImplicitAssociationTaskIdentifier]) {
         return [ORKOrderedTask implicitAssociationTaskWithIdentifier:ImplicitAssociationTaskIdentifier
                                               intendedUseDescription:nil
-                                                  attributeACategory:@"attribute A"
-                                                     attributeAItems:@[ @"attribute A1", @"attribute A2", @"attribute A3", @"attribute A4", @"attribute A5", @"attribute A6", @"attribute A7", @"attribute A8" ]
-                                                  attributeBCategory:@"attribute B"
-                                                     attributeBItems:@[ @"attribute B1", @"attribute B2", @"attribute B3", @"attribute B4", @"attribute B5", @"attribute B6", @"attribute B7", @"attribute B8" ]
-                                                    conceptACategory:@"concept A"
-                                                       conceptAItems:@[ @"concept A1", @"concept A2", @"concept A3", @"concept A4", @"concept A5", @"concept A6", @"concept A7", @"concept A8" ]
-                                                    conceptBCategory:@"concept B"
-                                                       conceptBItems:@[ @"concept B1", @"concept B2", @"concept B3", @"concept B4", @"concept B5", @"concept B6", @"concept B7", @"concept B8" ]
+                                                  attributeACategory:@"Positive words"
+                                                     attributeAItems:@[ @"caress", @"freedom", @"health", @"love", @"peace", @"cheer", @"friend", @"heaven", @"loyal", @"pleasure", @"diamond", @"gentle", @"honest", @"lucky", @"rainbow", @"diploma", @"gift", @"honor", @"miracle", @"sunrise", @"family", @"happy", @"laughter", @"paradise", @"vacation" ]
+                                                  attributeBCategory:@"Negative words"
+                                                     attributeBItems:@[ @"abuse", @"crash", @"filth", @"murder", @"sickness", @"accident", @"death", @"grief", @"poison", @"stink", @"assault", @"disaster", @"hatred", @"pollute", @"tragedy", @"divorce", @"jail", @"poverty", @"ugly", @"cancer", @"kill", @"rotten", @"vomit", @"agony", @"prison" ]
+                                                    conceptACategory:@"Flowers"
+                                                       conceptAItems:@[ @"aster", @"clover", @"hyacinth", @"marigold", @"poppy", @"azalea", @"crocus", @"iris", @"orchid", @"rose", @"bluebell", @"daffodil", @"lilac", @"pansy", @"tulip", @"buttercup", @"daisy", @"lily", @"peony", @"violet", @"camation", @"gladiola", @"magnolia", @"petunia", @"zinnia" ]
+                                                    conceptBCategory:@"Insects"
+                                                       conceptBItems:@[ @"ant", @"caterpillar", @"flea", @"locust", @"spider", @"bedbug", @"centipede", @"fly", @"maggot", @"tarantula", @"bee", @"cockroach", @"gnat", @"mosquito", @"termite", @"beetle", @"cricket", @"hornet", @"moth", @"wasp", @"blackfly", @"dragonfly", @"horsefly", @"roach", @"weevil" ]
                                                              options:ORKPredefinedTaskOptionNone ];
     } else if ([identifier isEqualToString:AuxillaryImageTaskIdentifier]) {
         return [self makeAuxillaryImageTask];
