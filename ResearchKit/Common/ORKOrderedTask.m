@@ -2566,7 +2566,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         
         ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
         step.title = @"Block 2";
-        step.block = ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory);
+        step.block = ORKImplicitAssociationBlockTypeSort;
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
         
