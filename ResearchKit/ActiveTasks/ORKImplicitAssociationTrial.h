@@ -17,6 +17,15 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCategory) {
     ORKImplicitAssociationCategoryConcept
 };
 
+typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCorrect) {
+    ORKImplicitAssociationCorrectATTRleft,
+    ORKImplicitAssociationCorrectATTRright,
+    ORKImplicitAssociationCorrectTARG1left,
+    ORKImplicitAssociationCorrectTARG1right,
+    ORKImplicitAssociationCorrectTARG2left,
+    ORKImplicitAssociationCorrectTARG2right
+};
+
 @interface ORKImplicitAssociationTrial : NSObject
 
 @property (nonatomic, strong) NSString *term;
@@ -31,7 +40,9 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCategory) {
 
 @property (nonatomic, strong) NSString *rightItem2;
 
-@property (nonatomic, assign) ORKTappingButtonIdentifier correct;
+@property (nonatomic, assign) ORKImplicitAssociationCorrect correct;
+
+- (ORKTappingButtonIdentifier)buttonIdentifier;
 
 @end
 

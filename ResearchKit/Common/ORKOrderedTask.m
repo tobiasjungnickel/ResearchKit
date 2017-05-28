@@ -2505,22 +2505,26 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials = [NSMutableArray array];
             for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategoryReverse)); trial++) {
+                
                 NSUInteger random = arc4random_uniform((uint32_t)conceptsAll.count);
                 NSString *randomTerm = [conceptsAll objectAtIndex:random];
-                ORKTappingButtonIdentifier buttonCorrect;
+                
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-                iaTrial.term = randomTerm;
-                iaTrial.category = ORKImplicitAssociationCategoryConcept;
+                ORKImplicitAssociationCorrect termCorrect;
+                
                 if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
-                    buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1left : ORKImplicitAssociationCorrectTARG2right;
                     iaTrial.leftItem1 = conceptACategory;
                     iaTrial.rightItem1 = conceptBCategory;
                 } else {
-                    buttonCorrect = [conceptAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierRight : ORKTappingButtonIdentifierLeft;
+                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1right : ORKImplicitAssociationCorrectTARG2left;
                     iaTrial.leftItem1 = conceptBCategory;
                     iaTrial.rightItem1 = conceptACategory;
                 }
-                iaTrial.correct = buttonCorrect;
+                
+                iaTrial.term = randomTerm;
+                iaTrial.category = ORKImplicitAssociationCategoryConcept;
+                iaTrial.correct = termCorrect;
                 [trials addObject:iaTrial];
             }
             step.trials = trials;
@@ -2574,14 +2578,15 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             
             NSUInteger random = arc4random_uniform((uint32_t)attributesAll.count);
             NSString *randomTerm = [attributesAll objectAtIndex:random];
-            ORKTappingButtonIdentifier buttonCorrect = [attributeAItems containsObject:randomTerm] ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+            
+            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
             
             ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
             iaTrial.term = randomTerm;
             iaTrial.category = ORKImplicitAssociationCategoryAttribute;
             iaTrial.leftItem1 = attributeACategory;
             iaTrial.rightItem1 = attributeBCategory;
-            iaTrial.correct = buttonCorrect;
+            iaTrial.correct = termCorrect;
             
             [trials addObject:iaTrial];
         }
@@ -2646,13 +2651,17 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 
                 NSUInteger random = arc4random_uniform((uint32_t)stimuliAll.count);
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
-                ORKTappingButtonIdentifier buttonCorrect;
-                NSArray *conceptBlock3And4LeftItem = randomConceptSide == 0 ? conceptBItems : conceptAItems;
-                if ([conceptBlock3And4LeftItem containsObject:randomTerm] || [attributeAItems containsObject:randomTerm]) {
-                    buttonCorrect = ORKTappingButtonIdentifierLeft;
-                } else {
-                    buttonCorrect = ORKTappingButtonIdentifierRight;
-                }
+                ORKImplicitAssociationCorrect termCorrect;
+                
+                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                
+                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                
+                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
                 iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
@@ -2660,7 +2669,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 iaTrial.leftItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
                 iaTrial.rightItem1 = attributeBCategory;
                 iaTrial.rightItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
-                iaTrial.correct = buttonCorrect;
+                iaTrial.correct = termCorrect;
                 
                 [trials addObject:iaTrial];
             }
@@ -2726,13 +2735,17 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 
                 NSUInteger random = arc4random_uniform((uint32_t)stimuliAll.count);
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
-                ORKTappingButtonIdentifier buttonCorrect;
-                NSArray *conceptBlock6And7LeftItem = randomConceptSide == 0 ? conceptAItems : conceptBItems;
-                if ([conceptBlock6And7LeftItem containsObject:randomTerm] || [attributeAItems containsObject:randomTerm]) {
-                    buttonCorrect = ORKTappingButtonIdentifierLeft;
-                } else {
-                    buttonCorrect = ORKTappingButtonIdentifierRight;
-                }
+                ORKImplicitAssociationCorrect termCorrect;
+                
+                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                
+                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                
+                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
                 iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
@@ -2740,7 +2753,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                 iaTrial.leftItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
                 iaTrial.rightItem1 = attributeBCategory;
                 iaTrial.rightItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
-                iaTrial.correct = buttonCorrect;
+                iaTrial.correct = termCorrect;
                 
                 [trials addObject:iaTrial];
             }

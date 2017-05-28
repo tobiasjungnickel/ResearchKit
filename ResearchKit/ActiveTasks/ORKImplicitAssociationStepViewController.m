@@ -133,7 +133,7 @@
 
 - (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
-    if (trial.correct == buttonIdentifier) {
+    if (trial.buttonIdentifier == buttonIdentifier) {
         ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
         implicitAssociationResult.latency = touch.timestamp - _stimulusTimestamp;
         [_results addObject:implicitAssociationResult];

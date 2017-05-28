@@ -10,4 +10,18 @@
 
 @implementation ORKImplicitAssociationTrial
 
+- (ORKTappingButtonIdentifier)buttonIdentifier {
+    switch (_correct) {
+        case ORKImplicitAssociationCorrectATTRleft:
+        case ORKImplicitAssociationCorrectTARG1left:
+        case ORKImplicitAssociationCorrectTARG2left:
+            return ORKTappingButtonIdentifierLeft;
+        case ORKImplicitAssociationCorrectATTRright:
+        case ORKImplicitAssociationCorrectTARG1right:
+        case ORKImplicitAssociationCorrectTARG2right:
+            return ORKTappingButtonIdentifierRight;
+    }
+    return ORKTappingButtonIdentifierNone;
+}
+
 @end
