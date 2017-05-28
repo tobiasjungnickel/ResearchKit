@@ -861,6 +861,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKImplicitAssociationResult: ORKResult
 
 @property (nonatomic, assign) NSTimeInterval latency;
+@property (nonatomic, copy, nullable) NSString *correct;
 
 @end
 

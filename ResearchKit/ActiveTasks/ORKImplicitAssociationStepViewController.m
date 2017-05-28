@@ -136,6 +136,7 @@
     if (trial.buttonIdentifier == buttonIdentifier) {
         ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
         implicitAssociationResult.latency = touch.timestamp - _stimulusTimestamp;
+        implicitAssociationResult.correct = ORKImplicitAssociationCorrectValue(trial.correct);
         [_results addObject:implicitAssociationResult];
         _currentTrial += 1;
         [self setupTrial];
