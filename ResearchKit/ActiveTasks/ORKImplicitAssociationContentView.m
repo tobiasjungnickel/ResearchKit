@@ -44,8 +44,9 @@
 
 //#define LAYOUT_DEBUG 1
 
-
-@implementation ORKImplicitAssociationLabel : UILabel
+@interface ORKImplicitAssociationLabel : UILabel
+@end
+@implementation ORKImplicitAssociationLabel
 
 - (void)setFormattedText:(NSString *)formattedString {
      NSMutableArray *tagsToConvert = [NSMutableArray arrayWithObjects:
@@ -70,7 +71,9 @@
 }
 @end
 
-@implementation ORKItemLabel : ORKImplicitAssociationLabel
+@interface ORKImplicitAssociationItemLabel : ORKImplicitAssociationLabel
+@end
+@implementation ORKImplicitAssociationItemLabel
 
 + (UIFont *)defaultFont {
     // Medium, 25
@@ -80,7 +83,9 @@
 
 @end
 
-@implementation ORKStartLabel : ORKImplicitAssociationLabel
+@interface ORKImplicitAssociationStartLabel : ORKImplicitAssociationLabel
+@end
+@implementation ORKImplicitAssociationStartLabel
 
 + (UIFont *)defaultFont {
     // Medium, 28
@@ -90,7 +95,9 @@
 
 @end
 
-@implementation ORKWrongLabel : ORKImplicitAssociationLabel
+@interface ORKImplicitAssociationWrongLabel : ORKImplicitAssociationLabel
+@end
+@implementation ORKImplicitAssociationWrongLabel
 
 + (UIFont *)defaultFont {
     // Medium, 56
@@ -100,7 +107,9 @@
 
 @end
 
-@implementation ORKHintLabel : ORKImplicitAssociationLabel
+@interface ORKImplicitAssociationHintLabel : ORKImplicitAssociationLabel
+@end
+@implementation ORKImplicitAssociationHintLabel
 
 + (UIFont *)defaultFont {
     // regular, 14
@@ -121,15 +130,15 @@
     UIView *_leftItemContainer;
     UIView *_rightItemContainer;
     ORKHeadlineLabel *_termLabel;
-    ORKItemLabel *_leftItemLabel1;
-    ORKItemLabel *_leftDividerLabel;
-    ORKItemLabel *_leftItemLabel2;
-    ORKItemLabel *_rightItemLabel1;
-    ORKItemLabel *_rightDividerLabel;
-    ORKItemLabel *_rightItemLabel2;
-    ORKStartLabel *_startLabel;
-    ORKWrongLabel *_wrongLabel;
-    ORKHintLabel *_hintLabel;
+    ORKImplicitAssociationItemLabel *_leftItemLabel1;
+    ORKImplicitAssociationItemLabel *_leftDividerLabel;
+    ORKImplicitAssociationItemLabel *_leftItemLabel2;
+    ORKImplicitAssociationItemLabel *_rightItemLabel1;
+    ORKImplicitAssociationItemLabel *_rightDividerLabel;
+    ORKImplicitAssociationItemLabel *_rightItemLabel2;
+    ORKImplicitAssociationStartLabel *_startLabel;
+    ORKImplicitAssociationWrongLabel *_wrongLabel;
+    ORKImplicitAssociationHintLabel *_hintLabel;
     UIView *_buttonContainer;
 }
 
@@ -143,30 +152,30 @@
         _rightItemContainer = [UIView new];
         _rightItemContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftItemLabel1 = [ORKItemLabel new];
+        _leftItemLabel1 = [ORKImplicitAssociationItemLabel new];
         _leftItemLabel1.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftDividerLabel = [ORKItemLabel new];
+        _leftDividerLabel = [ORKImplicitAssociationItemLabel new];
         _leftDividerLabel.textColor = [UIColor blackColor];
         _leftDividerLabel.textAlignment = NSTextAlignmentCenter;
         _leftDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _leftItemLabel2 = [ORKItemLabel new];
+        _leftItemLabel2 = [ORKImplicitAssociationItemLabel new];
         _leftItemLabel2.textColor = kConceptColor;
         _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightItemLabel1 = [ORKItemLabel new];
+        _rightItemLabel1 = [ORKImplicitAssociationItemLabel new];
         _rightItemLabel1.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightDividerLabel = [ORKItemLabel new];
+        _rightDividerLabel = [ORKImplicitAssociationItemLabel new];
         _rightDividerLabel.textColor = [UIColor blackColor];
         _rightDividerLabel.textAlignment = NSTextAlignmentCenter;
         _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _rightItemLabel2 = [ORKItemLabel new];
+        _rightItemLabel2 = [ORKImplicitAssociationItemLabel new];
         _rightItemLabel2.textColor = kConceptColor;
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
@@ -175,16 +184,16 @@
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _startLabel = [ORKStartLabel new];
+        _startLabel = [ORKImplicitAssociationStartLabel new];
         _startLabel.textAlignment = NSTextAlignmentCenter;
         _startLabel.numberOfLines = 0;
         _startLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _wrongLabel = [ORKWrongLabel new];
+        _wrongLabel = [ORKImplicitAssociationWrongLabel new];
         _wrongLabel.textAlignment = NSTextAlignmentCenter;
         _wrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _hintLabel = [ORKHintLabel new];
+        _hintLabel = [ORKImplicitAssociationHintLabel new];
         _hintLabel.textAlignment = NSTextAlignmentCenter;
         _hintLabel.numberOfLines = 0;
         _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
