@@ -2573,7 +2573,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             }
             
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1StepIdentifier : ORKImplicitAssociationBlock5StepIdentifier];
-            step.title = index == 0 ? @"Block 1" : @"Block 5";
             step.block = ORKImplicitAssociationBlockTypeSort;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials = [NSMutableArray array];
@@ -2642,7 +2641,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         }
         
         ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
-        step.title = @"Block 2";
         step.block = ORKImplicitAssociationBlockTypeSort;
         step.shouldContinueOnFinish = YES;
         NSMutableArray *trials =[NSMutableArray array];
@@ -2715,7 +2713,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             }
             
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3StepIdentifier : ORKImplicitAssociationBlock4StepIdentifier];
-            step.title = index == 0 ? @"Block 3" : @"Block 4";
             step.block = ORKImplicitAssociationBlockTypeCombine;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials =[NSMutableArray array];
@@ -2799,7 +2796,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
             }
             
             ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6StepIdentifier : ORKImplicitAssociationBlock7StepIdentifier];
-            step.title = index == 0 ? @"Block 6" : @"Block 7";
             step.block = ORKImplicitAssociationBlockTypeCombine;
             step.shouldContinueOnFinish = YES;
             NSMutableArray *trials =[NSMutableArray array];
