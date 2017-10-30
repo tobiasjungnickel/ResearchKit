@@ -153,6 +153,7 @@
         _rightItemContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
         _leftItemLabel1 = [ORKImplicitAssociationItemLabel new];
+        _leftItemLabel1.numberOfLines = 2;
         _leftItemLabel1.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -162,11 +163,13 @@
         _leftDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _leftItemLabel2 = [ORKImplicitAssociationItemLabel new];
+        _leftItemLabel2.numberOfLines = 2;
         _leftItemLabel2.textColor = kConceptColor;
         _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
         _rightItemLabel1 = [ORKImplicitAssociationItemLabel new];
+        _rightItemLabel1.numberOfLines = 2;
         _rightItemLabel1.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel1.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -176,6 +179,7 @@
         _rightDividerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         _rightItemLabel2 = [ORKImplicitAssociationItemLabel new];
+        _rightItemLabel2.numberOfLines = 2;
         _rightItemLabel2.textColor = kConceptColor;
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
@@ -398,6 +402,13 @@
                                              metrics:nil
                                                views:views]];
     
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_leftItemContainer]-(>=24)-[_rightItemContainer(==_leftItemContainer)]|"
+                                             options:(NSLayoutFormatOptions)0
+                                             metrics:nil
+                                               views:views]];
+    
+    
     // terms
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
@@ -472,13 +483,13 @@
     
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=200)-[_wrongLabel]-(==10)-[_hintLabel]-(==10)-[_buttonContainer]-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=220)-[_wrongLabel]-(==10)-[_hintLabel]-(==10)-[_buttonContainer]-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=180)-[_termLabel]-(>=8)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=200)-[_termLabel]-(>=8)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
