@@ -32,6 +32,7 @@
 
 #import "ORKOrderedTask.h"
 
+<<<<<<< HEAD
 #import "ORKAudioStepViewController.h"
 #import "ORKImplicitAssociationStepViewController.h"
 #import "ORKCountdownStepViewController.h"
@@ -77,17 +78,11 @@
 
 #import "ORKImplicitAssociationTrial.h"
 
+=======
+#import "ORKActiveStep_Internal.h"
+#import "ORKStep_Private.h"
+>>>>>>> master
 #import "ORKHelpers_Internal.h"
-#import "UIImage+ResearchKit.h"
-#import <limits.h>
-
-ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierA = @"A";
-ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB = @"B";
-
-
-ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
-    return (ORKTaskProgress){.current=current, .total=total};
-}
 
 
 @implementation ORKOrderedTask {
@@ -295,6 +290,7 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
     return self;
 }
 
+<<<<<<< HEAD
 #pragma mark - Predefined
 
 NSString *const ORKInstruction0StepIdentifier = @"instruction";
@@ -2859,4 +2855,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
 }
 
 
+=======
+>>>>>>> master
 @end

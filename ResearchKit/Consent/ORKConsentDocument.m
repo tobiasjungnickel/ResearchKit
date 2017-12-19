@@ -1,7 +1,8 @@
 /*
  Copyright (c) 2015, Apple Inc. All rights reserved.
  Copyright (c) 2015, Alex Basson. All rights reserved.
-
+ Copyright (c) 2017, Medable Inc. All rights reserved.
+ 
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  
@@ -101,6 +102,21 @@
     }];
 }
 
+- (void) makeCustomPDFWithCompletionHandler:(ORKHTMLPDFPageRenderer *)renderer completionHandler:(void (^)(NSData * _Nullable, NSError * _Nullable))completionBlock {
+    _writer.printRenderer = renderer;
+    return [_writer writePDFFromHTML:[self htmlForMobile:NO withTitle:nil detail:nil] withCompletionBlock:^(NSData *data, NSError *error) {
+        if (error) {
+            // Pass the webview error straight through. This is a pretty exceptional
+            // condition (can only happen if they pass us really invalid content).
+            completionBlock(nil, error);
+        } else {
+            completionBlock(data, nil);
+        }
+        _writer.printRenderer = nil;
+    }];
+
+}
+
 #pragma mark - Private
 
 - (NSString *)mobileHTMLWithTitle:(NSString *)title detail:(NSString *)detail {
@@ -192,17 +208,18 @@
                 [body appendFormat:@"%@", [_sectionFormatter HTMLForSection:section]];
             }
         }
+    }
+    
+    if (!mobile) {
+        // page break
+        [body appendFormat:@"<h4 class=\"pagebreak\">%@</h4>", _signaturePageTitle ? : @""];
+        [body appendFormat:@"<p>%@</p>", _signaturePageContent ? : @""];
         
-        if (!mobile) {
-            // page break
-            [body appendFormat:@"<h4 class=\"pagebreak\">%@</h4>", _signaturePageTitle ? : @""];
-            [body appendFormat:@"<p>%@</p>", _signaturePageContent ? : @""];
-            
-            for (ORKConsentSignature *signature in self.signatures) {
-                [body appendFormat:@"%@", [_signatureFormatter HTMLForSignature:signature]];
-            }
+        for (ORKConsentSignature *signature in self.signatures) {
+            [body appendFormat:@"%@", [_signatureFormatter HTMLForSignature:signature]];
         }
     }
+    
     return [[self class] wrapHTMLBody:body mobile:mobile];
 }
 
