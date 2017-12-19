@@ -73,7 +73,11 @@
 #import "ORKShoulderRangeOfMotionStep.h"
 #import "ORKWaitStep.h"
 #import "ORKWalkingTaskStep.h"
+#import "ORKImplicitAssociationStep.h"
+#import "ORKImplicitAssociationCategoriesInstructionStep.h"
 #import "ORKResultPredicate.h"
+
+#import "ORKImplicitAssociationTrial.h"
 
 #import "ORKHelpers_Internal.h"
 #import "UIImage+ResearchKit.h"
@@ -117,6 +121,28 @@ NSString *const ORKPedometerRecorderIdentifier = @"pedometer";
 NSString *const ORKDeviceMotionRecorderIdentifier = @"deviceMotion";
 NSString *const ORKLocationRecorderIdentifier = @"location";
 NSString *const ORKHeartRateRecorderIdentifier = @"heartRate";
+NSString *const ORKImplicitAssociationIntroductionCategoriesStepIdentifier = @"implicitAssociation.introductionCategories";
+NSString *const ORKImplicitAssociationIntroductionBlocksStepIdentifier = @"implicitAssociation.introductionBlocks";
+NSString *const ORKImplicitAssociationBlock1StepIdentifier = @"implicitAssociation.block1";
+NSString *const ORKImplicitAssociationBlock2StepIdentifier = @"implicitAssociation.block2";
+NSString *const ORKImplicitAssociationBlock3StepIdentifier = @"implicitAssociation.block3";
+NSString *const ORKImplicitAssociationBlock4StepIdentifier = @"implicitAssociation.block4";
+NSString *const ORKImplicitAssociationBlock5StepIdentifier = @"implicitAssociation.block5";
+NSString *const ORKImplicitAssociationBlock6StepIdentifier = @"implicitAssociation.block6";
+NSString *const ORKImplicitAssociationBlock7StepIdentifier = @"implicitAssociation.block7";
+NSString *const ORKImplicitAssociationBlock1IntroductionStepIdentifier = @"implicitAssociation.intro1";
+NSString *const ORKImplicitAssociationBlock2IntroductionStepIdentifier = @"implicitAssociation.intro2";
+NSString *const ORKImplicitAssociationBlock3IntroductionStepIdentifier = @"implicitAssociation.intro3";
+NSString *const ORKImplicitAssociationBlock4IntroductionStepIdentifier = @"implicitAssociation.intro4";
+NSString *const ORKImplicitAssociationBlock5IntroductionStepIdentifier = @"implicitAssociation.intro5";
+NSString *const ORKImplicitAssociationBlock6IntroductionStepIdentifier = @"implicitAssociation.intro6";
+NSString *const ORKImplicitAssociationBlock7IntroductionStepIdentifier = @"implicitAssociation.intro7";
+NSString *const ORKImplicitAssociationBlock2WaitStepIdentifier = @"implicitAssociation.wait2";
+NSString *const ORKImplicitAssociationBlock3WaitStepIdentifier = @"implicitAssociation.wait3";
+NSString *const ORKImplicitAssociationBlock4WaitStepIdentifier = @"implicitAssociation.wait4";
+NSString *const ORKImplicitAssociationBlock5WaitStepIdentifier = @"implicitAssociation.wait5";
+NSString *const ORKImplicitAssociationBlock6WaitStepIdentifier = @"implicitAssociation.wait6";
+NSString *const ORKImplicitAssociationBlock7WaitStepIdentifier = @"implicitAssociation.wait7";
 
 void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     [step validateParameters];
@@ -2320,5 +2346,486 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     
     return task;
 }
+
+
+#pragma mark - implicitAssociationTask
+
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       attributeACategory:(NSString *)attributeACategory
+                                          attributeAItems:(NSArray *)attributeAItems
+                                       attributeBCategory:(NSString *)attributeBCategory
+                                          attributeBItems:(NSArray *)attributeBItems
+                                         conceptACategory:(NSString *)conceptACategory
+                                            conceptAItems:(NSArray *)conceptAItems
+                                         conceptBCategory:(NSString *)conceptBCategory
+                                            conceptBItems:(NSArray *)conceptBItems
+                                                  options:(ORKPredefinedTaskOption)options {
+    return [self implicitAssociationTaskWithIdentifier:identifier
+                                intendedUseDescription:intendedUseDescription
+                                    attributeACategory:attributeACategory
+                                       attributeAItems:attributeAItems
+                                    attributeBCategory:attributeBCategory
+                                       attributeBItems:attributeBItems
+                                      conceptACategory:conceptACategory
+                                         conceptAItems:conceptAItems
+                                      conceptBCategory:conceptBCategory
+                                         conceptBItems:conceptBItems
+                                          trialsBlock1:@20
+                                          trialsBlock2:@20
+                                          trialsBlock3:@20
+                                          trialsBlock4:@40
+                                          trialsBlock5:@28
+                                          trialsBlock6:@20
+                                          trialsBlock7:@40
+                                               options:options];
+}
+
++ (ORKOrderedTask *)implicitAssociationTaskWithIdentifier:(NSString *)identifier
+                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       attributeACategory:(NSString *)attributeACategory
+                                          attributeAItems:(NSArray *)attributeAItems
+                                       attributeBCategory:(NSString *)attributeBCategory
+                                          attributeBItems:(NSArray *)attributeBItems
+                                         conceptACategory:(NSString *)conceptACategory
+                                            conceptAItems:(NSArray *)conceptAItems
+                                         conceptBCategory:(NSString *)conceptBCategory
+                                            conceptBItems:(NSArray *)conceptBItems
+                                             trialsBlock1:(NSNumber *)trialsBlock1
+                                             trialsBlock2:(NSNumber *)trialsBlock2
+                                             trialsBlock3:(NSNumber *)trialsBlock3
+                                             trialsBlock4:(NSNumber *)trialsBlock4
+                                             trialsBlock5:(NSNumber *)trialsBlock5
+                                             trialsBlock6:(NSNumber *)trialsBlock6
+                                             trialsBlock7:(NSNumber *)trialsBlock7
+                                                  options:(ORKPredefinedTaskOption)options {
+    
+    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
+    
+    NSMutableArray *attributesAll = [NSMutableArray array];
+    [attributesAll addObjectsFromArray:attributeAItems];
+    [attributesAll addObjectsFromArray:attributeBItems];
+    NSMutableArray *conceptsAll = [NSMutableArray array];
+    [conceptsAll addObjectsFromArray:conceptAItems];
+    [conceptsAll addObjectsFromArray:conceptBItems];
+    NSMutableArray *stimuliAll = [NSMutableArray array];
+    [stimuliAll addObjectsFromArray:attributesAll];
+    [stimuliAll addObjectsFromArray:conceptsAll];
+    
+    typedef NS_ENUM(NSUInteger, ORKImplicitAssociationStepBlock) {
+        ORKImplicitAssociationStepBlockSortCategory,
+        ORKImplicitAssociationStepBlockSortAttribute,
+        ORKImplicitAssociationStepBlockCombinedPractice,
+        ORKImplicitAssociationStepBlockCombinedCritical,
+        ORKImplicitAssociationStepBlockSortCategoryReverse,
+        ORKImplicitAssociationStepBlockCombinedPracticeReverse,
+        ORKImplicitAssociationStepBlockCombinedCriticalReverse
+    };
+#define ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlock) [[@[trialsBlock1, trialsBlock2, trialsBlock3, trialsBlock4, trialsBlock5, trialsBlock6, trialsBlock7] objectAtIndex:ORKImplicitAssociationStepBlock] unsignedIntegerValue]
+    
+    typedef NS_ENUM(NSUInteger, ORKImplicitAssociationBlock) {
+        ORKImplicitAssociationIntroductionCategories,
+        ORKImplicitAssociationIntroductionBlocks,
+        ORKImplicitAssociationBlock1Intro,
+        ORKImplicitAssociationBlock1Test,
+        ORKImplicitAssociationBlock2Wait,
+        ORKImplicitAssociationBlock2Intro,
+        ORKImplicitAssociationBlock2Test,
+        ORKImplicitAssociationBlock3Wait,
+        ORKImplicitAssociationBlock3Intro,
+        ORKImplicitAssociationBlock3Test,
+        ORKImplicitAssociationBlock4Wait,
+        ORKImplicitAssociationBlock4Intro,
+        ORKImplicitAssociationBlock4Test,
+        ORKImplicitAssociationBlock5Wait,
+        ORKImplicitAssociationBlock5Intro,
+        ORKImplicitAssociationBlock5Test,
+        ORKImplicitAssociationBlock6Wait,
+        ORKImplicitAssociationBlock6Intro,
+        ORKImplicitAssociationBlock6Test,
+        ORKImplicitAssociationBlock7Wait,
+        ORKImplicitAssociationBlock7Intro,
+        ORKImplicitAssociationBlock7Test
+    };
+    
+    NSString *left = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil);
+    NSString *right = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil);
+    NSString *sorting = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL", nil);
+    NSString *combined = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL", nil);
+    NSString *go = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL", nil);
+    NSString *hint = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil);
+    
+    NSUInteger randomConceptSide = arc4random_uniform(2);
+    
+    
+    // Introduction
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+        {
+            ORKImplicitAssociationCategoriesInstructionStep *step = [[ORKImplicitAssociationCategoriesInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationIntroductionCategoriesStepIdentifier];
+            step.title = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil);
+            step.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL", nil);
+            step.attributeACategory = attributeACategory;
+            step.attributeAItems = attributeAItems;
+            step.attributeBCategory = attributeBCategory;
+            step.attributeBItems = attributeBItems;
+            step.conceptACategory = conceptACategory;
+            step.conceptAItems = conceptAItems;
+            step.conceptBCategory = conceptBCategory;
+            step.conceptBItems = conceptBItems;
+            [steps replaceObjectAtIndex:ORKImplicitAssociationIntroductionCategories withObject:step];
+        }
+        
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationIntroductionBlocksStepIdentifier];
+            step.title = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil);
+            step.text = intendedUseDescription;
+            step.detailText = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL", nil);
+            NSString *imageName = @"phonetapping";
+            if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                imageName = [imageName stringByAppendingString:@"_notap"];
+            }
+            step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.shouldTintImages = YES;
+            [step validateParameters];
+            [steps replaceObjectAtIndex:ORKImplicitAssociationIntroductionBlocks withObject:step];
+        }
+        
+    }
+    
+    // Block 1 & Block 5 concept sorting
+    
+    {
+        for (NSUInteger index = 0; index <= 1; index++) {
+            
+            if (index == 0) {
+                ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:ORKImplicitAssociationBlock5WaitStepIdentifier];
+                stepWait.stepDuration = 3.0;
+                [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Wait withObject:stepWait];
+            }
+            
+            if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+                {
+                    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1IntroductionStepIdentifier : ORKImplicitAssociationBlock5IntroductionStepIdentifier];
+                    step.title = index == 0 ? @"Block 1" : @"Block 5";
+                    step.text = intendedUseDescription;
+                    NSMutableString *detailText = [NSMutableString string];
+                    if (index == 1) {
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL", nil)];
+                        [detailText appendString:@"\n\n"];
+                    }
+                    [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
+                    if (index == 0) {
+                        [detailText appendString:@"\n\n"];
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)];
+                    }
+                    if (index == 0) {
+                        [detailText appendString:@"\n\n"];
+                        [detailText appendString:hint];
+                    }
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:go];
+                    step.detailText = detailText;
+                    
+                    NSString *imageName = @"phonetapping";
+                    if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                        imageName = [imageName stringByAppendingString:@"_notap"];
+                    }
+                    step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    step.shouldTintImages = YES;
+                    
+                    [step validateParameters];
+                    index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock1Intro withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Intro withObject:step];
+                }
+            }
+            
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1StepIdentifier : ORKImplicitAssociationBlock5StepIdentifier];
+            step.block = ORKImplicitAssociationBlockTypeSort;
+            step.shouldContinueOnFinish = YES;
+            NSMutableArray *trials = [NSMutableArray array];
+            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategoryReverse)); trial++) {
+                
+                NSUInteger random = arc4random_uniform((uint32_t)conceptsAll.count);
+                NSString *randomTerm = [conceptsAll objectAtIndex:random];
+                
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+                ORKImplicitAssociationCorrect termCorrect;
+                
+                if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
+                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1left : ORKImplicitAssociationCorrectTARG2right;
+                    iaTrial.leftItem1 = conceptACategory;
+                    iaTrial.rightItem1 = conceptBCategory;
+                } else {
+                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1right : ORKImplicitAssociationCorrectTARG2left;
+                    iaTrial.leftItem1 = conceptBCategory;
+                    iaTrial.rightItem1 = conceptACategory;
+                }
+                
+                iaTrial.term = randomTerm;
+                iaTrial.category = ORKImplicitAssociationCategoryConcept;
+                iaTrial.correct = termCorrect;
+                [trials addObject:iaTrial];
+            }
+            step.trials = trials;
+            
+            [step validateParameters];
+            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock1Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock5Test withObject:step];
+        }
+    }
+    
+    // Block 2 attribute sorting
+    
+    {
+        ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2WaitStepIdentifier];
+        stepWait.stepDuration = 3.0;
+        [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Wait withObject:stepWait];
+        
+        if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+            {
+                ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2IntroductionStepIdentifier];
+                step.title = @"Block 2";
+                step.text = intendedUseDescription;
+                NSMutableString *detailText = [NSMutableString string];
+                [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, attributeACategory]];
+                [detailText appendString:@"\n\n"];
+                [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, attributeBCategory]];
+                [detailText appendString:@"\n\n"];
+                [detailText appendString:hint];
+                [detailText appendString:@"\n\n"];
+                [detailText appendString:go];
+                step.detailText = detailText;
+                
+                NSString *imageName = @"phonetapping";
+                if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                    imageName = [imageName stringByAppendingString:@"_notap"];
+                }
+                step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                step.shouldTintImages = YES;
+                
+                [step validateParameters];
+                [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Intro withObject:step];
+            }
+        }
+        
+        ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2StepIdentifier];
+        step.block = ORKImplicitAssociationBlockTypeSort;
+        step.shouldContinueOnFinish = YES;
+        NSMutableArray *trials =[NSMutableArray array];
+        
+        for (NSUInteger trial = 0; trial < ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute); trial++) {
+            
+            NSUInteger random = arc4random_uniform((uint32_t)attributesAll.count);
+            NSString *randomTerm = [attributesAll objectAtIndex:random];
+            
+            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
+            
+            ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+            iaTrial.term = randomTerm;
+            iaTrial.category = ORKImplicitAssociationCategoryAttribute;
+            iaTrial.leftItem1 = attributeACategory;
+            iaTrial.rightItem1 = attributeBCategory;
+            iaTrial.correct = termCorrect;
+            
+            [trials addObject:iaTrial];
+        }
+        
+        step.trials = trials;
+        
+        [step validateParameters];
+        [steps replaceObjectAtIndex:ORKImplicitAssociationBlock2Test withObject:step];
+    }
+    
+    //Block 3 & Block 4 combined practice and critical
+    
+    {
+        for (NSUInteger index = 0; index <= 1; index++) {
+            
+            ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3WaitStepIdentifier : ORKImplicitAssociationBlock4WaitStepIdentifier];
+            stepWait.stepDuration = 3.0;
+            index== 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Wait withObject:stepWait] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Wait withObject:stepWait];
+            
+            if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+                {
+                    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3IntroductionStepIdentifier : ORKImplicitAssociationBlock4IntroductionStepIdentifier];
+                    step.title = index == 0 ? @"Block 3" : @"Block 4";
+                    step.text = intendedUseDescription;
+                    NSMutableString *detailText = [NSMutableString string];
+                    if (index == 1) {
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
+                        [detailText appendString:@"\n\n"];
+                    }
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeACategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeBCategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
+                    if (index == 0) {
+                        [detailText appendString:@"\n\n"];
+                        [detailText appendString:hint];
+                    }
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:go];
+                    step.detailText = detailText;
+                    
+                    NSString *imageName = @"phonetapping";
+                    if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                        imageName = [imageName stringByAppendingString:@"_notap"];
+                    }
+                    step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    step.shouldTintImages = YES;
+                    
+                    [step validateParameters];
+                    index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Intro withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Intro withObject:step];
+                }
+            }
+            
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3StepIdentifier : ORKImplicitAssociationBlock4StepIdentifier];
+            step.block = ORKImplicitAssociationBlockTypeCombine;
+            step.shouldContinueOnFinish = YES;
+            NSMutableArray *trials =[NSMutableArray array];
+            
+            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedPractice) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedCritical)); trial++) {
+                
+                NSUInteger random = arc4random_uniform((uint32_t)stimuliAll.count);
+                NSString *randomTerm = [stimuliAll objectAtIndex:random];
+                ORKImplicitAssociationCorrect termCorrect;
+                
+                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                
+                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                
+                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+                iaTrial.term = randomTerm;
+                iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
+                iaTrial.leftItem1 = attributeACategory;
+                iaTrial.leftItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
+                iaTrial.rightItem1 = attributeBCategory;
+                iaTrial.rightItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
+                iaTrial.correct = termCorrect;
+                
+                [trials addObject:iaTrial];
+            }
+            
+            step.trials = trials;
+            
+            [step validateParameters];
+            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock3Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock4Test withObject:step];
+        }
+    }
+    
+    //Block 6 & Block 7 combined practice and critical
+    
+    {
+        for (NSUInteger index = 0; index <= 1; index++) {
+            
+            ORKCountdownStep *stepWait = [[ORKCountdownStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6WaitStepIdentifier : ORKImplicitAssociationBlock7WaitStepIdentifier];
+            stepWait.stepDuration = 3.0;
+            index== 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Wait withObject:stepWait] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Wait withObject:stepWait];
+            
+            if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+                {
+                    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6IntroductionStepIdentifier : ORKImplicitAssociationBlock7IntroductionStepIdentifier];
+                    step.title = index == 0 ? @"Block 6" : @"Block 7";
+                    step.text = intendedUseDescription;
+                    NSMutableString *detailText = [NSMutableString string];
+                    if (index == 1) {
+                        [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
+                        [detailText appendString:@"\n\n"];
+                    }
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeACategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeBCategory]];
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
+                    if (index == 0) {
+                        [detailText appendString:@"\n\n"];
+                        [detailText appendString:hint];
+                    }
+                    [detailText appendString:@"\n\n"];
+                    [detailText appendString:go];
+                    step.detailText = detailText;
+                    
+                    NSString *imageName = @"phonetapping";
+                    if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
+                        imageName = [imageName stringByAppendingString:@"_notap"];
+                    }
+                    step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    step.shouldTintImages = YES;
+                    
+                    [step validateParameters];
+                    index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Intro withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Intro withObject:step];
+                }
+            }
+            
+            ORKImplicitAssociationStep *step = [[ORKImplicitAssociationStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6StepIdentifier : ORKImplicitAssociationBlock7StepIdentifier];
+            step.block = ORKImplicitAssociationBlockTypeCombine;
+            step.shouldContinueOnFinish = YES;
+            NSMutableArray *trials =[NSMutableArray array];
+            
+            for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedPracticeReverse) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedCriticalReverse)); trial++) {
+                
+                NSUInteger random = arc4random_uniform((uint32_t)stimuliAll.count);
+                NSString *randomTerm = [stimuliAll objectAtIndex:random];
+                ORKImplicitAssociationCorrect termCorrect;
+                
+                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                
+                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                
+                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+                iaTrial.term = randomTerm;
+                iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
+                iaTrial.leftItem1 = attributeACategory;
+                iaTrial.leftItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
+                iaTrial.rightItem1 = attributeBCategory;
+                iaTrial.rightItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
+                iaTrial.correct = termCorrect;
+                
+                [trials addObject:iaTrial];
+            }
+            
+            step.trials = trials;
+            
+            [step validateParameters];
+            index == 0 ? [steps replaceObjectAtIndex:ORKImplicitAssociationBlock6Test withObject:step] : [steps replaceObjectAtIndex:ORKImplicitAssociationBlock7Test withObject:step];
+        }
+    }
+    
+    
+    {
+        NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
+        step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    [steps removeObject:[NSNull null]];
+    
+    /*
+     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+     ORKInstructionStep *step = [self makeCompletionStep];
+     
+     ORKStepArrayAddStep(steps, step);
+     }
+     */
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
+    
+    return task;
+}
+
 
 @end

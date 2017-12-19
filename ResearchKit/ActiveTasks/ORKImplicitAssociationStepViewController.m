@@ -31,8 +31,15 @@
 
 #import "ORKImplicitAssociationStepViewController.h"
 
+
+
+
+
+
+
 #import "ORKImplicitAssociationStep.h"
 #import "ORKImplicitAssociationTrial.h"
+#import "ORKImplicitAssociationResult.h"
 
 #import "ORKActiveStepTimer.h"
 #import "ORKHeadlineLabel.h"
@@ -43,6 +50,7 @@
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKCollectionResult_Private.h"
 
 #import "ORKActiveStepView.h"
 #import "ORKResult.h"

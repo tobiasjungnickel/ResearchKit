@@ -141,6 +141,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?) -> UITableViewDataSo
     case is ORKTrailmakingResult:
         providerType = TrailmakingResultTableViewProvider.self
         
+    case is ORKImplicitAssociationResult:
+        providerType = ImplicitAssociationResultTableViewProvider.self
+        
     // All
     case is ORKTaskResult:
         providerType = TaskResultTableViewProvider.self
@@ -1070,6 +1073,24 @@ class HolePegTestResultTableViewProvider: ResultTableViewProvider {
             
             return ResultRow(text: text, detail: detail)
         }
+    }
+}
+
+/// Table view provider specific to an `ORKImplicitAssociation` instance.
+class ImplicitAssociationResultTableViewProvider: ResultTableViewProvider {
+    //    MARK: UITableViewDataSource
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return super.tableView(tableView, titleForHeaderInSection: 0)
+    }
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let rows = super.resultRowsForSection(section)
+        return rows
     }
 }
 

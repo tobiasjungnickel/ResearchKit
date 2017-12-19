@@ -56,7 +56,6 @@
 #import <ResearchKit/ORKFitnessStep.h>
 #import <ResearchKit/ORKHolePegTestPlaceStep.h>
 #import <ResearchKit/ORKHolePegTestRemoveStep.h>
-#import <ResearchKit/ORKImplicitAssociationStep.h>
 #import <ResearchKit/ORKPSATStep.h>
 #import <ResearchKit/ORKRangeOfMotionStep.h>
 #import <ResearchKit/ORKReactionTimeStep.h>
@@ -70,6 +69,7 @@
 #import <ResearchKit/ORKTowerOfHanoiStep.h>
 #import <ResearchKit/ORKTrailmakingStep.h>
 #import <ResearchKit/ORKWalkingTaskStep.h>
+#import <ResearchKit/ORKImplicitAssociationStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKQuestionStepViewController_Private.h>
@@ -95,6 +95,7 @@
 #import <ResearchKit/ORKVisualConsentStepViewController.h>
 #import <ResearchKit/ORKWalkingTaskStepViewController.h>
 #import <ResearchKit/ORKVideoInstructionStepViewController.h>
+#import <ResearchKit/ORKImplicitAssociationStepViewController.h>
 
 #import <ResearchKit/ORKAccelerometerRecorder.h>
 #import <ResearchKit/ORKAudioRecorder.h>

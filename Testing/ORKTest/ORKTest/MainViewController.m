@@ -68,6 +68,7 @@ NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *TestButtonTable()
                         @"Trail Making",
                         @"Two Finger Tapping",
                         @"Walk And Turn",
+                        @"Implicit Association",
                         ]},
              @{ @"Forms":
                     @[

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ORKResult.h"
+#import "ORKTappingIntervalResult.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

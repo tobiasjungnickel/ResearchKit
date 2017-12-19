@@ -36,7 +36,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The `ORKOrderedTask` class implements all the methods in the `ORKTask` protocol and represents a 
+ The `ORKOrderedTask` class implements all the methods in the `ORKTask` protocol and represents a
  task that assumes a fixed order for its steps.
  
  In the ResearchKit framework, any simple sequential task, such as a survey or an active task, can
@@ -96,7 +96,7 @@ ORK_CLASS_AVAILABLE
  
  This method is intended to allow for mutating an ordered task (or subclass) while retaining
  the original class and properties that may not be publicly exposed, but with a mutated set
- of steps. An example of where this might be useful is if before performing an `ORKPredefinedActiveTask`, 
+ of steps. An example of where this might be useful is if before performing an `ORKPredefinedActiveTask`,
  the app needed to query the participant about medications, diet or sleep. The app
  would need to mutate the steps in order to insert their own steps. While an ORKOrderedTask could
  then be created with the same identifier and the new steps, subclass information such rules on an

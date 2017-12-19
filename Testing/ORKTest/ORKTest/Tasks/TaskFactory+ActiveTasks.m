@@ -323,4 +323,20 @@
     return task;
 }
 
+- (id<ORKTask>)makeImplicitAssociationTaskWithIdentifier:(NSString *)identifier {
+    ORKOrderedTask *task = [ORKOrderedTask implicitAssociationTaskWithIdentifier:identifier
+                                          intendedUseDescription:nil
+                                              attributeACategory:@"Positive words"
+                                                 attributeAItems:@[ @"caress", @"freedom", @"health", @"love", @"peace", @"cheer", @"friend", @"heaven", @"loyal", @"pleasure", @"diamond", @"gentle", @"honest", @"lucky", @"rainbow", @"diploma", @"gift", @"honor", @"miracle", @"sunrise", @"family", @"happy", @"laughter", @"paradise", @"vacation" ]
+                                              attributeBCategory:@"Negative words"
+                                                 attributeBItems:@[ @"abuse", @"crash", @"filth", @"murder", @"sickness", @"accident", @"death", @"grief", @"poison", @"stink", @"assault", @"disaster", @"hatred", @"pollute", @"tragedy", @"divorce", @"jail", @"poverty", @"ugly", @"cancer", @"kill", @"rotten", @"vomit", @"agony", @"prison" ]
+                                                conceptACategory:@"Flowers"
+                                                   conceptAItems:@[ @"aster", @"clover", @"hyacinth", @"marigold", @"poppy", @"azalea", @"crocus", @"iris", @"orchid", @"rose", @"bluebell", @"daffodil", @"lilac", @"pansy", @"tulip", @"buttercup", @"daisy", @"lily", @"peony", @"violet", @"camation", @"gladiola", @"magnolia", @"petunia", @"zinnia" ]
+                                                conceptBCategory:@"Insects"
+                                                   conceptBItems:@[ @"ant", @"caterpillar", @"flea", @"locust", @"spider", @"bedbug", @"centipede", @"fly", @"maggot", @"tarantula", @"bee", @"cockroach", @"gnat", @"mosquito", @"termite", @"beetle", @"cricket", @"hornet", @"moth", @"wasp", @"blackfly", @"dragonfly", @"horsefly", @"roach", @"weevil" ]
+                                                         options:ORKPredefinedTaskOptionNone];
+    task.hidesLearnMoreButtonOnInstructionStep = YES;
+    return task;
+}
+
 @end
