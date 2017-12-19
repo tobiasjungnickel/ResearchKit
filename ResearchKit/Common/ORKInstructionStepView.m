@@ -145,7 +145,7 @@
     self.headerView.captionLabel.text = _instructionStep.title;
     
     NSMutableAttributedString *attributedInstruction = [[NSMutableAttributedString alloc] init];
-    NSAttributedString *detail = _instructionStep.detailText;
+    NSString *detail = _instructionStep.detailText;
     NSString *text = _instructionStep.text;
     detail = detail.length ? detail : nil;
     text = text.length ? text : nil;
@@ -157,10 +157,12 @@
         [style setParagraphSpacingBefore:self.headerView.instructionLabel.font.lineHeight * 0.5];
         [style setAlignment:NSTextAlignmentCenter];
         
-        [attributedInstruction appendAttributedString:detail];
+        NSAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:detail
+                                                                               attributes:@{NSParagraphStyleAttributeName: style}];
+        [attributedInstruction appendAttributedString:attString];
         
     } else if (detail || text) {
-        [attributedInstruction appendAttributedString:detail ? : [[NSAttributedString alloc] initWithString:text attributes:nil]];
+        [attributedInstruction appendAttributedString:[[NSAttributedString alloc] initWithString:detail ? : text attributes:nil]];
     }
     
     self.headerView.instructionLabel.attributedText = attributedInstruction;
