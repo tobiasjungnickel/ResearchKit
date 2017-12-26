@@ -78,6 +78,7 @@
 #import "ORKResultPredicate.h"
 
 #import "ORKImplicitAssociationTrial.h"
+#import "ORKImplicitAssociationHelper.h"
 
 #import "ORKHelpers_Internal.h"
 #import "UIImage+ResearchKit.h"
@@ -2527,7 +2528,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
-                    step.detailText = detailText;
+                    step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                     
                     NSString *imageName = @"phonetapping";
                     if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {

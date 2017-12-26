@@ -37,6 +37,7 @@
 #import "ORKResult.h"
 
 #import "ORKHelpers_Internal.h"
+#import "ORKImplicitAssociationHelper.h"
 #import "ORKSkin.h"
 
 #define kAttributeColor [UIColor blueColor]
@@ -48,27 +49,6 @@
 @end
 @implementation ORKImplicitAssociationLabel
 
-- (void)setFormattedText:(NSString *)formattedString {
-     NSMutableArray *tagsToConvert = [NSMutableArray arrayWithObjects:
-     [NSArray arrayWithObjects:@"<red>",@"<font color='red'>",nil],
-     [NSArray arrayWithObjects:@"</red>",@"</font>",nil],
-     nil];
-     
-     while ([tagsToConvert count] > 0) {
-         formattedString = [formattedString stringByReplacingOccurrencesOfString:[[tagsToConvert objectAtIndex:0] objectAtIndex:0]
-                                                                      withString:[[tagsToConvert objectAtIndex:0] objectAtIndex:1]];
-         [tagsToConvert removeObjectAtIndex:0];
-     }
-
-    
-    formattedString = [formattedString stringByAppendingString:[NSString stringWithFormat:@"<style>body{font-family: '%@'; font-size:%fpx;}</style>", self.font.fontName, self.font.pointSize]];
-    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[formattedString dataUsingEncoding:NSUnicodeStringEncoding]
-                                                                            options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                      NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                 documentAttributes:nil
-                                                                              error:nil];
-    self.attributedText = attributedString;
-}
 @end
 
 @interface ORKImplicitAssociationItemLabel : ORKImplicitAssociationLabel
@@ -237,12 +217,12 @@
         _leftDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
         _rightDividerLabel.text = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_ITEM_DIVIDER", nil);
 
-        [_startLabel setFormattedText:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL", nil)];
+        _startLabel.attributedText = [ORKImplicitAssociationHelper textToHTML:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL", nil)];
 
         NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @"X" attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
         _wrongLabel.attributedText = wrongX;
         
-        [_hintLabel setFormattedText:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil)];
+        _hintLabel.attributedText = [ORKImplicitAssociationHelper textToHTML:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil)];
         
         [self setUpConstraints];
         
