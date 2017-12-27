@@ -2451,7 +2451,9 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     
     NSString *left = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil);
     NSString *right = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil);
-    NSString *sorting = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL", nil);
+    NSString *sortingConceptsBlock1 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK1_LABEL", nil);
+    NSString *sortingConceptsBlock5 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK5_LABEL", nil);
+    NSString *sortingAttributes = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_ATTRIBUTES_LABEL", nil);
     NSString *combined = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL", nil);
     NSString *go = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL", nil);
     NSString *hint = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil);
@@ -2482,11 +2484,6 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             step.title = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL", nil);
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL", nil);
-            NSString *imageName = @"phonetapping";
-            if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
-                imageName = [imageName stringByAppendingString:@"_notap"];
-            }
-            step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
             [step validateParameters];
             [steps replaceObjectAtIndex:ORKImplicitAssociationIntroductionBlocks withObject:step];
@@ -2508,16 +2505,16 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
                     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1IntroductionStepIdentifier : ORKImplicitAssociationBlock5IntroductionStepIdentifier];
-                    step.title = index == 0 ? @"Block 1" : @"Block 5";
+                    step.title = index == 0 ? @"Part 1 of 7" : @"Part 5 of 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
                     if (index == 1) {
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)];
@@ -2586,17 +2583,17 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
             {
                 ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2IntroductionStepIdentifier];
-                step.title = @"Block 2";
+                step.title = @"Part 2 of 7";
                 step.text = intendedUseDescription;
                 NSMutableString *detailText = [NSMutableString string];
-                [detailText appendString:[NSString localizedStringWithFormat:sorting, left, left, attributeACategory]];
+                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left, left, attributeACategory]];
                 [detailText appendString:@"\n\n"];
-                [detailText appendString:[NSString localizedStringWithFormat:sorting, right, right, attributeBCategory]];
+                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, right, right, attributeBCategory]];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:hint];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:go];
-                step.detailText = detailText;
+                step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                 
                 NSString *imageName = @"phonetapping";
                 if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
@@ -2650,7 +2647,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
                     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3IntroductionStepIdentifier : ORKImplicitAssociationBlock4IntroductionStepIdentifier];
-                    step.title = index == 0 ? @"Block 3" : @"Block 4";
+                    step.title = index == 0 ? @"Part 3 of 7" : @"Part 4 of 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
                     if (index == 1) {
@@ -2668,7 +2665,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
-                    step.detailText = detailText;
+                    step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                     
                     NSString *imageName = @"phonetapping";
                     if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
@@ -2733,7 +2730,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
                     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6IntroductionStepIdentifier : ORKImplicitAssociationBlock7IntroductionStepIdentifier];
-                    step.title = index == 0 ? @"Block 6" : @"Block 7";
+                    step.title = index == 0 ? @"Part 6 of 7" : @"Part 7 of 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
                     if (index == 1) {
@@ -2751,7 +2748,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
-                    step.detailText = detailText;
+                    step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                     
                     NSString *imageName = @"phonetapping";
                     if (![[NSLocale preferredLanguages].firstObject hasPrefix:@"en"]) {
@@ -2804,24 +2801,13 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         }
     }
     
-    
-    {
-        NSString *stepIdentifier = [self stepIdentifier:ORKInstruction1StepIdentifier withHandIdentifier:ORKInstruction0StepIdentifier];
-        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:stepIdentifier];
-        step.title = ORKLocalizedString(@"TREMOR_TEST_TITLE", nil);
+    [steps removeObject:[NSNull null]];
+     
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+        ORKCompletionStep *step = [self makeCompletionStep];
         
         ORKStepArrayAddStep(steps, step);
     }
-    
-    [steps removeObject:[NSNull null]];
-    
-    /*
-     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
-     ORKInstructionStep *step = [self makeCompletionStep];
-     
-     ORKStepArrayAddStep(steps, step);
-     }
-     */
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
     

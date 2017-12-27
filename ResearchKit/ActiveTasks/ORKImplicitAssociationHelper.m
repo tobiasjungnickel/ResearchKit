@@ -12,8 +12,22 @@
 
 + (NSAttributedString *)textToHTML:(NSString *)taggedString {
     NSMutableArray *tagsToConvert = [NSMutableArray arrayWithObjects:
-                                     [NSArray arrayWithObjects:@"<red>",@"<font color='red'>",nil],
-                                     [NSArray arrayWithObjects:@"</red>",@"</font>",nil],
+                                     //attention
+                                     [NSArray arrayWithObjects:@"<attention>",[NSString stringWithFormat:@"<font color='%@'>", kAttentionHexColor],nil],
+                                     [NSArray arrayWithObjects:@"</attention>",@"</font>",nil],
+                                     //attribute
+                                     [NSArray arrayWithObjects:@"<attribute>",[NSString stringWithFormat:@"<font color='%@'>", kAttributeHexColor],nil],
+                                     [NSArray arrayWithObjects:@"</attribute>",@"</font>",nil],
+                                     //concept
+                                     [NSArray arrayWithObjects:@"<concept>",[NSString stringWithFormat:@"<font color='%@'>", kConceptHexColor],nil],
+                                     [NSArray arrayWithObjects:@"</concept>",@"</font>",nil],
+                                     //bold
+                                     [NSArray arrayWithObjects:@"<bold>",[NSString stringWithFormat:@"<font color='%@'>", kBoldHexColor],nil],
+                                     [NSArray arrayWithObjects:@"</bold>",@"</font>",nil],
+                                     //underline
+                                     [NSArray arrayWithObjects:@"<underline>",@"<u>",nil],
+                                     [NSArray arrayWithObjects:@"</underline>",@"</u>",nil],
+                                     //new line
                                      [NSArray arrayWithObjects:@"\n",@"<br/>",nil],
                                      nil];
     

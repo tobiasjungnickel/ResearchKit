@@ -508,17 +508,19 @@
 "IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL" = "Next, you will use a left and a right button to categorize items into groups as fast as you can. These are the four groups and the items that belong to each:";
 "IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL" = "There are seven parts. The instructions change for each part. Pay attention!";
 "IMPLICIT_ASSOCIATION_ITEM_DIVIDER" = "or";
-"IMPLICIT_ASSOCIATION_HINT_LABEL" = "If you make a mistake, a red <red>X</red> will appear. Press the other key to continue.";
+"IMPLICIT_ASSOCIATION_HINT_LABEL" = "If you make a mistake, a red <attention>X</attention> will appear. Press the other key to continue.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL" = "left";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL" = "right";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_LABEL" = "Put a %@ finger on the <b>%@</b> button for items that belong to the category %@.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL" = "Use the <b>%@</b> button for %@ and for %@.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK1_LABEL" = "Put a %@ finger on the <bold>%@</bold> button for items that belong to the category <concept>%@</concept>.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK5_LABEL" = "Use the %@ finger on the <bold>%@</bold> button for <concept>%@</concept>.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_ATTRIBUTES_LABEL" = "Put a %@ finger on the <bold>%@</bold> button for items that belong to the category <attribute>%@</attribute>.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL" = "Use the <bold>%@</bold> button for <concept>%@</concept> and for <attribute>%@</attribute>.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL" = "Each item belongs to only one category.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL" = "This is the same as the previous part.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL" = "Items will appear one at a time.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL" = "<b>Watch out, the labels have changed position!</b>";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL" = "<u>Go as fast as you can</u> while being accurate.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL" = "Tap <b>any button</b> when you are ready to start.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL" = "<bold>Watch out, the labels have changed position!</bold>";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL" = "<underline>Go as fast as you can</underline> while being accurate.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL" = "Tap <bold>any button</bold> when you are ready to start.";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";

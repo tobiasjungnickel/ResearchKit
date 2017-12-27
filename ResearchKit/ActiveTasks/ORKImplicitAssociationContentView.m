@@ -40,9 +40,6 @@
 #import "ORKImplicitAssociationHelper.h"
 #import "ORKSkin.h"
 
-#define kAttributeColor [UIColor blueColor]
-#define kConceptColor [UIColor colorWithRed:45.0/255.0 green:145.0/255.0 blue:0.0 alpha:1.0]
-
 //#define LAYOUT_DEBUG 1
 
 @interface ORKImplicitAssociationLabel : UILabel
@@ -144,7 +141,7 @@
         
         _leftItemLabel2 = [ORKImplicitAssociationItemLabel new];
         _leftItemLabel2.numberOfLines = 2;
-        _leftItemLabel2.textColor = kConceptColor;
+        _leftItemLabel2.textColor = kConceptUIColor;
         _leftItemLabel2.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -160,7 +157,7 @@
         
         _rightItemLabel2 = [ORKImplicitAssociationItemLabel new];
         _rightItemLabel2.numberOfLines = 2;
-        _rightItemLabel2.textColor = kConceptColor;
+        _rightItemLabel2.textColor = kConceptUIColor;
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -219,7 +216,7 @@
 
         _startLabel.attributedText = [ORKImplicitAssociationHelper textToHTML:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL", nil)];
 
-        NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @"X" attributes : @{ NSForegroundColorAttributeName : [UIColor redColor] }];
+        NSAttributedString *wrongX = [[NSAttributedString alloc] initWithString : @"X" attributes : @{ NSForegroundColorAttributeName : kAttentionUIColor }];
         _wrongLabel.attributedText = wrongX;
         
         _hintLabel.attributedText = [ORKImplicitAssociationHelper textToHTML:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil)];
@@ -252,7 +249,7 @@
 
 - (void)setTerm:(NSString *)term fromCategory:(ORKImplicitAssociationCategory)category {
     _termLabel.text = term;
-    _termLabel.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
+    _termLabel.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeUIColor : kConceptUIColor;
 }
 
 - (void)setItemLeft:(NSString *)left itemRight:(NSString *)right fromCategory:(ORKImplicitAssociationCategory)category {
@@ -262,8 +259,8 @@
     _rightDividerLabel.hidden = YES;
     _leftItemLabel1.text = left;
     _rightItemLabel1.text = right;
-    _leftItemLabel1.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
-    _rightItemLabel1.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeColor : kConceptColor;
+    _leftItemLabel1.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeUIColor : kConceptUIColor;
+    _rightItemLabel1.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeUIColor : kConceptUIColor;
 }
 
 - (void)setItemLeftUpper:(NSString *)leftUpper itemRightUpper:(NSString *)rightUpper itemLeftLowerr:(NSString *)leftLower itemRightLower:(NSString *)rightLower {
@@ -271,8 +268,8 @@
     _rightItemLabel1.text = rightUpper;
     _leftItemLabel2.text = leftLower;
     _rightItemLabel2.text = rightLower;
-    _leftItemLabel1.textColor = kAttributeColor;
-    _rightItemLabel1.textColor = kAttributeColor;
+    _leftItemLabel1.textColor = kAttributeUIColor;
+    _rightItemLabel1.textColor = kAttributeUIColor;
 }
 
 - (void)setWrong:(BOOL)wrong {
