@@ -91,8 +91,8 @@
     _results = [NSMutableArray new];
     _implicitAssociationContentView = [[ORKImplicitAssociationContentView alloc] init];
     self.activeStepView.activeCustomView = _implicitAssociationContentView;
-    [_implicitAssociationContentView.tapButton1 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
-    [_implicitAssociationContentView.tapButton2 addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
+    [_implicitAssociationContentView.leftButton addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
+    [_implicitAssociationContentView.rightButton addTarget:self action:@selector(buttonPressed:forEvent:) forControlEvents:UIControlEventTouchDown];
     [self setupItems];
     [self setupInstruction];
 }
@@ -173,7 +173,7 @@
         [self start];
         return;
     }
-    NSInteger index = (button == _implicitAssociationContentView.tapButton1) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
+    NSInteger index = (button == _implicitAssociationContentView.leftButton) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
     [self receiveTouch:[[event touchesForView:button] anyObject] onButton:index];
 }
 @end

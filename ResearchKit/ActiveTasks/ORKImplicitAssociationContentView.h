@@ -44,9 +44,9 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationMode) {
 
 @interface ORKImplicitAssociationContentView : ORKActiveStepCustomView
 
-@property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton1;
+@property (nonatomic, strong, readonly) ORKRoundTappingButton *leftButton;
 
-@property (nonatomic, strong, readonly) ORKRoundTappingButton *tapButton2;
+@property (nonatomic, strong, readonly) ORKRoundTappingButton *rightButton;
 
 - (void)setMode:(ORKImplicitAssociationMode)mode;
 

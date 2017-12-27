@@ -182,13 +182,13 @@
         _buttonContainer = [UIView new];
         _buttonContainer.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _tapButton1 = [[ORKRoundTappingButton alloc] init];
-        _tapButton1.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tapButton1 setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
+        _leftButton = [[ORKRoundTappingButton alloc] init];
+        _leftButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_leftButton setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
         
-        _tapButton2 = [[ORKRoundTappingButton alloc] init];
-        _tapButton2.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tapButton2 setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
+        _rightButton = [[ORKRoundTappingButton alloc] init];
+        _rightButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_rightButton setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
         
         [self addSubview:_leftItemContainer];
         [self addSubview:_rightItemContainer];
@@ -198,8 +198,8 @@
         [self addSubview:_hintLabel];
         [self addSubview:_buttonContainer];
         
-        [_buttonContainer addSubview:_tapButton1];
-        [_buttonContainer addSubview:_tapButton2];
+        [_buttonContainer addSubview:_leftButton];
+        [_buttonContainer addSubview:_rightButton];
         
         [_leftItemContainer addSubview:_leftItemLabel1];
         [_leftItemContainer addSubview:_leftDividerLabel];
@@ -282,20 +282,20 @@
 
 - (void)resetStep:(ORKActiveStepViewController *)viewController {
     [super resetStep:viewController];
-    _tapButton1.enabled = YES;
-    _tapButton2.enabled = YES;
+    _leftButton.enabled = YES;
+    _rightButton.enabled = YES;
 }
 
 - (void)finishStep:(ORKActiveStepViewController *)viewController {
     [super finishStep:viewController];
-    _tapButton1.enabled = NO;
-    _tapButton2.enabled = NO;
+    _leftButton.enabled = NO;
+    _rightButton.enabled = NO;
 }
 
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _startLabel, _wrongLabel, _hintLabel, _buttonContainer, _tapButton1, _tapButton2);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _startLabel, _wrongLabel, _hintLabel, _buttonContainer, _leftButton, _rightButton);
     
     // left items
     
@@ -413,12 +413,12 @@
     // buttons
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tapButton1]|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_leftButton]|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tapButton2]|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_rightButton]|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
@@ -428,15 +428,15 @@
     const CGFloat buttonsTopMargin = window.bounds.size.height - 300;
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tapButton1]-(==buttonsMiddleMargin)-[_tapButton2(==_tapButton1)]|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_leftButton]-(==buttonsMiddleMargin)-[_rightButton(==_leftButton)]|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:@{@"buttonsMiddleMargin": @(buttonsMiddleMargin)}
                                                views:views]];
     
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_tapButton1
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_leftButton
                                                         attribute:NSLayoutAttributeCenterY
                                                         relatedBy:NSLayoutRelationEqual
-                                                           toItem:_tapButton2
+                                                           toItem:_rightButton
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
