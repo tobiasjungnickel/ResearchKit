@@ -423,10 +423,14 @@
                                              metrics:nil
                                                views:views]];
     
+    UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
+    const CGFloat buttonsMiddleMargin = window.bounds.size.width - 375;
+    const CGFloat buttonsTopMargin = window.bounds.size.height - 300;
+    
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tapButton1]-(>=24)-[_tapButton2(==_tapButton1)]|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tapButton1]-(==buttonsMiddleMargin)-[_tapButton2(==_tapButton1)]|"
                                              options:(NSLayoutFormatOptions)0
-                                             metrics:nil
+                                             metrics:@{@"buttonsMiddleMargin": @(buttonsMiddleMargin)}
                                                views:views]];
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_tapButton1
@@ -437,15 +441,13 @@
                                                        multiplier:1.0
                                                          constant:0.0]];
     
-    UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
-    
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_buttonContainer
                                                         attribute:NSLayoutAttributeTop
                                                         relatedBy:NSLayoutRelationEqual
                                                            toItem:self
                                                         attribute:NSLayoutAttributeTop
                                                        multiplier:1.0
-                                                         constant:window.bounds.size.height - 300]];
+                                                         constant:buttonsTopMargin]];
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:self
                                                         attribute:NSLayoutAttributeCenterX
@@ -456,8 +458,6 @@
                                                          constant:0.0]];
     
     // terms and buttons alignment
-    
-    
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=220)-[_wrongLabel]-(==10)-[_hintLabel]-(==10)-[_buttonContainer]-|"
