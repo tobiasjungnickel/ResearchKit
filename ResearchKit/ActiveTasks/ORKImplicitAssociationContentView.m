@@ -380,7 +380,7 @@
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_leftItemContainer]-(>=24)-[_rightItemContainer(==_leftItemContainer)]|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_leftItemContainer]-(>=24)-[_rightItemContainer(==_leftItemContainer)]-|"
                                              options:(NSLayoutFormatOptions)0
                                              metrics:nil
                                                views:views]];
