@@ -276,6 +276,12 @@
     _wrongLabel.hidden = !wrong;
 }
 
+- (void)setInteractionEnabled:(BOOL)enabled {
+    _leftButton.enabled = enabled;
+    _rightButton.enabled = enabled;
+    _termLabel.hidden = !enabled;
+}
+
 - (void)tintColorDidChange {
     [super tintColorDidChange];
 }

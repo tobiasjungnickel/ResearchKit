@@ -119,6 +119,7 @@
     [_implicitAssociationContentView setMode:ORKImplicitAssociationModeTrial];
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     [_implicitAssociationContentView setTerm:trial.term fromCategory:trial.category];
+    [_implicitAssociationContentView setInteractionEnabled:YES];
     _stimulusTimestamp = [NSProcessInfo processInfo].systemUptime;
 }
 
@@ -142,12 +143,19 @@
 - (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
     if (trial.buttonIdentifier == buttonIdentifier) {
+        [_implicitAssociationContentView setInteractionEnabled:NO];
+        [_implicitAssociationContentView setWrong:NO];
         ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
         implicitAssociationResult.latency = touch.timestamp - _stimulusTimestamp;
         implicitAssociationResult.correct = ORKImplicitAssociationCorrectValue(trial.correct);
         [_results addObject:implicitAssociationResult];
         _currentTrial += 1;
-        [self setupTrial];
+        [NSTimer scheduledTimerWithTimeInterval:0.25f
+                                         target:self
+                                       selector:@selector(setupTrial)
+                                       userInfo:nil
+                                        repeats:NO];
+        
     } else {
         [_implicitAssociationContentView setWrong:YES];
     }

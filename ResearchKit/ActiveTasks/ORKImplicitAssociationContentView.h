@@ -58,6 +58,8 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationMode) {
 
 - (void)setWrong:(BOOL)wrong;
 
+- (void)setInteractionEnabled:(BOOL)enabled;
+
 @end
 
 NS_ASSUME_NONNULL_END
