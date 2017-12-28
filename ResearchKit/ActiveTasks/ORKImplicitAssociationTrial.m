@@ -12,13 +12,13 @@
 
 - (ORKTappingButtonIdentifier)buttonIdentifier {
     switch (_correct) {
-        case ORKImplicitAssociationCorrectATTRleft:
-        case ORKImplicitAssociationCorrectTARG1left:
-        case ORKImplicitAssociationCorrectTARG2left:
+        case ORKImplicitAssociationCorrectItemLeft:
+        case ORKImplicitAssociationCorrectItem1Left:
+        case ORKImplicitAssociationCorrectItem2Left:
             return ORKTappingButtonIdentifierLeft;
-        case ORKImplicitAssociationCorrectATTRright:
-        case ORKImplicitAssociationCorrectTARG1right:
-        case ORKImplicitAssociationCorrectTARG2right:
+        case ORKImplicitAssociationCorrectItemRight:
+        case ORKImplicitAssociationCorrectItem1Right:
+        case ORKImplicitAssociationCorrectItem2Right:
             return ORKTappingButtonIdentifierRight;
     }
     return ORKTappingButtonIdentifierNone;

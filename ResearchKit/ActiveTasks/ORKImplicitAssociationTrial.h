@@ -19,14 +19,14 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCategory) {
 };
 
 typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCorrect) {
-    ORKImplicitAssociationCorrectATTRleft,
-    ORKImplicitAssociationCorrectATTRright,
-    ORKImplicitAssociationCorrectTARG1left,
-    ORKImplicitAssociationCorrectTARG1right,
-    ORKImplicitAssociationCorrectTARG2left,
-    ORKImplicitAssociationCorrectTARG2right
+    ORKImplicitAssociationCorrectItemLeft,
+    ORKImplicitAssociationCorrectItemRight,
+    ORKImplicitAssociationCorrectItem1Left,
+    ORKImplicitAssociationCorrectItem1Right,
+    ORKImplicitAssociationCorrectItem2Left,
+    ORKImplicitAssociationCorrectItem2Right
 };
-#define ORKImplicitAssociationCorrectValue(ORKImplicitAssociationCorrect) [@[@"ATTRleft", @"ATTRright", @"TARG1left", @"TARG1right", @"TARG2left", @"TARG2right"] objectAtIndex:ORKImplicitAssociationCorrect]
+#define ORKImplicitAssociationCorrectValue(ORKImplicitAssociationCorrect) [@[@"ItemLeft", @"ItemRight", @"Item1Left", @"Item1Right", @"Item2Left", @"Item2Right"] objectAtIndex:ORKImplicitAssociationCorrect]
 
 @interface ORKImplicitAssociationTrial : NSObject
 
