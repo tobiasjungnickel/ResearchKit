@@ -11,6 +11,7 @@
 #import "ORKFormStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
+#import "ORKImplicitAssociationHelper.h"
 
 
 ORKDefineStringKey(ORKBasicCellReuseIdentifier2);
@@ -25,7 +26,7 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier2);
     return 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (nullable NSString *)titleForHeaderInSection:(NSInteger)section tableView:(UITableView *)tableView {
     switch (section) {
         case 0:
             return _attributeACategory;
@@ -52,15 +53,19 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier2);
     switch (indexPath.section) {
         case 0:
             cell.textLabel.text =  [_attributeAItems componentsJoinedByString:@", "];
+            cell.textLabel.textColor = kAttributeUIColor;
             break;
         case 1:
             cell.textLabel.text =  [_attributeBItems componentsJoinedByString:@", "];
+            cell.textLabel.textColor = kAttributeUIColor;
             break;
         case 2:
             cell.textLabel.text =  [_conceptAItems componentsJoinedByString:@", "];
+            cell.textLabel.textColor = kConceptUIColor;
             break;
         case 3:
             cell.textLabel.text =  [_conceptBItems componentsJoinedByString:@", "];
+            cell.textLabel.textColor = kConceptUIColor;
             break;
         default:
             break;
