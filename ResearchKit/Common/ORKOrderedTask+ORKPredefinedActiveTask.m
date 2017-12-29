@@ -2533,11 +2533,11 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 ORKImplicitAssociationCorrect termCorrect;
                 
                 if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
-                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectItem1Left : ORKImplicitAssociationCorrectItem2Right;
+                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1left : ORKImplicitAssociationCorrectTARG2right;
                     iaTrial.leftItem1 = conceptACategory;
                     iaTrial.rightItem1 = conceptBCategory;
                 } else {
-                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectItem1Right : ORKImplicitAssociationCorrectItem2Left;
+                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1right : ORKImplicitAssociationCorrectTARG2left;
                     iaTrial.leftItem1 = conceptBCategory;
                     iaTrial.rightItem1 = conceptACategory;
                 }
@@ -2594,7 +2594,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             NSUInteger random = arc4random_uniform((uint32_t)attributesAll.count);
             NSString *randomTerm = [attributesAll objectAtIndex:random];
             
-            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectItemLeft : ORKImplicitAssociationCorrectItemRight;
+            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
             
             ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
             iaTrial.term = randomTerm;
@@ -2662,14 +2662,14 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
                 ORKImplicitAssociationCorrect termCorrect;
                 
-                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItemLeft;
-                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItemRight;
+                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
                 
-                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem2Left;
-                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem2Right;
+                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
                 
-                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem1Right;
-                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem1Left;
+                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
                 
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
@@ -2740,14 +2740,14 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 NSString *randomTerm = [stimuliAll objectAtIndex:random];
                 ORKImplicitAssociationCorrect termCorrect;
                 
-                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItemLeft;
-                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItemRight;
+                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
                 
-                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem1Left;
-                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem1Right;
+                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
                 
-                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem2Right;
-                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectItem2Left;
+                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
                 
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = randomTerm;
