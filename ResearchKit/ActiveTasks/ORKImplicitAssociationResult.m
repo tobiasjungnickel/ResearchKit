@@ -49,7 +49,7 @@
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; latency: %f; correct: %@%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.latency, self.correct, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; latency: %f; correct: %@; error: %lu%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.latency, self.correct, (unsigned long)self.error, self.descriptionSuffix];
 }
 
 @end

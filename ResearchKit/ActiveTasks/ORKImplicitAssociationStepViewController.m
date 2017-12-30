@@ -62,7 +62,8 @@
 @interface ORKImplicitAssociationStepViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *samples;
-@property (nonatomic) NSUInteger currentTrial;
+@property (nonatomic) NSUInteger currentTrialNumber;
+@property (nonatomic) BOOL currentTrialWrong;
 
 @end
 
@@ -111,20 +112,21 @@
 }
 
 - (void)setupTrial {
-    if (_currentTrial >= [self trials].count) {
+    if (_currentTrialNumber >= [self trials].count) {
         [self stepDidFinish];
         return;
     }
+    _currentTrialWrong = NO;
     [_implicitAssociationContentView setWrong:NO];
     [_implicitAssociationContentView setMode:ORKImplicitAssociationModeTrial];
-    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrialNumber];
     [_implicitAssociationContentView setTerm:trial.term fromCategory:trial.category];
     [_implicitAssociationContentView setInteractionEnabled:YES];
     _stimulusTimestamp = [NSProcessInfo processInfo].systemUptime;
 }
 
 - (void)setupItems {
-    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrialNumber];
     if ([self block] == ORKImplicitAssociationBlockTypeSort) {
         //sorting
         [_implicitAssociationContentView setItemLeft:trial.leftItem1 itemRight:trial.rightItem1 fromCategory:trial.category];
@@ -141,15 +143,16 @@
 }
 
 - (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
-    ORKImplicitAssociationTrial *trial = [self trials][_currentTrial];
+    ORKImplicitAssociationTrial *trial = [self trials][_currentTrialNumber];
     if (trial.buttonIdentifier == buttonIdentifier) {
         [_implicitAssociationContentView setInteractionEnabled:NO];
         [_implicitAssociationContentView setWrong:NO];
         ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
         implicitAssociationResult.latency = touch.timestamp - _stimulusTimestamp;
         implicitAssociationResult.correct = ORKImplicitAssociationCorrectValue(trial.correct);
+        implicitAssociationResult.error = _currentTrialWrong;
         [_results addObject:implicitAssociationResult];
-        _currentTrial += 1;
+        _currentTrialNumber += 1;
         [NSTimer scheduledTimerWithTimeInterval:0.25f
                                          target:self
                                        selector:@selector(setupTrial)
@@ -157,6 +160,7 @@
                                         repeats:NO];
         
     } else {
+        _currentTrialWrong = YES;
         [_implicitAssociationContentView setWrong:YES];
     }
 }
