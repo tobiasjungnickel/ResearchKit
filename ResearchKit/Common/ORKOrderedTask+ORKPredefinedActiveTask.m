@@ -2395,18 +2395,6 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                                              trialsBlock7:(NSNumber *)trialsBlock7
                                                   options:(ORKPredefinedTaskOption)options {
     
-    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
-    
-    NSMutableArray *attributesAll = [NSMutableArray array];
-    [attributesAll addObjectsFromArray:attributeAItems];
-    [attributesAll addObjectsFromArray:attributeBItems];
-    NSMutableArray *conceptsAll = [NSMutableArray array];
-    [conceptsAll addObjectsFromArray:conceptAItems];
-    [conceptsAll addObjectsFromArray:conceptBItems];
-    NSMutableArray *stimuliAll = [NSMutableArray array];
-    [stimuliAll addObjectsFromArray:attributesAll];
-    [stimuliAll addObjectsFromArray:conceptsAll];
-    
     typedef NS_ENUM(NSUInteger, ORKImplicitAssociationStepBlock) {
         ORKImplicitAssociationStepBlockSortCategory,
         ORKImplicitAssociationStepBlockSortAttribute,
@@ -2436,6 +2424,19 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         ORKImplicitAssociationBlock7Intro,
         ORKImplicitAssociationBlock7Test
     };
+    
+    NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
+    
+    NSMutableArray *attributesAll = [NSMutableArray array];
+    [attributesAll addObjectsFromArray:attributeAItems];
+    [attributesAll addObjectsFromArray:attributeBItems];
+    attributesAll = [[ORKOrderedTask shuffledDistributionOfArray:[attributesAll copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)] mutableCopy];
+    NSMutableArray *conceptsAll = [NSMutableArray array];
+    [conceptsAll addObjectsFromArray:conceptAItems];
+    [conceptsAll addObjectsFromArray:conceptBItems];
+    NSMutableArray *stimuliAll = [NSMutableArray array];
+    [stimuliAll addObjectsFromArray:attributesAll];
+    [stimuliAll addObjectsFromArray:conceptsAll];
     
     NSString *left = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil);
     NSString *right = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil);
@@ -2591,8 +2592,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         
         for (NSUInteger trial = 0; trial < ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute); trial++) {
             
-            NSUInteger random = arc4random_uniform((uint32_t)attributesAll.count);
-            NSString *randomTerm = [attributesAll objectAtIndex:random];
+            NSString *randomTerm = [attributesAll objectAtIndex:trial];
             
             ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
             
@@ -2779,6 +2779,44 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
     
     return task;
+}
+
++ (NSArray *)shuffledDistributionOfArray:(NSArray *)array forNumberOfItems:(NSInteger)numberOfItems {
+    NSArray *shuffledArray = [ORKOrderedTask shuffle:array];
+    NSMutableArray *distributedArray = [NSMutableArray array];
+    NSUInteger currentElement = 0;
+    for (NSUInteger trial = 0; trial < numberOfItems; trial++) {
+        [distributedArray addObject:[shuffledArray objectAtIndex:currentElement]];
+        currentElement++;
+        if (currentElement == shuffledArray.count) {
+            currentElement = 0;
+        }
+    }
+    return [ORKOrderedTask shuffleWithoutSequence:[distributedArray copy]];
+}
+
++ (NSArray *)shuffle:(NSArray *)array {
+    NSMutableArray *mutableArray = [array mutableCopy];
+    for (NSUInteger i = mutableArray.count; i > 1; i--)
+        [mutableArray exchangeObjectAtIndex:i - 1 withObjectAtIndex:arc4random_uniform((u_int32_t)i)];
+    return [mutableArray copy];
+}
+
++ (NSArray *)shuffleWithoutSequence:(NSArray *)array {
+    NSMutableArray *mutableArraySource = [array mutableCopy];
+    NSMutableArray *mutableArrayTarget = [NSMutableArray array];
+    NSString *lastElement = @"";
+    while (mutableArraySource.count > 0) {
+        
+        NSUInteger random = arc4random_uniform((uint32_t)mutableArraySource.count);
+        NSString *randomTerm = [mutableArraySource objectAtIndex:random];
+        if (![randomTerm isEqualToString:lastElement]) {
+            [mutableArrayTarget addObject:randomTerm];
+            [mutableArraySource removeObjectAtIndex:random];
+            lastElement = randomTerm;
+        }
+    }
+    return [mutableArrayTarget copy];
 }
 
 
