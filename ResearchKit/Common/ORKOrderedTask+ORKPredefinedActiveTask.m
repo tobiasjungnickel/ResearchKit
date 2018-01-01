@@ -2434,6 +2434,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     NSMutableArray *conceptsAll = [NSMutableArray array];
     [conceptsAll addObjectsFromArray:conceptAItems];
     [conceptsAll addObjectsFromArray:conceptBItems];
+    conceptsAll = [[ORKOrderedTask shuffledDistributionOfArray:[conceptsAll copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)] mutableCopy];
     NSMutableArray *stimuliAll = [NSMutableArray array];
     [stimuliAll addObjectsFromArray:attributesAll];
     [stimuliAll addObjectsFromArray:conceptsAll];
