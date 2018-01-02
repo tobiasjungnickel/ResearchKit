@@ -2427,10 +2427,13 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     
     NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
+    attributeAItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeAItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
+    attributeBItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeBItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
     NSMutableArray *attributesAll = [NSMutableArray array];
     [attributesAll addObjectsFromArray:attributeAItems];
     [attributesAll addObjectsFromArray:attributeBItems];
-    attributesAll = [[ORKOrderedTask shuffledDistributionOfArray:[attributesAll copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)] mutableCopy];
+    conceptAItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptAItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
+    conceptBItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptBItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
     NSMutableArray *conceptsAll = [NSMutableArray array];
     [conceptsAll addObjectsFromArray:conceptAItems];
     [conceptsAll addObjectsFromArray:conceptBItems];
