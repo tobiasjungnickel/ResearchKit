@@ -2427,17 +2427,16 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     
     NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
-    attributeAItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeAItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
-    attributeBItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeBItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
+    attributeAItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeAItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
+    attributeBItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeBItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
     NSMutableArray *attributesAll = [NSMutableArray array];
     [attributesAll addObjectsFromArray:attributeAItems];
     [attributesAll addObjectsFromArray:attributeBItems];
-    conceptAItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptAItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
-    conceptBItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptBItems copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
+    conceptAItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptAItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
+    conceptBItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptBItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
     NSMutableArray *conceptsAll = [NSMutableArray array];
     [conceptsAll addObjectsFromArray:conceptAItems];
     [conceptsAll addObjectsFromArray:conceptBItems];
-    conceptsAll = [[ORKOrderedTask shuffledDistributionOfArray:[conceptsAll copy] forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)] mutableCopy];
     NSMutableArray *stimuliAll = [NSMutableArray array];
     [stimuliAll addObjectsFromArray:attributesAll];
     [stimuliAll addObjectsFromArray:conceptsAll];
@@ -2785,7 +2784,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     return task;
 }
 
-+ (NSArray *)shuffledDistributionOfArray:(NSArray *)array forNumberOfItems:(NSInteger)numberOfItems {
++ (NSArray *)shuffledDistributionOfArray:(NSArray *)array withSequencePossibility:(BOOL)sequencePossibility forNumberOfItems:(NSInteger)numberOfItems {
     NSArray *shuffledArray = [ORKOrderedTask shuffle:array];
     NSMutableArray *distributedArray = [NSMutableArray array];
     NSUInteger currentElement = 0;
@@ -2796,7 +2795,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             currentElement = 0;
         }
     }
-    return [ORKOrderedTask shuffleWithoutSequence:[distributedArray copy]];
+    return [ORKOrderedTask shuffleArray:[distributedArray copy] withSequencePossibility:sequencePossibility];
 }
 
 + (NSArray *)shuffle:(NSArray *)array {
@@ -2806,7 +2805,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     return [mutableArray copy];
 }
 
-+ (NSArray *)shuffleWithoutSequence:(NSArray *)array {
++ (NSArray *)shuffleArray:(NSArray *)array withSequencePossibility:(BOOL)sequencePossibility {
     NSMutableArray *mutableArraySource = [array mutableCopy];
     NSMutableArray *mutableArrayTarget = [NSMutableArray array];
     NSString *lastElement = @"";
@@ -2814,7 +2813,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         
         NSUInteger random = arc4random_uniform((uint32_t)mutableArraySource.count);
         NSString *randomTerm = [mutableArraySource objectAtIndex:random];
-        if (![randomTerm isEqualToString:lastElement]) {
+        if (sequencePossibility || ![randomTerm isEqualToString:lastElement]) {
             [mutableArrayTarget addObject:randomTerm];
             [mutableArraySource removeObjectAtIndex:random];
             lastElement = randomTerm;
