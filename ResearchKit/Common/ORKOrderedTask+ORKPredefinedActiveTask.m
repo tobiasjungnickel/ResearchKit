@@ -2427,20 +2427,79 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     
     NSMutableArray *steps = [@[ [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null] ] mutableCopy];
     
-    attributeAItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeAItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
-    attributeBItems = [[ORKOrderedTask shuffledDistributionOfArray:[attributeBItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute)/2] mutableCopy];
-    NSMutableArray *attributesAll = [NSMutableArray array];
-    [attributesAll addObjectsFromArray:attributeAItems];
-    [attributesAll addObjectsFromArray:attributeBItems];
-    conceptAItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptAItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
-    conceptBItems = [[ORKOrderedTask shuffledDistributionOfArray:[conceptBItems copy] withSequencePossibility:YES forNumberOfItems:ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory)/2] mutableCopy];
+    
+    //not required by minno-time, but makes it balanced
+    NSAssert(trialsBlock1.integerValue % 2 == 0, @"number of trials in block 1 have to be even");
+    NSAssert(trialsBlock2.integerValue % 2 == 0, @"number of trials in block 2 have to be even");
+    NSAssert(trialsBlock3.integerValue % 4 == 0, @"number of trials in block 3 have to be divisible by 4");
+    NSAssert(trialsBlock4.integerValue % 4 == 0, @"number of trials in block 4 have to be divisible by 4");
+    NSAssert(trialsBlock5.integerValue % 2 == 0, @"number of trials in block 5 have to be even");
+    NSAssert(trialsBlock6.integerValue % 4 == 0, @"number of trials in block 6 have to be divisible by 4");
+    NSAssert(trialsBlock7.integerValue % 4 == 0, @"number of trials in block 7 have to be divisible by 4");
+    NSAssert(conceptAItems.count == conceptBItems.count, @"Number of concepts A and concepts B have to be equal");
+    NSAssert(attributeAItems.count == attributeBItems.count, @"Number of attributes A and attributes B have to be equal");
+    
+    
+    //Concepts
     NSMutableArray *conceptsAll = [NSMutableArray array];
     [conceptsAll addObjectsFromArray:conceptAItems];
     [conceptsAll addObjectsFromArray:conceptBItems];
-    NSMutableArray *stimuliAll = [NSMutableArray array];
-    [stimuliAll addObjectsFromArray:attributesAll];
-    [stimuliAll addObjectsFromArray:conceptsAll];
     
+    //Attributes
+    NSMutableArray *attributesAll = [NSMutableArray array];
+    [attributesAll addObjectsFromArray:attributeAItems];
+    [attributesAll addObjectsFromArray:attributeBItems];
+    
+    
+    //Terms Block 1 & Block 5
+    NSArray *termsBlock1 = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock1.integerValue];
+    NSArray *termsBlock5 = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock5.integerValue];
+    
+    //Terms Block 2
+    NSArray *termsBlock2 = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock2.integerValue];
+    
+    //Terms Block 3
+    NSArray *termsBlock3Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock3.integerValue/2];
+    NSArray *termsBlock3Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock3.integerValue/2];
+    NSMutableArray *termsBlock3 = [NSMutableArray array];
+    for (int i=0; i<trialsBlock3.integerValue/2; ++i) {
+        //always first concept, second attribute as in minno-time
+        [termsBlock3 addObject:termsBlock3Concepts[i]];
+        [termsBlock3 addObject:termsBlock3Attributes[i]];
+    }
+    
+    //Terms Block 4
+    NSArray *termsBlock4Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock4.integerValue/2];
+    NSArray *termsBlock4Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock4.integerValue/2];
+    NSMutableArray *termsBlock4 = [NSMutableArray array];
+    for (int i=0; i<trialsBlock4.integerValue/2; ++i) {
+        //always first concept, second attribute as in minno-time
+        [termsBlock4 addObject:termsBlock4Concepts[i]];
+        [termsBlock4 addObject:termsBlock4Attributes[i]];
+    }
+    
+    //Terms Block 6
+    NSArray *termsBlock6Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock6.integerValue/2];
+    NSArray *termsBlock6Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock6.integerValue/2];
+    NSMutableArray *termsBlock6 = [NSMutableArray array];
+    for (int i=0; i<trialsBlock6.integerValue/2; ++i) {
+        //always first concept, second attribute as in minno-time
+        [termsBlock6 addObject:termsBlock6Concepts[i]];
+        [termsBlock6 addObject:termsBlock6Attributes[i]];
+    }
+    
+    //Terms Block 7
+    NSArray *termsBlock7Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock7.integerValue/2];
+    NSArray *termsBlock7Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock7.integerValue/2];
+    NSMutableArray *termsBlock7 = [NSMutableArray array];
+    for (int i=0; i<trialsBlock7.integerValue/2; ++i) {
+        //always first concept, second attribute as in minno-time
+        [termsBlock7 addObject:termsBlock7Concepts[i]];
+        [termsBlock7 addObject:termsBlock7Attributes[i]];
+    }
+    
+    
+    //Labels
     NSString *left = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil);
     NSString *right = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil);
     NSString *sortingConceptsBlock1 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK1_LABEL", nil);
@@ -2530,23 +2589,22 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             NSMutableArray *trials = [NSMutableArray array];
             for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategory) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortCategoryReverse)); trial++) {
                 
-                NSUInteger random = arc4random_uniform((uint32_t)conceptsAll.count);
-                NSString *randomTerm = [conceptsAll objectAtIndex:random];
+                NSString *term = [(index == 0 ? termsBlock1 : termsBlock5) objectAtIndex:trial];
                 
-                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 ORKImplicitAssociationCorrect termCorrect;
                 
+                ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 if ((index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0)) {
-                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1left : ORKImplicitAssociationCorrectTARG2right;
+                    termCorrect = [conceptAItems containsObject:term] ? ORKImplicitAssociationCorrectTARG1left : ORKImplicitAssociationCorrectTARG2right;
                     iaTrial.leftItem1 = conceptACategory;
                     iaTrial.rightItem1 = conceptBCategory;
                 } else {
-                    termCorrect = [conceptAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectTARG1right : ORKImplicitAssociationCorrectTARG2left;
+                    termCorrect = [conceptAItems containsObject:term] ? ORKImplicitAssociationCorrectTARG1right : ORKImplicitAssociationCorrectTARG2left;
                     iaTrial.leftItem1 = conceptBCategory;
                     iaTrial.rightItem1 = conceptACategory;
                 }
                 
-                iaTrial.term = randomTerm;
+                iaTrial.term = term;
                 iaTrial.category = ORKImplicitAssociationCategoryConcept;
                 iaTrial.correct = termCorrect;
                 [trials addObject:iaTrial];
@@ -2595,12 +2653,12 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         
         for (NSUInteger trial = 0; trial < ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockSortAttribute); trial++) {
             
-            NSString *randomTerm = [attributesAll objectAtIndex:trial];
+            NSString *term = [termsBlock2 objectAtIndex:trial];
             
-            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:randomTerm] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
+            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:term] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
             
             ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-            iaTrial.term = randomTerm;
+            iaTrial.term = term;
             iaTrial.category = ORKImplicitAssociationCategoryAttribute;
             iaTrial.leftItem1 = attributeACategory;
             iaTrial.rightItem1 = attributeBCategory;
@@ -2661,22 +2719,22 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             
             for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedPractice) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedCritical)); trial++) {
                 
-                NSUInteger random = arc4random_uniform((uint32_t)stimuliAll.count);
-                NSString *randomTerm = [stimuliAll objectAtIndex:random];
+                NSString *term = [(index == 0 ? termsBlock3 : termsBlock4) objectAtIndex:trial];
+                
                 ORKImplicitAssociationCorrect termCorrect;
                 
-                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
-                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                if ([attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
                 
-                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
-                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                if (randomConceptSide == 0 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
                 
-                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
-                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 0 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
                 
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-                iaTrial.term = randomTerm;
-                iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
+                iaTrial.term = term;
+                iaTrial.category = [conceptsAll containsObject:term] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
                 iaTrial.leftItem1 = attributeACategory;
                 iaTrial.leftItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
                 iaTrial.rightItem1 = attributeBCategory;
@@ -2739,22 +2797,22 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             
             for (NSUInteger trial = 0; trial < (index == 0 ? ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedPracticeReverse) : ORKImplicitAssociationBlockTrials(ORKImplicitAssociationStepBlockCombinedCriticalReverse)); trial++) {
                 
-                NSUInteger random = arc4random_uniform((uint32_t)stimuliAll.count);
-                NSString *randomTerm = [stimuliAll objectAtIndex:random];
+                NSString *term = [(index == 0 ? termsBlock6 : termsBlock7) objectAtIndex:trial];
+                
                 ORKImplicitAssociationCorrect termCorrect;
                 
-                if ([attributeAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
-                if ([attributeBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                if ([attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if ([attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
                 
-                if (randomConceptSide == 0 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
-                if (randomConceptSide == 1 && [conceptAItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                if (randomConceptSide == 0 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 1 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
                 
-                if (randomConceptSide == 0 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
-                if (randomConceptSide == 1 && [conceptBItems containsObject:randomTerm]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                if (randomConceptSide == 0 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
                 
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
-                iaTrial.term = randomTerm;
-                iaTrial.category = [conceptsAll containsObject:randomTerm] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
+                iaTrial.term = term;
+                iaTrial.category = [conceptsAll containsObject:term] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
                 iaTrial.leftItem1 = attributeACategory;
                 iaTrial.leftItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
                 iaTrial.rightItem1 = attributeBCategory;
@@ -2784,10 +2842,11 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     return task;
 }
 
-+ (NSArray *)shuffledDistributionOfArray:(NSArray *)array withSequencePossibility:(BOOL)sequencePossibility forNumberOfItems:(NSInteger)numberOfItems {
++ (NSArray *)exRandomOfArray:(NSArray *)array forNumberOfItems:(NSInteger)numberOfItems {
     NSArray *shuffledArray = [ORKOrderedTask shuffle:array];
     NSMutableArray *distributedArray = [NSMutableArray array];
     NSUInteger currentElement = 0;
+    //distribute elements
     for (NSUInteger trial = 0; trial < numberOfItems; trial++) {
         [distributedArray addObject:[shuffledArray objectAtIndex:currentElement]];
         currentElement++;
@@ -2795,7 +2854,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             currentElement = 0;
         }
     }
-    return [ORKOrderedTask shuffleArray:[distributedArray copy] withSequencePossibility:sequencePossibility];
+    return [ORKOrderedTask shuffle:[distributedArray copy]];
 }
 
 + (NSArray *)shuffle:(NSArray *)array {
@@ -2804,23 +2863,5 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         [mutableArray exchangeObjectAtIndex:i - 1 withObjectAtIndex:arc4random_uniform((u_int32_t)i)];
     return [mutableArray copy];
 }
-
-+ (NSArray *)shuffleArray:(NSArray *)array withSequencePossibility:(BOOL)sequencePossibility {
-    NSMutableArray *mutableArraySource = [array mutableCopy];
-    NSMutableArray *mutableArrayTarget = [NSMutableArray array];
-    NSString *lastElement = @"";
-    while (mutableArraySource.count > 0) {
-        
-        NSUInteger random = arc4random_uniform((uint32_t)mutableArraySource.count);
-        NSString *randomTerm = [mutableArraySource objectAtIndex:random];
-        if (sequencePossibility || ![randomTerm isEqualToString:lastElement]) {
-            [mutableArrayTarget addObject:randomTerm];
-            [mutableArraySource removeObjectAtIndex:random];
-            lastElement = randomTerm;
-        }
-    }
-    return [mutableArrayTarget copy];
-}
-
 
 @end
