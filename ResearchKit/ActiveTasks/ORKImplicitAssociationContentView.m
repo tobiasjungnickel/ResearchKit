@@ -430,8 +430,29 @@
                                                views:views]];
     
     UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
-    const CGFloat buttonsMiddleMargin = window.bounds.size.width - 375;
-    const CGFloat buttonsTopMargin = window.bounds.size.height - 300;
+    CGFloat buttonsMiddleMargin;
+    CGFloat buttonsTopMargin;
+    ORKScreenType screenType = ORKGetVerticalScreenTypeForWindow(self.window);
+    switch (screenType) {
+        case ORKScreenTypeiPhone6:
+            buttonsMiddleMargin = window.bounds.size.width - 325;
+            buttonsTopMargin = window.bounds.size.height - 225;
+            break;
+        case ORKScreenTypeiPhone6Plus:
+            buttonsMiddleMargin = window.bounds.size.width - 375;
+            buttonsTopMargin = window.bounds.size.height - 300;
+            break;
+        case ORKScreenTypeiPad:
+            buttonsMiddleMargin = window.bounds.size.width - 450;
+            buttonsTopMargin = window.bounds.size.height - 425;
+            break;
+        case default:
+            buttonsMiddleMargin = window.bounds.size.width - 375;
+            buttonsTopMargin = window.bounds.size.height - 300;
+            break;
+    }
+    
+    
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_leftButton]-(==buttonsMiddleMargin)-[_rightButton(==_leftButton)]|"
