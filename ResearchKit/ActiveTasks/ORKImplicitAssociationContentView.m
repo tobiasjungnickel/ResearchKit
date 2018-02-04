@@ -446,7 +446,7 @@
             buttonsMiddleMargin = window.bounds.size.width - 450;
             buttonsTopMargin = window.bounds.size.height - 425;
             break;
-        case default:
+        default:
             buttonsMiddleMargin = window.bounds.size.width - 375;
             buttonsTopMargin = window.bounds.size.height - 300;
             break;
