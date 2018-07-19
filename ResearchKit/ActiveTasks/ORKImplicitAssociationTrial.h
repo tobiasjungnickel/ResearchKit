@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCorrect) {
 
 @interface ORKImplicitAssociationTrial : NSObject
 
-@property (nonatomic, strong) NSString *term;
+@property (nonatomic, strong) NSObject *term;
 
 @property (nonatomic, assign) ORKImplicitAssociationCategory category;
 

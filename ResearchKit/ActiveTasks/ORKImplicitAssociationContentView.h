@@ -50,7 +50,7 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationMode) {
 
 - (void)setMode:(ORKImplicitAssociationMode)mode;
 
-- (void)setTerm:(NSString *)term fromCategory:(ORKImplicitAssociationCategory)category;
+- (void)setTerm:(NSObject *)term fromCategory:(ORKImplicitAssociationCategory)category;
 
 - (void)setItemLeft:(NSString *)left itemRight:(NSString *)right fromCategory:(ORKImplicitAssociationCategory)category;
 

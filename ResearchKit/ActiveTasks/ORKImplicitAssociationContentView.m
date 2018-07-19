@@ -106,7 +106,9 @@
     
     UIView *_leftItemContainer;
     UIView *_rightItemContainer;
+    UIView *_termContainer;
     ORKHeadlineLabel *_termLabel;
+    UIImageView *_termImage;
     ORKImplicitAssociationItemLabel *_leftItemLabel1;
     ORKImplicitAssociationItemLabel *_leftDividerLabel;
     ORKImplicitAssociationItemLabel *_leftItemLabel2;
@@ -161,9 +163,15 @@
         _rightItemLabel2.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel2.translatesAutoresizingMaskIntoConstraints = NO;
         
+        _termContainer = [UIView new];
+        _termContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        
         _termLabel = [ORKHeadlineLabel new];
         _termLabel.textAlignment = NSTextAlignmentCenter;
         _termLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _termImage = [UIImageView new];
+        _termImage.translatesAutoresizingMaskIntoConstraints = NO;
         
         _startLabel = [ORKImplicitAssociationStartLabel new];
         _startLabel.textAlignment = NSTextAlignmentCenter;
@@ -192,7 +200,11 @@
         
         [self addSubview:_leftItemContainer];
         [self addSubview:_rightItemContainer];
-        [self addSubview:_termLabel];
+        
+        [self addSubview:_termContainer];
+        [_termContainer addSubview:_termImage];
+        [_termContainer addSubview:_termLabel];
+        
         [self addSubview:_startLabel];
         [self addSubview:_wrongLabel];
         [self addSubview:_hintLabel];
@@ -227,7 +239,9 @@
         self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.5];
         _leftItemContainer.backgroundColor = [UIColor redColor];
         _rightItemContainer.backgroundColor = [UIColor purpleColor];
+        _termContainer.backgroundColor = [UIColor magentaColor];
         _termLabel.backgroundColor = [UIColor orangeColor];
+        _termImage.backgroundColor = [UIColor brownColor];
         _startLabel.backgroundColor = [UIColor cyanColor];
         _wrongLabel.backgroundColor = [UIColor greenColor];
         _hintLabel.backgroundColor = [UIColor yellowColor];
@@ -240,15 +254,23 @@
 - (void)setMode:(ORKImplicitAssociationMode)mode {
     if (mode == ORKImplicitAssociationModeInstruction) {
         _termLabel.hidden = YES;
+        _termImage.hidden = YES;
         _startLabel.hidden = NO;
     } else {
         _termLabel.hidden = NO;
+        _termImage.hidden = NO;
         _startLabel.hidden = YES;
     }
 }
 
-- (void)setTerm:(NSString *)term fromCategory:(ORKImplicitAssociationCategory)category {
-    _termLabel.text = term;
+- (void)setTerm:(NSObject *)term fromCategory:(ORKImplicitAssociationCategory)category {
+    if ([term isKindOfClass:NSString.class]) {
+        _termLabel.text = (NSString *)term;
+        _termImage.hidden = true;
+    } else {
+        _termImage.image = (UIImage *)term;
+        _termLabel.hidden = true;
+    }
     _termLabel.textColor = category == ORKImplicitAssociationCategoryAttribute ? kAttributeUIColor : kConceptUIColor;
 }
 
@@ -280,6 +302,7 @@
     _leftButton.enabled = enabled;
     _rightButton.enabled = enabled;
     _termLabel.hidden = !enabled;
+    _termImage.hidden = !enabled;
 }
 
 - (void)tintColorDidChange {
@@ -301,7 +324,7 @@
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termLabel, _startLabel, _wrongLabel, _hintLabel, _buttonContainer, _leftButton, _rightButton);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_leftItemContainer, _leftItemLabel1, _leftDividerLabel, _leftItemLabel2, _rightItemContainer, _rightItemLabel1, _rightDividerLabel, _rightItemLabel2, _termContainer, _termLabel, _termImage, _startLabel, _wrongLabel, _hintLabel, _buttonContainer, _leftButton, _rightButton);
     
     // left items
     
@@ -394,13 +417,64 @@
     
     // terms
     
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
                                                         attribute:NSLayoutAttributeCenterX
                                                         relatedBy:NSLayoutRelationEqual
                                                            toItem:self
                                                         attribute:NSLayoutAttributeCenterX
                                                        multiplier:1.0
                                                          constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_termLabel
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_termLabel
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_termImage
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_termImage
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [_termImage addConstraint:[NSLayoutConstraint constraintWithItem:_termImage
+                                                           attribute:NSLayoutAttributeWidth
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute: NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:150]];
+    
+    // Height constraint
+    [_termImage addConstraint:[NSLayoutConstraint constraintWithItem:_termImage
+                                                           attribute:NSLayoutAttributeHeight
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute: NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:150]];
+    
+    // start
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_startLabel]-|"
@@ -493,12 +567,12 @@
                                                views:views]];
     
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=200)-[_termLabel]-(>=8)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=200)-[_termContainer]-(>=8)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
     
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termLabel
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
                                                         attribute:NSLayoutAttributeFirstBaseline
                                                         relatedBy:NSLayoutRelationEqual
                                                            toItem:_startLabel
