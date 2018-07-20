@@ -60,15 +60,53 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier2);
             cell.textLabel.textColor = kAttributeUIColor;
             break;
         case 2:
-            cell.textLabel.text =  [_conceptAItems componentsJoinedByString:@", "];
-            cell.textLabel.textColor = kConceptUIColor;
+            if ([[_conceptAItems objectAtIndex:0] isKindOfClass:NSString.class]) {
+                cell.textLabel.text =  [_conceptAItems componentsJoinedByString:@", "];
+                cell.textLabel.textColor = kConceptUIColor;
+            } else {
+                [self cell:cell forCategory:_conceptAItems];
+            }
             break;
         case 3:
-            cell.textLabel.text =  [_conceptBItems componentsJoinedByString:@", "];
-            cell.textLabel.textColor = kConceptUIColor;
+            if ([[_conceptBItems objectAtIndex:0] isKindOfClass:NSString.class]) {
+                cell.textLabel.text =  [_conceptBItems componentsJoinedByString:@", "];
+                cell.textLabel.textColor = kConceptUIColor;
+            } else {
+                [self cell:cell forCategory:_conceptBItems];
+            }
             break;
         default:
             break;
+    }
+}
+
+- (void)cell:(UITableViewCell *)cell forCategory:(NSArray *)category  {
+    UIStackView *stackViewVertical = [[UIStackView alloc] init];
+    stackViewVertical.backgroundColor = [UIColor magentaColor];
+    stackViewVertical.axis = UILayoutConstraintAxisVertical;
+    stackViewVertical.distribution = UIStackViewDistributionEqualSpacing;
+    stackViewVertical.alignment = UIStackViewAlignmentLeading;
+    stackViewVertical.spacing = 10;
+    stackViewVertical.translatesAutoresizingMaskIntoConstraints = false;
+    [cell addSubview:stackViewVertical];
+    [stackViewVertical.leadingAnchor constraintEqualToAnchor:cell.leadingAnchor constant:16].active = true;
+    [stackViewVertical.trailingAnchor constraintEqualToAnchor:cell.trailingAnchor constant:-16].active = true;
+    [stackViewVertical.topAnchor constraintEqualToAnchor:cell.topAnchor constant:8].active = true;
+    [stackViewVertical.bottomAnchor constraintEqualToAnchor:cell.bottomAnchor constant:-8].active = true;
+    
+    for (int column = 0; column < 2; column++) {
+        UIStackView *stackViewHorizontalFirstLine = [[UIStackView alloc] init];
+        stackViewHorizontalFirstLine.axis = UILayoutConstraintAxisHorizontal;
+        stackViewHorizontalFirstLine.distribution = UIStackViewDistributionEqualSpacing;
+        stackViewHorizontalFirstLine.alignment = UIStackViewAlignmentCenter;
+        stackViewHorizontalFirstLine.spacing = 0;
+        for (int i = 0; i < 5; ++i) {
+            UIImageView *view1 = [[UIImageView alloc] initWithImage:(UIImage *)[category objectAtIndex:column+i]];
+            [view1.heightAnchor constraintEqualToConstant:75].active = true;
+            [view1.widthAnchor constraintEqualToConstant:75].active = true;
+            [stackViewHorizontalFirstLine addArrangedSubview:view1];
+        }
+        [stackViewVertical addArrangedSubview:stackViewHorizontalFirstLine];
     }
 }
 
