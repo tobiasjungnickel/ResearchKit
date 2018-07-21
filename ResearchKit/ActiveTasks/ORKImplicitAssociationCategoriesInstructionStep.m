@@ -13,9 +13,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKImplicitAssociationHelper.h"
 
-
-ORKDefineStringKey(ORKBasicCellReuseIdentifier2);
-
 @implementation ORKImplicitAssociationCategoriesInstructionStep
 
 - (NSInteger)numberOfSections {
@@ -81,32 +78,39 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier2);
 }
 
 - (void)cell:(UITableViewCell *)cell forCategory:(NSArray *)category  {
-    UIStackView *stackViewVertical = [[UIStackView alloc] init];
-    stackViewVertical.backgroundColor = [UIColor magentaColor];
+    UIStackView *stackViewVertical = [UIStackView new];
     stackViewVertical.axis = UILayoutConstraintAxisVertical;
     stackViewVertical.distribution = UIStackViewDistributionEqualSpacing;
     stackViewVertical.alignment = UIStackViewAlignmentLeading;
-    stackViewVertical.spacing = 10;
-    stackViewVertical.translatesAutoresizingMaskIntoConstraints = false;
-    [cell addSubview:stackViewVertical];
-    [stackViewVertical.leadingAnchor constraintEqualToAnchor:cell.leadingAnchor constant:16].active = true;
-    [stackViewVertical.trailingAnchor constraintEqualToAnchor:cell.trailingAnchor constant:-16].active = true;
-    [stackViewVertical.topAnchor constraintEqualToAnchor:cell.topAnchor constant:8].active = true;
-    [stackViewVertical.bottomAnchor constraintEqualToAnchor:cell.bottomAnchor constant:-8].active = true;
+    stackViewVertical.spacing = 0;
+    stackViewVertical.translatesAutoresizingMaskIntoConstraints = NO;
+    [cell.contentView addSubview:stackViewVertical];
+    NSArray *constraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[stackViewVertical]-|"
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:@{ @"stackViewVertical" : stackViewVertical}];
+    NSArray *constraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[stackViewVertical]-|"
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:@{ @"stackViewVertical" : stackViewVertical}];
+    [cell.contentView addConstraints:constraint_H];
+    [cell.contentView addConstraints:constraint_V];
     
     for (int column = 0; column < 2; column++) {
-        UIStackView *stackViewHorizontalFirstLine = [[UIStackView alloc] init];
-        stackViewHorizontalFirstLine.axis = UILayoutConstraintAxisHorizontal;
-        stackViewHorizontalFirstLine.distribution = UIStackViewDistributionEqualSpacing;
-        stackViewHorizontalFirstLine.alignment = UIStackViewAlignmentCenter;
-        stackViewHorizontalFirstLine.spacing = 0;
+        UIStackView *stackViewHorizontal = [UIStackView new];
+        stackViewHorizontal.translatesAutoresizingMaskIntoConstraints = NO;
+        stackViewHorizontal.axis = UILayoutConstraintAxisHorizontal;
+        stackViewHorizontal.distribution = UIStackViewDistributionEqualSpacing;
+        stackViewHorizontal.alignment = UIStackViewAlignmentTop;
+        stackViewHorizontal.spacing = 0;
         for (int i = 0; i < 5; ++i) {
-            UIImageView *view1 = [[UIImageView alloc] initWithImage:(UIImage *)[category objectAtIndex:column+i]];
-            [view1.heightAnchor constraintEqualToConstant:75].active = true;
-            [view1.widthAnchor constraintEqualToConstant:75].active = true;
-            [stackViewHorizontalFirstLine addArrangedSubview:view1];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:(UIImage *)[category objectAtIndex:column+i]];
+            imageView.translatesAutoresizingMaskIntoConstraints = NO;
+            [imageView.heightAnchor constraintEqualToConstant:70].active = true;
+            [imageView.widthAnchor constraintEqualToConstant:70].active = true;
+            [stackViewHorizontal addArrangedSubview:imageView];
         }
-        [stackViewVertical addArrangedSubview:stackViewHorizontalFirstLine];
+        [stackViewVertical addArrangedSubview:stackViewHorizontal];
     }
 }
 
