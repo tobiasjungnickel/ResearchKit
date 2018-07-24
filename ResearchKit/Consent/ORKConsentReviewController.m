@@ -71,12 +71,15 @@
     _toolbar = [[UIToolbar alloc] init];
     _toolbar.items = self.toolbarItems;
     
-    self.view.backgroundColor = ORKColor(ORKBackgroundColorKey);
+    self.view.backgroundColor = ORKColor(ORKConsentBackgroundColorKey);
+    if (self.navigationController.navigationBar) {
+        [self.navigationController.navigationBar setBarTintColor:self.view.backgroundColor];
+    }
     
     _webView = [UIWebView new];
     [_webView loadHTMLString:_htmlString baseURL:ORKCreateRandomBaseURL()];
-    _webView.backgroundColor = ORKColor(ORKBackgroundColorKey);
-    _webView.scrollView.backgroundColor = ORKColor(ORKBackgroundColorKey);
+    _webView.backgroundColor = ORKColor(ORKConsentBackgroundColorKey);
+    _webView.scrollView.backgroundColor = ORKColor(ORKConsentBackgroundColorKey);
     _webView.delegate = self;
     [_webView setClipsToBounds:YES];
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -111,7 +114,7 @@
                                                                              options:(NSLayoutFormatOptions)0
                                                                              metrics:nil
                                                                                views:views]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_webView][_toolbar]|"
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_webView][_toolbar]-|"
                                                                              options:(NSLayoutFormatOptions)0 metrics:nil
                                                                                views:views]];
     
