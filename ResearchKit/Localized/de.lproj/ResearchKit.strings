@@ -500,6 +500,27 @@
 "TRAILMAKING_LETTER_E" = "E";
 "TRAILMAKING_LETTER_F" = "F";
 
+/* Implicit Association active task. */
+"IMPLICIT_ASSOCIATION_INTRODUCTION_TITLE_LABEL" = "Impliziter Assoziationstest";
+"IMPLICIT_ASSOCIATION_INTRODUCTION_TEXT_LABEL" = "Als Nächstes verwenden Sie eine linke und eine rechte Schaltfläche, um Elemente so schnell wie möglich in Gruppen zu kategorisieren. Dies sind die vier Gruppen und die Elemente, die zu jeder gehören:";
+"IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL" = "Es gibt sieben Phasen. Die Anweisungen ändern sich für jede Phasen. Passen Sie auf!";
+"IMPLICIT_ASSOCIATION_ITEM_DIVIDER" = "oder";
+"IMPLICIT_ASSOCIATION_HINT_LABEL" = "Wenn Sie einen Fehler machen, erscheint ein rotes <attention>X</attention>. Tippen Sie auf die andere Schaltfläche, um fortzufahren.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL1" = "linken";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL2" = "linke";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL1" = "rechten";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL2" = "rechte";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK1_LABEL" = "Legen Sie einen %@ Finger auf die <bold>%@</bold> Schaltfläche für Elemente, die zur Kategorie <concept>%@</concept> gehören.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK5_LABEL" = "Legen Sie den %@ Finger auf die <bold>%@</bold> Schaltfläche für <concept>%@</concept>.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_ATTRIBUTES_LABEL" = "Legen Sie einen %@ Finger auf die <bold>%@</bold> Schaltfläche für Elemente, die zur Kategorie <attribute>%@</attribute> gehören.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_COMBINED_LABEL" = "Nutzen Sie die <bold>%@</bold> Schaltfläche für <concept>%@</concept> und für <attribute>%@</attribute>.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL" = "Jedes Element gehört nur einer Kategorie an.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL" = "Dies ist die gleiche wie die vorherige Phase.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL" = "Elemente werden nacheinander angezeigt.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL" = "<bold>Achtung, die Beschriftungen haben ihre Position geändert!</bold>";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL" = "<underline>Machen Sie so schnell Sie können</underline> während Sie genau sind.";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_START_LABEL" = "Tippen Sie auf <bold>eine beliebige Schaltfläche</bold>, wenn Sie bereit sind zu starten.";
+
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Fehler beim Erstellen der Datei";
 "ERROR_DATALOGGER_COULD_NOT_FREE_SPACE" = "Es konnten nicht genügend Protokolldateien gelöscht werden, um den Schwellenwert zu erreichen.";

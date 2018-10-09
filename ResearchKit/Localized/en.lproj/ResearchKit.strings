@@ -557,8 +557,10 @@
 "IMPLICIT_ASSOCIATION_INTRODUCTION_PARTS_LABEL" = "There are seven parts. The instructions change for each part. Pay attention!";
 "IMPLICIT_ASSOCIATION_ITEM_DIVIDER" = "or";
 "IMPLICIT_ASSOCIATION_HINT_LABEL" = "If you make a mistake, a red <attention>X</attention> will appear. Tap the other button to continue.";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL" = "left";
-"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL" = "right";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL1" = "left";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL2" = "left";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL1" = "right";
+"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL2" = "right";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK1_LABEL" = "Put a %@ finger on the <bold>%@</bold> button for items that belong to the category <concept>%@</concept>.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK5_LABEL" = "Use the %@ finger on the <bold>%@</bold> button for <concept>%@</concept>.";
 "IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_ATTRIBUTES_LABEL" = "Put a %@ finger on the <bold>%@</bold> button for items that belong to the category <attribute>%@</attribute>.";

@@ -2773,8 +2773,10 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     
     
     //Labels
-    NSString *left = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL", nil);
-    NSString *right = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL", nil);
+    NSString *left1 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL1", nil);
+    NSString *left2 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_LEFT_LABEL2", nil);
+    NSString *right1 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL1", nil);
+    NSString *right2 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_RIGHT_LABEL2", nil);
     NSString *sortingConceptsBlock1 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK1_LABEL", nil);
     NSString *sortingConceptsBlock5 = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_CONCEPTS_BLOCK5_LABEL", nil);
     NSString *sortingAttributes = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_SORTING_ATTRIBUTES_LABEL", nil);
@@ -2829,9 +2831,9 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_WATCH_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, left, left, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, left1, left2, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, right, right, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, right1, right2, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)];
@@ -2898,9 +2900,9 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 step.title = @"Part 2 of 7";
                 step.text = intendedUseDescription;
                 NSMutableString *detailText = [NSMutableString string];
-                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left, left, attributeACategory]];
+                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left1, left2, attributeACategory]];
                 [detailText appendString:@"\n\n"];
-                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, right, right, attributeBCategory]];
+                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, right1, right2, attributeBCategory]];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:hint];
                 [detailText appendString:@"\n\n"];
@@ -2960,9 +2962,9 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeACategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
@@ -3038,9 +3040,9 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeACategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
