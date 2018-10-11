@@ -512,8 +512,9 @@
             buttonsTopMargin = window.bounds.size.height - 225;
             break;
         case ORKScreenTypeiPhone6Plus:
+        case ORKScreenTypeiPhoneMax:
             buttonsMiddleMargin = window.bounds.size.width - 375;
-            buttonsTopMargin = window.bounds.size.height - 300;
+            buttonsTopMargin = window.bounds.size.height - 350;
             break;
         case ORKScreenTypeiPad: //9.7
             buttonsMiddleMargin = window.bounds.size.width - 450;
