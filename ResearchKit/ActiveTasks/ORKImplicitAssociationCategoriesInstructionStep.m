@@ -104,7 +104,7 @@
         stackViewHorizontal.alignment = UIStackViewAlignmentTop;
         stackViewHorizontal.spacing = 0;
         for (int i = 0; i < 5; ++i) {
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:(UIImage *)[category objectAtIndex:column+i]];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:(UIImage *)[category objectAtIndex:column*5+i]];
             imageView.translatesAutoresizingMaskIntoConstraints = NO;
             [imageView.heightAnchor constraintEqualToConstant:70].active = true;
             [imageView.widthAnchor constraintEqualToConstant:70].active = true;
