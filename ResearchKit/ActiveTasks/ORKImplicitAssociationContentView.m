@@ -517,7 +517,7 @@
             buttonsTopMargin = window.bounds.size.height - 350;
             break;
         case ORKScreenTypeiPad: //9.7
-            buttonsMiddleMargin = window.bounds.size.width - 450;
+            buttonsMiddleMargin = window.bounds.size.width - 500;
             buttonsTopMargin = window.bounds.size.height - 425;
             break;
         case ORKScreenTypeiPad10_5:
