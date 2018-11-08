@@ -1493,6 +1493,8 @@ encondingTable =
          nil,
          (@{
             PROPERTY(latency, NSNumber, NSObject, NO, nil, nil),
+            PROPERTY(correct, NSString, NSObject, NO, nil, nil),
+            PROPERTY(error, NSNumber, NSObject, NO, nil, nil),
             })),
    ENTRY(ORKPasscodeResult,
          nil,
