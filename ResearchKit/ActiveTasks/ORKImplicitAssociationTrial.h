@@ -24,7 +24,8 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationCorrect) {
     ORKImplicitAssociationCorrectTARG1left,
     ORKImplicitAssociationCorrectTARG1right,
     ORKImplicitAssociationCorrectTARG2left,
-    ORKImplicitAssociationCorrectTARG2right
+    ORKImplicitAssociationCorrectTARG2right,
+    ORKImplicitAssociationCorrectNone
 };
 #define ORKImplicitAssociationCorrectValue(ORKImplicitAssociationCorrect) [@[@"ATTRleft", @"ATTRright", @"TARG1left", @"TARG1right", @"TARG2left", @"TARG2right"] objectAtIndex:ORKImplicitAssociationCorrect]
 

@@ -84,6 +84,13 @@
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
 #import "ORKSkin.h"
+#import <ResearchKit/ResearchKit-Swift.h>
+#import "ORKTouchAbilityTapStep.h"
+#import "ORKTouchAbilityLongPressStep.h"
+#import "ORKTouchAbilitySwipeStep.h"
+#import "ORKTouchAbilityPinchStep.h"
+#import "ORKTouchAbilityRotationStep.h"
+#import "ORKTouchAbilityScrollStep.h"
 
 #import "ORKImplicitAssociationTrial.h"
 #import "ORKImplicitAssociationHelper.h"
@@ -198,7 +205,6 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
                                    intendedUseDescription:(NSString *)intendedUseDescription
                                                   options:(ORKPredefinedTaskOption)options {
     NSMutableArray *steps = [NSMutableArray array];
-    UIColor *tintColor = [[[UIApplication sharedApplication] delegate] window].tintColor ? : ORKColor(ORKBlueHighlightColorKey);
 
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
@@ -207,8 +213,8 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"AMSLER_GRID_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"amslerGrid" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
-            
             ORKStepArrayAddStep(steps, step);
         }
         {
@@ -220,16 +226,11 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
 
             NSString *leftEye = ORKLocalizedString(@"AMSLER_GRID_LEFT_EYE", nil);
             NSString *detailText = [@"\n" stringByAppendingString:[NSString stringWithFormat:ORKLocalizedString(@"AMSLER_GRID_INSTRUCTION_DETAIL_TEXT", nil), leftEye]];
-
-            NSMutableAttributedString *attributedDetailText = [[NSMutableAttributedString alloc] initWithString:detailText];
-            [attributedDetailText addAttribute:NSForegroundColorAttributeName
-                                         value:tintColor
-                                         range:[detailText rangeOfString:leftEye]];
-            step.attributedDetailText = attributedDetailText;
+            step.detailText = detailText;
             
             step.image = [UIImage imageNamed:@"amslerGrid" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
     }
@@ -245,13 +246,10 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
             step.text = ORKLocalizedString(@"AMSLER_GRID_INSTRUCTION_TEXT", nil);
             NSString *rightEye = ORKLocalizedString(@"AMSLER_GRID_RIGHT_EYE", nil);
             NSString *detailText = [@"\n" stringByAppendingString:[NSString stringWithFormat:ORKLocalizedString(@"AMSLER_GRID_INSTRUCTION_DETAIL_TEXT", nil), rightEye]];
+            step.detailText = detailText;
             
-            NSMutableAttributedString *attributedDetailText = [[NSMutableAttributedString alloc] initWithString:detailText];
-            [attributedDetailText addAttribute:NSForegroundColorAttributeName
-                                         value:tintColor
-                                         range:[detailText rangeOfString:rightEye]];
-            step.attributedDetailText = attributedDetailText;
             step.image = [UIImage imageNamed:@"amslerGrid" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -299,6 +297,7 @@ NSString *const ORKHolePegTestNonDominantRemoveStepIdentifier = @"hole.peg.test.
             step.text = intendedUseDescription;
             step.detailText = [[NSString alloc] initWithFormat:ORKLocalizedString(@"HOLE_PEG_TEST_INTRO_TEXT_%@", nil), pegs];
             step.image = [UIImage imageNamed:@"phoneholepeg" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -307,7 +306,7 @@ NSString *const ORKHolePegTestNonDominantRemoveStepIdentifier = @"hole.peg.test.
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
             step.title = [[NSString alloc] initWithFormat:ORKLocalizedString(@"HOLE_PEG_TEST_TITLE_%@", nil), pegs];
-            step.text = dominantHandLeft ? [[NSString alloc] initWithFormat:ORKLocalizedString(@"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@", nil), pegs, pegs] : [[NSString alloc] initWithFormat:ORKLocalizedString(@"HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@", nil), pegs, pegs];
+            step.text = dominantHandLeft ? [[NSString alloc] initWithFormat:ORKLocalizedString(@"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@", nil), pegs, pegs] : [[NSString alloc] initWithFormat:ORKLocalizedString(@"HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@%@", nil), pegs, pegs];
             step.detailText = ORKLocalizedString(@"HOLE_PEG_TEST_CALL_TO_ACTION", nil);
             UIImage *image1 = [UIImage imageNamed:@"holepegtest1" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             UIImage *image2 = [UIImage imageNamed:@"holepegtest2" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
@@ -316,6 +315,7 @@ NSString *const ORKHolePegTestNonDominantRemoveStepIdentifier = @"hole.peg.test.
             UIImage *image5 = [UIImage imageNamed:@"holepegtest5" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             UIImage *image6 = [UIImage imageNamed:@"holepegtest6" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.image = [UIImage animatedImageWithImages:@[image1, image2, image3, image4, image5, image6] duration:4];
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -433,7 +433,7 @@ NSString *const ORKTappingStepIdentifier = @"tapping";
             }
             step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             ORKStepArrayAddStep(steps, step);
         }
     }
@@ -455,12 +455,12 @@ NSString *const ORKTappingStepIdentifier = @"tapping";
         
     for (NSUInteger hand = 1; hand <= handCount; hand++) {
         
-        NSString * (^appendIdentifier) (NSString *) = ^ (NSString * identifier) {
+        NSString * (^appendIdentifier) (NSString *) = ^ (NSString * stepIdentifier) {
             if (undefinedHand) {
-                return identifier;
+                return stepIdentifier;
             } else {
                 NSString *handIdentifier = rightHand ? ORKActiveTaskRightHandIdentifier : ORKActiveTaskLeftHandIdentifier;
-                return [NSString stringWithFormat:@"%@.%@", identifier, handIdentifier];
+                return [NSString stringWithFormat:@"%@.%@", stepIdentifier, handIdentifier];
             }
         };
         
@@ -517,6 +517,7 @@ NSString *const ORKTappingStepIdentifier = @"tapping";
             } else {
                 step.image = [imageAnimation ork_flippedImage:UIImageOrientationUpMirrored];
             }
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -598,18 +599,18 @@ NSString *const ORKAudioTooLoudStepIdentifier = @"audio.tooloud";
             step.detailText = ORKLocalizedString(@"AUDIO_INTENDED_USE", nil);
             step.image = [UIImage imageNamed:@"phonewaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
         
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
             step.title = ORKLocalizedString(@"AUDIO_TASK_TITLE", nil);
-            step.text = speechInstruction ? : ORKLocalizedString(@"AUDIO_INTRO_TEXT",nil);
+            step.text = speechInstruction ? : ORKLocalizedString(@"AUDIO_INTRO_TEXT", nil);
             step.detailText = ORKLocalizedString(@"AUDIO_CALL_TO_ACTION", nil);
-            step.image = [UIImage imageNamed:@"phonesoundwaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.image = [UIImage imageNamed:@"phonewaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
     }
@@ -695,7 +696,7 @@ NSString *const ORKFitnessRestStepIdentifier = @"fitness.rest";
             step.text = intendedUseDescription ? : [NSString localizedStringWithFormat:ORKLocalizedString(@"FITNESS_INTRO_TEXT_FORMAT", nil), [formatter stringFromTimeInterval:walkDuration]];
             step.image = [UIImage imageNamed:@"heartbeat" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
         
@@ -705,7 +706,7 @@ NSString *const ORKFitnessRestStepIdentifier = @"fitness.rest";
             step.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"FITNESS_INTRO_2_TEXT_FORMAT", nil), [formatter stringFromTimeInterval:walkDuration], [formatter stringFromTimeInterval:restDuration]];
             step.image = [UIImage imageNamed:@"walkingman" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
     }
@@ -752,6 +753,7 @@ NSString *const ORKFitnessRestStepIdentifier = @"fitness.rest";
             fitnessStep.shouldStartTimerAutomatically = YES;
             fitnessStep.shouldTintImages = YES;
             fitnessStep.image = [UIImage imageNamed:@"walkingman" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            fitnessStep.imageContentMode = UIViewContentModeCenter;
             fitnessStep.shouldVibrateOnStart = YES;
             fitnessStep.shouldPlaySoundOnStart = YES;
             
@@ -784,6 +786,7 @@ NSString *const ORKFitnessRestStepIdentifier = @"fitness.rest";
             stillStep.shouldStartTimerAutomatically = YES;
             stillStep.shouldTintImages = YES;
             stillStep.image = [UIImage imageNamed:@"sittingman" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            stillStep.imageContentMode = UIViewContentModeCenter;
             stillStep.shouldVibrateOnStart = YES;
             stillStep.shouldPlaySoundOnStart = YES;
             stillStep.shouldPlaySoundOnFinish = YES;
@@ -826,6 +829,7 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"WALK_INTRO_TEXT", nil);
             step.shouldTintImages = YES;
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
         
@@ -836,6 +840,7 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             step.detailText = ORKLocalizedString(@"WALK_INTRO_2_DETAIL", nil);
             step.image = [UIImage imageNamed:@"pocket" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
     }
@@ -969,6 +974,7 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"WALK_INTRO_TEXT", nil);
             step.shouldTintImages = YES;
+            step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
         
@@ -978,6 +984,7 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             step.text = ORKLocalizedString(@"WALK_INTRO_2_TEXT_BACK_AND_FORTH_INSTRUCTION", nil);
             step.detailText = ORKLocalizedString(@"WALK_INTRO_2_DETAIL_BACK_AND_FORTH_INSTRUCTION", nil);
             step.image = [UIImage imageNamed:@"pocket" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             ORKStepArrayAddStep(steps, step);
         }
@@ -1078,29 +1085,28 @@ NSString *const ORKKneeRangeOfMotionStepIdentifier = @"knee.range.of.motion";
                                                 options:(ORKPredefinedTaskOption)options {
     NSMutableArray *steps = [NSMutableArray array];
     NSString *limbType = ORKLocalizedString(@"LIMB_RIGHT", nil);
-    UIImage *kneeFlexedImage = [UIImage imageNamed:@"knee_flexed_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-    UIImage *kneeExtendedImage = [UIImage imageNamed:@"knee_extended_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    UIImage *kneeStartImage = [UIImage imageNamed:@"knee_start_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    UIImage *kneeMaximumImage = [UIImage imageNamed:@"knee_maximum_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
     
     if (limbOption == ORKPredefinedTaskLimbOptionLeft) {
         limbType = ORKLocalizedString(@"LIMB_LEFT", nil);
         
-        kneeFlexedImage = [UIImage imageNamed:@"knee_flexed_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        kneeExtendedImage = [UIImage imageNamed:@"knee_extended_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        kneeStartImage = [UIImage imageNamed:@"knee_start_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        kneeMaximumImage = [UIImage imageNamed:@"knee_maximum_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
     }
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         ORKInstructionStep *instructionStep0 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
         instructionStep0.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep0.text = intendedUseDescription ? : ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_RIGHT", nil);;
+        instructionStep0.text = intendedUseDescription;
         instructionStep0.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT", nil);
         instructionStep0.shouldTintImages = YES;
+        instructionStep0.imageContentMode = UIViewContentModeCenter;
         ORKStepArrayAddStep(steps, instructionStep0);
         
         ORKInstructionStep *instructionStep1 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
         instructionStep1.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep1.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_RIGHT", nil);
-        
-        instructionStep1.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil);
+        instructionStep1.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil);
         ORKStepArrayAddStep(steps, instructionStep1);
         
         ORKInstructionStep *instructionStep2 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
@@ -1108,16 +1114,17 @@ NSString *const ORKKneeRangeOfMotionStepIdentifier = @"knee.range.of.motion";
         instructionStep2.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_RIGHT", nil);
         
         instructionStep2.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT", nil);
-        instructionStep2.image = kneeFlexedImage;
+        instructionStep2.image = kneeStartImage;
+        instructionStep2.imageContentMode = UIViewContentModeCenter;
         instructionStep2.shouldTintImages = YES;
         ORKStepArrayAddStep(steps, instructionStep2);
         
         ORKInstructionStep *instructionStep3 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
         instructionStep3.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep3.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_RIGHT", nil);
-        instructionStep3.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil);
+        instructionStep3.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil);
         
-        instructionStep3.image = kneeExtendedImage;
+        instructionStep3.image = kneeMaximumImage;
+        instructionStep3.imageContentMode = UIViewContentModeCenter;
         instructionStep3.shouldTintImages = YES;
         ORKStepArrayAddStep(steps, instructionStep3);
     }
@@ -1125,6 +1132,8 @@ NSString *const ORKKneeRangeOfMotionStepIdentifier = @"knee.range.of.motion";
     ORKTouchAnywhereStep *touchAnywhereStep = [[ORKTouchAnywhereStep alloc] initWithIdentifier:ORKTouchAnywhereStepIdentifier instructionText:instructionText];
     touchAnywhereStep.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
     ORKStepArrayAddStep(steps, touchAnywhereStep);
+
+    touchAnywhereStep.spokenInstruction = touchAnywhereStep.text;
     
     ORKDeviceMotionRecorderConfiguration *deviceMotionRecorderConfig = [[ORKDeviceMotionRecorderConfiguration alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier frequency:100];
     
@@ -1159,45 +1168,42 @@ NSString *const ORKShoulderRangeOfMotionStepIdentifier = @"shoulder.range.of.mot
                                                     options:(ORKPredefinedTaskOption)options {
     NSMutableArray *steps = [NSMutableArray array];
     NSString *limbType = ORKLocalizedString(@"LIMB_RIGHT", nil);
-    UIImage *shoulderFlexedImage = [UIImage imageNamed:@"shoulder_flexed_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-    UIImage *shoulderExtendedImage = [UIImage imageNamed:@"shoulder_extended_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    UIImage *shoulderStartImage = [UIImage imageNamed:@"shoulder_start_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    UIImage *shoulderMaximumImage = [UIImage imageNamed:@"shoulder_maximum_right" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
     
     if (limbOption == ORKPredefinedTaskLimbOptionLeft) {
         limbType = ORKLocalizedString(@"LIMB_LEFT", nil);
-        shoulderFlexedImage = [UIImage imageNamed:@"shoulder_flexed_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        shoulderExtendedImage = [UIImage imageNamed:@"shoulder_extended_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        shoulderStartImage = [UIImage imageNamed:@"shoulder_start_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        shoulderMaximumImage = [UIImage imageNamed:@"shoulder_maximum_left" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
     }
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         ORKInstructionStep *instructionStep0 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
         instructionStep0.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep0.text = intendedUseDescription ? : ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT", nil);;
+        instructionStep0.text = intendedUseDescription;
         instructionStep0.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT", nil);
         instructionStep0.shouldTintImages = YES;
+        instructionStep0.imageContentMode = UIViewContentModeCenter;
         ORKStepArrayAddStep(steps, instructionStep0);
         
         ORKInstructionStep *instructionStep1 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
         instructionStep1.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep1.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT", nil);
-        
-        instructionStep1.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil);
+        instructionStep1.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil);
         ORKStepArrayAddStep(steps, instructionStep1);
         
         ORKInstructionStep *instructionStep2 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
         instructionStep2.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep2.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT", nil);
-        
-        instructionStep2.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT", nil);
-        instructionStep2.image = shoulderFlexedImage;
+        instructionStep2.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT", nil);
+        instructionStep2.image = shoulderStartImage;
+        instructionStep2.imageContentMode = UIViewContentModeCenter;
         instructionStep2.shouldTintImages = YES;
         ORKStepArrayAddStep(steps, instructionStep2);
         
         ORKInstructionStep *instructionStep3 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
         instructionStep3.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-        instructionStep3.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT", nil);
-        
-        instructionStep3.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil);
-        instructionStep3.image = shoulderExtendedImage;
+        instructionStep3.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) : ORKLocalizedString(@"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil);
+        instructionStep3.image = shoulderMaximumImage;
+        instructionStep3.imageContentMode = UIViewContentModeCenter;
         instructionStep3.shouldTintImages = YES;
         ORKStepArrayAddStep(steps, instructionStep3);
     }
@@ -1206,6 +1212,8 @@ NSString *const ORKShoulderRangeOfMotionStepIdentifier = @"shoulder.range.of.mot
     ORKTouchAnywhereStep *touchAnywhereStep = [[ORKTouchAnywhereStep alloc] initWithIdentifier:ORKTouchAnywhereStepIdentifier instructionText:instructionText];
     touchAnywhereStep.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
     ORKStepArrayAddStep(steps, touchAnywhereStep);
+    
+    touchAnywhereStep.spokenInstruction = touchAnywhereStep.text;
     
     ORKDeviceMotionRecorderConfiguration *deviceMotionRecorderConfig = [[ORKDeviceMotionRecorderConfiguration alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier frequency:100];
     
@@ -1259,7 +1267,8 @@ NSString *const ORKSpatialSpanMemoryStepIdentifier = @"cognitive.memory.spatials
             step.text = intendedUseDescription;
             step.detailText = [NSString localizedStringWithFormat:ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@", nil),targetPluralName];
             
-            step.image = [UIImage imageNamed:@"phone-memory" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.image = [UIImage imageNamed:@"memory" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1268,14 +1277,15 @@ NSString *const ORKSpatialSpanMemoryStepIdentifier = @"cognitive.memory.spatials
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
             step.title = ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_TITLE", nil);
-            step.text = [NSString localizedStringWithFormat:requireReversal ? ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@", nil) : ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@", nil), targetPluralName, targetPluralName];
+            step.text = [NSString localizedStringWithFormat:requireReversal ? ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@", nil) : ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@", nil), targetPluralName, targetPluralName];
             step.detailText = ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_CALL_TO_ACTION", nil);
             
             if (!customTargetImage) {
-                step.image = [UIImage imageNamed:@"memory-second-screen" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                step.image = [UIImage imageNamed:@"memory" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             } else {
                 step.image = customTargetImage;
             }
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1332,6 +1342,7 @@ NSString *const ORKSpeechRecognitionStepIdentifier = @"speech.recognition";
             step.detailText = ORKLocalizedString(@"SPEECH_RECOGNITION_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"phonewaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
+            step.imageContentMode = UIViewContentModeCenter;
             
             ORKStepArrayAddStep(steps, step);
         }
@@ -1342,6 +1353,7 @@ NSString *const ORKSpeechRecognitionStepIdentifier = @"speech.recognition";
             step.text = ORKLocalizedString(@"SPEECH_RECOGNITION_INTRO_2_TEXT", nil);
             step.detailText = ORKLocalizedString(@"SPEECH_RECOGNITION_CALL_TO_ACTION", nil);
             step.image = [UIImage imageNamed:@"phonewavesspeech" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1359,17 +1371,22 @@ NSString *const ORKSpeechRecognitionStepIdentifier = @"speech.recognition";
     ORKStepArrayAddStep(steps, step);
     
     if (allowsEdittingTranscript) {
+        ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
+        answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
+        answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+        answerFormat.multipleLines = YES;
+        answerFormat.maximumLength = 280;
         ORKQuestionStep *editTranscriptStep = [ORKQuestionStep questionStepWithIdentifier:ORKEditSpeechTranscript0StepIdentifier
                                                                                     title:ORKLocalizedString(@"SPEECH_RECOGNITION_QUESTION_TITLE", nil)
                                                                                  question:nil
-                                                                                   answer:[ORKTextAnswerFormat new]];
+                                                                                   answer:answerFormat];
         editTranscriptStep.text = ORKLocalizedString(@"SPEECH_RECOGNITION_QUESTION_TEXT", nil);
         ORKStepArrayAddStep(steps, editTranscriptStep);
     }
     
     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
-        ORKInstructionStep *step = [self makeCompletionStep];
-        ORKStepArrayAddStep(steps, step);
+        ORKInstructionStep *completionStep = [self makeCompletionStep];
+        ORKStepArrayAddStep(steps, completionStep);
     }
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
@@ -1393,6 +1410,7 @@ NSString *const ORKSpeechInNoiseStep2Identifier = @"speech.in.noise2";
         step.detailText = intendedUseDescription;
         step.text = intendedUseDescription ? : ORKLocalizedString(@"SPEECH_IN_NOISE_INTRO_TEXT", nil);
         step.image = [UIImage imageNamed:@"speechInNoise" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        step.imageContentMode = UIViewContentModeCenter;
         step.shouldTintImages = YES;
         
         ORKStepArrayAddStep(steps, step);
@@ -1402,6 +1420,7 @@ NSString *const ORKSpeechInNoiseStep2Identifier = @"speech.in.noise2";
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_TITLE", nil);
         step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_DETAIL_TEXT", nil);
         step.image = [UIImage imageNamed:@"speechInNoise" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        step.imageContentMode = UIViewContentModeCenter;
         step.shouldTintImages = YES;
         
         ORKStepArrayAddStep(steps, step);
@@ -1444,6 +1463,8 @@ NSString *const ORKSpeechInNoiseStep2Identifier = @"speech.in.noise2";
         ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
         answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
         answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+        answerFormat.multipleLines = YES;
+        answerFormat.maximumLength = 280;
         ORKQuestionStep *editTranscriptStep = [ORKQuestionStep questionStepWithIdentifier:ORKEditSpeechTranscript0StepIdentifier
                                                                                     title:ORKLocalizedString(@"SPEECH_RECOGNITION_QUESTION_TITLE", nil)
                                                                                  question:nil
@@ -1478,6 +1499,7 @@ NSString *const ORKStroopStepIdentifier = @"stroop";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"STROOP_TASK_INTRO1_DETAIL_TEXT", nil);
             step.image = [UIImage imageNamed:@"phonestrooplabel" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1487,6 +1509,7 @@ NSString *const ORKStroopStepIdentifier = @"stroop";
             step.title = ORKLocalizedString(@"STROOP_TASK_TITLE", nil);
             step.detailText = ORKLocalizedString(@"STROOP_TASK_INTRO2_DETAIL_TEXT", nil);
             step.image = [UIImage imageNamed:@"phonestroopbutton" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1544,6 +1567,7 @@ NSString *const ORKToneAudiometryStepIdentifier = @"tone.audiometry";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"TONE_AUDIOMETRY_INTENDED_USE", nil);
             step.image = [UIImage imageNamed:@"phonewaves_inverted" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
 
             ORKStepArrayAddStep(steps, step);
@@ -1555,6 +1579,7 @@ NSString *const ORKToneAudiometryStepIdentifier = @"tone.audiometry";
             step.text = speechInstruction ? : ORKLocalizedString(@"TONE_AUDIOMETRY_INTRO_TEXT", nil);
             step.detailText = ORKLocalizedString(@"TONE_AUDIOMETRY_CALL_TO_ACTION", nil);
             step.image = [UIImage imageNamed:@"phonefrequencywaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
 
             ORKStepArrayAddStep(steps, step);
@@ -1625,56 +1650,28 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
-            step.text = intendedUseDescription;
-            step.detailText = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTENDED_USE", nil);
+            step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TITLE", nil);
+            step.detailText = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2", nil);
             step.image = [UIImage imageNamed:@"audiometry" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
+            if (@available(iOS 13.0, *)) {
+                ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+                ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                item5.useSecondaryColor = YES;
+                ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                item6.useSecondaryColor = YES;
+                step.bodyItems = @[item1, item2, item3, item4, item5, item6];
+            } else {
+                // Fallback on earlier versions
+            }
             
             ORKStepArrayAddStep(steps, step);
         }
         
-    }
-
-    {
-        ORKdBHLToneAudiometryOnboardingStep *step = [[ORKdBHLToneAudiometryOnboardingStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStepIdentifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
-        step.text = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_ONBOARDING", nil);
-        
-        step.optional = NO;
-        
-        ORKTextChoice *left = [ORKTextChoice choiceWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_OPTION_LEFT", nil)
-                                                      value:@"LEFT"];
-        ORKTextChoice *right = [ORKTextChoice choiceWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_OPTION_RIGHT", nil)
-                                                       value:@"RIGHT"];
-        ORKTextChoice *neither = [ORKTextChoice choiceWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE", nil)
-                                                         value:@"NEITHER"];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[right, left, neither]];
-        
-        ORKFormItem *formItem = [[ORKFormItem alloc] initWithIdentifier:ORKdBHLToneAudiometryStep0Identifier
-                                                                   text:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION", nil)
-                                                           answerFormat:answerFormat];
-        
-        ORKTextChoice *airpods = [ORKTextChoice choiceWithText:@"AirPods"
-                                                      value:@"AIRPODS"];
-        ORKTextChoice *earpods = [ORKTextChoice choiceWithText:@"EarPods"
-                                                         value:@"EARPODS"];
-        
-        ORKAnswerFormat *answerFormat1 = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[airpods, earpods]];
-        ORKFormItem *formItem1 = [[ORKFormItem alloc] initWithIdentifier:ORKdBHLToneAudiometryStep3Identifier
-                                                                   text:@"Select the headphones that you will be using"
-                                                           answerFormat:answerFormat1];
-
-        
-        formItem.optional = NO;
-        formItem1.optional = NO;
-        
-        step.formItems = @[formItem, formItem1];
-    
-        ORKStepArrayAddStep(steps, step);
     }
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
@@ -1686,6 +1683,7 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
                 step.text = [NSString stringWithFormat:ORKLocalizedString(@"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT", nil), step.text];
             }
             step.image = [UIImage imageNamed:@"audiometry" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1694,32 +1692,44 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
     }
     
     {
-        ORKCountdownStep *step = [[ORKCountdownStep alloc] initWithIdentifier:ORKCountdownStepIdentifier];
-        step.stepDuration = 5.0;
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
+        ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:@"splMeter"];
+        step.requiredContiguousSamples = 5;
+        step.thresholdValue = 45;
+        step.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+        step.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         
         ORKStepArrayAddStep(steps, step);
     }
     
     {
-        ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
-        step.stepDuration = CGFLOAT_MAX;
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
         ORKStepArrayAddStep(steps, step);
     }
     
     {
-        ORKCountdownStep *step = [[ORKCountdownStep alloc] initWithIdentifier:ORKCountdown1StepIdentifier];
-        step.stepDuration = 5.0;
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
+        ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
+        step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelLeft;
+        step.headphoneType = ORKHeadphoneTypeIdentifierAirPods;
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    {
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
+        step.shouldTintImages = YES;
         
         ORKStepArrayAddStep(steps, step);
     }
     
     {
         ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
+        step.headphoneType = ORKHeadphoneTypeIdentifierAirPods;
+        step.earPreference = ORKAudioChannelRight;
         ORKStepArrayAddStep(steps, step);
     }
     
@@ -1753,6 +1763,7 @@ NSString *const ORKTowerOfHanoiStepIdentifier = @"towerOfHanoi";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"TOWER_OF_HANOI_TASK_INTENDED_USE", nil);
             step.image = [UIImage imageNamed:@"phone-tower-of-hanoi" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1764,6 +1775,7 @@ NSString *const ORKTowerOfHanoiStepIdentifier = @"towerOfHanoi";
             step.text = ORKLocalizedString(@"TOWER_OF_HANOI_TASK_INTRO_TEXT", nil);
             step.detailText = ORKLocalizedString(@"TOWER_OF_HANOI_TASK_TASK_CALL_TO_ACTION", nil);
             step.image = [UIImage imageNamed:@"tower-of-hanoi-second-screen" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1812,6 +1824,7 @@ NSString *const ORKReactionTimeStepIdentifier = @"reactionTime";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"REACTION_TIME_TASK_INTENDED_USE", nil);
             step.image = [UIImage imageNamed:@"phoneshake" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1823,6 +1836,7 @@ NSString *const ORKReactionTimeStepIdentifier = @"reactionTime";
             step.text = [NSString localizedStringWithFormat: ORKLocalizedString(@"REACTION_TIME_TASK_INTRO_TEXT_FORMAT", nil), numberOfAttempts];
             step.detailText = ORKLocalizedString(@"REACTION_TIME_TASK_CALL_TO_ACTION", nil);
             step.image = [UIImage imageNamed:@"phoneshakecircle" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1844,8 +1858,8 @@ NSString *const ORKReactionTimeStepIdentifier = @"reactionTime";
     ORKStepArrayAddStep(steps, step);
     
     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
-        ORKInstructionStep *step = [self makeCompletionStep];
-        ORKStepArrayAddStep(steps, step);
+        ORKInstructionStep *completionStep = [self makeCompletionStep];
+        ORKStepArrayAddStep(steps, completionStep);
     }
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
@@ -1907,13 +1921,16 @@ NSString *const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
                                   [ORKTextChoice choiceWithText:ORKLocalizedString(@"TIMED_WALK_QUESTION_2_CHOICE_5", nil) value:@"TIMED_WALK_QUESTION_2_CHOICE_5"],
                                   [ORKTextChoice choiceWithText:ORKLocalizedString(@"TIMED_WALK_QUESTION_2_CHOICE_6", nil) value:@"TIMED_WALK_QUESTION_2_CHOICE_6"] ];
         ORKAnswerFormat *answerFormat2 = [ORKAnswerFormat valuePickerAnswerFormatWithTextChoices:textChoices];
-        ORKFormItem *formItem2 = [[ORKFormItem alloc] initWithIdentifier:ORKTimedWalkFormAssistanceStepIdentifier
-                                                                    text:ORKLocalizedString(@"TIMED_WALK_QUESTION_2_TITLE", nil)
-                                                            answerFormat:answerFormat2];
-        formItem2.placeholder = ORKLocalizedString(@"TIMED_WALK_QUESTION_2_TEXT", nil);
-        formItem2.optional = NO;
 
-        step.formItems = @[formItem1, formItem2];
+        ORKFormItem *formItem2 = [[ORKFormItem alloc] initWithSectionTitle:ORKLocalizedString(@"TIMED_WALK_QUESTION_2_TITLE", nil) detailText:nil learnMoreItem:nil showsProgress:YES];
+
+        ORKFormItem *formItem3 = [[ORKFormItem alloc] initWithIdentifier:ORKTimedWalkFormAssistanceStepIdentifier
+                                                                    text:nil
+                                                            answerFormat:answerFormat2];
+        formItem3.placeholder = ORKLocalizedString(@"TIMED_WALK_QUESTION_2_TEXT", nil);
+        formItem3.optional = NO;
+
+        step.formItems = @[formItem1, formItem2, formItem3];
         step.optional = NO;
 
         ORKStepArrayAddStep(steps, step);
@@ -1926,6 +1943,7 @@ NSString *const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
             step.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TIMED_WALK_INTRO_2_TEXT_%@", nil), formattedLength];
             step.detailText = ORKLocalizedString(@"TIMED_WALK_INTRO_2_DETAIL", nil);
             step.image = [UIImage imageNamed:@"timer" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
 
             ORKStepArrayAddStep(steps, step);
@@ -1966,6 +1984,7 @@ NSString *const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
             step.distanceInMeters = distanceInMeters;
             step.shouldTintImages = YES;
             step.image = [UIImage imageNamed:@"timed-walkingman-outbound" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.stepDuration = timeLimit == 0 ? CGFLOAT_MAX : timeLimit;
 
             ORKStepArrayAddStep(steps, step);
@@ -1981,6 +2000,7 @@ NSString *const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
                 step.distanceInMeters = 1;
                 step.shouldTintImages = YES;
                 step.image = [UIImage imageNamed:@"turnaround" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                step.imageContentMode = UIViewContentModeCenter;
                 step.stepDuration = turnAroundTimeLimit == 0 ? CGFLOAT_MAX : turnAroundTimeLimit;
 
                 ORKStepArrayAddStep(steps, step);
@@ -1996,6 +2016,7 @@ NSString *const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
             step.distanceInMeters = distanceInMeters;
             step.shouldTintImages = YES;
             step.image = [UIImage imageNamed:@"timed-walkingman-return" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.stepDuration = timeLimit == 0 ? CGFLOAT_MAX : timeLimit;
 
             ORKStepArrayAddStep(steps, step);
@@ -2046,7 +2067,8 @@ NSString *const ORKPSATStepIdentifier = @"psat";
             step.title = versionTitle;
             step.detailText = versionDetailText;
             step.text = intendedUseDescription;
-            step.image = [UIImage imageNamed:@"phonepsat" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.image = [UIImage imageNamed:@"psatDice" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -2054,7 +2076,15 @@ NSString *const ORKPSATStepIdentifier = @"psat";
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
             step.title = versionTitle;
-            step.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"PSAT_INTRO_TEXT_2_%@", nil), [NSNumberFormatter localizedStringFromNumber:@(interStimulusInterval) numberStyle:NSNumberFormatterDecimalStyle]];
+            
+            NSDateComponentsFormatter *secondsFormatter = [NSDateComponentsFormatter new];
+            secondsFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleSpellOut;
+            secondsFormatter.allowedUnits = NSCalendarUnitSecond;
+            secondsFormatter.formattingContext = NSFormattingContextDynamic;
+            secondsFormatter.maximumUnitCount = 1;
+            
+            NSString *seconds = [secondsFormatter stringFromTimeInterval:interStimulusInterval];
+            step.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"PSAT_INTRO_TEXT_2_%@", nil), seconds];
             step.detailText = ORKLocalizedString(@"PSAT_CALL_TO_ACTION", nil);
             
             ORKStepArrayAddStep(steps, step);
@@ -2114,7 +2144,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
                                                  handIdentifier:(NSString *)handIdentifier
                                                 introDetailText:(NSString *)detailText
                                                         options:(ORKPredefinedTaskOption)options {
-    NSMutableArray<ORKActiveStep *> *steps = [NSMutableArray array];
+    NSMutableArray<ORKStep *> *steps = [NSMutableArray array];
     NSString *stepFinishedInstruction = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_FINISHED_INSTRUCTION", nil);
     BOOL rightHand = !leftHand && ![handIdentifier isEqualToString:ORKActiveTaskMostAffectedHandIdentifier];
     
@@ -2136,6 +2166,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
         
         NSString *imageName = leftHand ? @"tremortestLeft" : @"tremortestRight";
         step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        step.imageContentMode = UIViewContentModeScaleAspectFit;
         step.shouldTintImages = YES;
         
         ORKStepArrayAddStep(steps, step);
@@ -2149,6 +2180,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_IN_LAP_INTRO", nil);
             step.detailText = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"tremortest3a" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.auxiliaryImage = [UIImage imageNamed:@"tremortest3b" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             if (leftHand) {
                 step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_IN_LAP_INTRO_LEFT", nil);
@@ -2198,6 +2230,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_EXTEND_ARM_INTRO", nil);
             step.detailText = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"tremortest4a" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.auxiliaryImage = [UIImage imageNamed:@"tremortest4b" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             if (leftHand) {
                 step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_EXTEND_ARM_INTRO_LEFT", nil);
@@ -2232,6 +2265,8 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             if (leftHand) {
                 step.image = [step.image ork_flippedImage:UIImageOrientationUpMirrored];
             }
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
+
             step.shouldPlaySoundOnStart = YES;
             step.shouldVibrateOnStart = YES;
             step.shouldPlaySoundOnFinish = YES;
@@ -2251,6 +2286,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INTRO", nil);
             step.detailText = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"tremortest5a" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.auxiliaryImage = [UIImage imageNamed:@"tremortest5b" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             if (leftHand) {
                 step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INTRO_LEFT", nil);
@@ -2300,6 +2336,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INTRO", nil);
             step.detailText = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"tremortest6a" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.auxiliaryImage = [UIImage imageNamed:@"tremortest6b" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             if (leftHand) {
                 step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INTRO_LEFT", nil);
@@ -2349,6 +2386,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO", nil);
             step.detailText = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT", nil);
             step.image = [UIImage imageNamed:@"tremortest7" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             if (leftHand) {
                 step.text = ORKLocalizedString(@"TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO_LEFT", nil);
                 step.image = [step.image ork_flippedImage:UIImageOrientationUpMirrored];
@@ -2421,6 +2459,7 @@ NSString *const ORKTremorTestTurnWristStepIdentifier = @"tremor.handQueenWave";
             step.detailText = intendedUseDescription;
             step.text = ORKLocalizedString(@"TREMOR_TEST_INTRO_1_DETAIL", nil);
             step.image = [UIImage imageNamed:@"tremortest1" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             if (firstIsLeft) {
                 step.image = [step.image ork_flippedImage:UIImageOrientationUpMirrored];
             }
@@ -2571,10 +2610,6 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                            trailmakingInstruction:(nullable NSString *)trailmakingInstruction
                                         trailType:(ORKTrailMakingTypeIdentifier)trailType
                                           options:(ORKPredefinedTaskOption)options {
-    
-    NSArray *supportedTypes = @[ORKTrailMakingTypeIdentifierA, ORKTrailMakingTypeIdentifierB];
-    NSAssert1([supportedTypes containsObject:trailType], @"Trail type %@ is not supported.", trailType);
-    
     NSMutableArray<__kindof ORKStep *> *steps = [NSMutableArray array];
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
@@ -2584,6 +2619,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
             step.text = intendedUseDescription;
             step.detailText = ORKLocalizedString(@"TRAILMAKING_INTENDED_USE", nil);
             step.image = [UIImage imageNamed:@"trailmaking" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -2598,6 +2634,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 step.detailText = ORKLocalizedString(@"TRAILMAKING_INTENDED_USE2_B", nil);
             }
             step.image = [UIImage imageNamed:@"trailmaking" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -2607,12 +2644,13 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
             step.title = ORKLocalizedString(@"TRAILMAKING_TASK_TITLE", nil);
-            step.text = trailmakingInstruction ? : ORKLocalizedString(@"TRAILMAKING_INTRO_TEXT",nil);
+            step.text = trailmakingInstruction ? : ORKLocalizedString(@"TRAILMAKING_INTRO_TEXT", nil);
             step.detailText = ORKLocalizedString(@"TRAILMAKING_CALL_TO_ACTION", nil);
             if (UIAccessibilityIsVoiceOverRunning()) {
                 step.detailText = [NSString stringWithFormat:ORKLocalizedString(@"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER", nil), step.detailText];
             }
             step.image = [UIImage imageNamed:@"trailmaking" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -2641,6 +2679,304 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
         ORKStepArrayAddStep(steps, step);
     }
 
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    
+    return task;
+}
+
+#pragma mark - landoltC Visual Acuity
+
++ (ORKOrderedTask *)landoltCVisualAcuityTaskWithIdentifier:(NSString *)identifier
+                                    intendedUseDescription:(nullable NSString *)intendedDescription {
+    
+    
+    NSMutableArray<__kindof ORKStep *> *steps = [NSMutableArray array];
+    
+    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"visualAcuityLandoltCInstructionStep"];
+    instructionStep.title = @"Landolt C Acuity Task";
+    instructionStep.text = @"This task collects data to better understand your visual acuity.";
+    instructionStep.image = [UIImage imageNamed:@"VisualExam" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    instructionStep.imageContentMode = UIViewContentModeCenter;
+    instructionStep.shouldTintImages = YES;
+    
+    ORKLearnMoreInstructionStep *learnMoreStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"LearnMoreInstructionIdentifier"];
+    ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:@"Learn more about Landolt C." learnMoreInstructionStep:learnMoreStep];
+    
+    ORKBodyItem *bodyItemOne = [[ORKBodyItem alloc] initWithText:nil detailText:@"During this task, a Landolt C will appear on the screen in various orientations and sizes for a few seconds." image:nil learnMoreItem:learnMoreItem bodyItemStyle:ORKBodyItemStyleBulletPoint];
+    
+    ORKBodyItem *bodyItemTwo = [[ORKBodyItem alloc] initWithText:nil detailText:@"Each time this happens, use your finger to align the dial with the opening gap in the C and tap the 'Next' button." image:nil learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleBulletPoint];
+    
+    NSMutableArray *bodyItems = [[NSMutableArray alloc] initWithObjects:bodyItemOne, bodyItemTwo, nil];
+
+    instructionStep.bodyItems = bodyItems;
+    
+    ORKStepArrayAddStep(steps, instructionStep);
+
+    ORKLandoltCStep *landoltCStep = [[ORKLandoltCStep alloc]initWithIdentifier:@"landoltCStep" testType:VisionStepTypeVisualAcuity eyeToTest:VisionStepLeftOrRightEyeRight];
+    ORKStepArrayAddStep(steps, landoltCStep);
+    
+    ORKCompletionStep *completionStep = [self makeCompletionStep];
+    
+    ORKStepArrayAddStep(steps, completionStep);
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    
+    return task;
+}
+
+#pragma mark - landoltC Contrast Sensitivity
+
++ (ORKOrderedTask *)landoltCContrastSensitivityTaskWithIdentifier:(NSString *)identifier
+                                           intendedUseDescription:(nullable NSString *)intendedDescription {
+    
+    
+    NSMutableArray<__kindof ORKStep *> *steps = [NSMutableArray array];
+    
+    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"contrastSensitivityInstructionStep"];
+    instructionStep.title = @"Landolt C Contrast Sensitivity";
+    instructionStep.text = @"This task collects data to better understand your visual contrast sensitivity.";
+    instructionStep.image = [UIImage imageNamed:@"ContrastExam" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    instructionStep.imageContentMode = UIViewContentModeCenter;
+    instructionStep.shouldTintImages = YES;
+    
+    ORKLearnMoreInstructionStep *learnMoreStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"LearnMoreInstructionIdentifier"];
+    ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:@"Learn more about Landolt C." learnMoreInstructionStep:learnMoreStep];
+    
+    ORKBodyItem *bodyItemOne = [[ORKBodyItem alloc] initWithText:nil detailText:@"During this task, a Landolt C will appear on the screen in various orientations and contrasts for a few seconds." image:nil learnMoreItem:learnMoreItem bodyItemStyle:ORKBodyItemStyleBulletPoint];
+    
+    ORKBodyItem *bodyItemTwo = [[ORKBodyItem alloc] initWithText:nil detailText:@"Each time this happens, use your finger to align the dial with the opening gap in the C and tap the 'Next' button.\n" image:nil learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleBulletPoint];
+    
+    NSMutableArray *bodyItems = [[NSMutableArray alloc] initWithObjects:bodyItemOne, bodyItemTwo, nil];
+    instructionStep.bodyItems = bodyItems;
+    
+    ORKStepArrayAddStep(steps, instructionStep);
+    
+    ORKLandoltCStep *landoltCStep = [[ORKLandoltCStep alloc]initWithIdentifier:@"landoltCStep" testType:VisionStepTypeContrastSensitivity eyeToTest:VisionStepLeftOrRightEyeLeft];
+    ORKStepArrayAddStep(steps, landoltCStep);
+
+    ORKCompletionStep *completionStep = [self makeCompletionStep];
+    
+    ORKStepArrayAddStep(steps, completionStep);
+
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    
+    return task;
+}
+
+#pragma mark - touch ability
+
+NSString *const ORKTouchAbilityTapStepIdentifier = @"touchAbilityTap";
+NSString *const ORKTouchAbilityLongPressStepIdentifier = @"touchAbilityLongPress";
+NSString *const ORKTouchAbilitySwipeStepIdentifier = @"touchAbilitySwipe";
+NSString *const ORKTouchAbilityPinchStepIdentifier = @"touchAbilityPinch";
+NSString *const ORKTouchAbilityRotationStepIdentifier = @"touchAbilityRotation";
+NSString *const ORKTouchAbilityVerticalScrollStepIdentifier = @"touchAbilityVerticalScroll";
+NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHorizontalScroll";
+
++ (ORKOrderedTask *)touchAbilityTaskWithIdentifier:(NSString *)identifier
+                            intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       taskOptions:(ORKTouchAbilityTaskOption)taskOptions
+                                           options:(ORKPredefinedTaskOption)options {
+    
+    NSMutableArray<__kindof ORKStep *> *steps = [NSMutableArray array];
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+            step.title = ORKLocalizedString(@"TOUCH_ABILITY_INSTRUCTION_TITLE", nil);
+            step.text = intendedUseDescription;
+            step.detailText = ORKLocalizedString(@"TOUCH_ABILITY_INSTRUCTION_DETAIL", nil);
+            step.image = [UIImage imageNamed:@"touchAbilityInstruction" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.shouldTintImages = YES;
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+    }
+    
+    NSUInteger count = 0;
+    
+    if (taskOptions & ORKTouchAbilityTaskOptionTap) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_TAP_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_TAP_TEXT", nil);
+        instruction.image = [UIImage imageNamed:@"touchAbilityTap" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilityTapStep *step = [[ORKTouchAbilityTapStep alloc] initWithIdentifier:ORKTouchAbilityTapStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_TAP_TITLE", nil);
+        
+        ORKStepArrayAddStep(steps, step);
+        
+        count += 1;
+    }
+
+    if (taskOptions & ORKTouchAbilityTaskOptionLongPress) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_LONG_PRESS_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_LONG_PRESS_TEXT", nil);
+        instruction.image = [UIImage imageNamed:@"touchAbilityTap" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilityLongPressStep *step = [[ORKTouchAbilityLongPressStep alloc] initWithIdentifier:ORKTouchAbilityLongPressStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_LONG_PRESS_TITLE", nil);
+
+        ORKStepArrayAddStep(steps, step);
+        
+        count += 1;
+    }
+
+    if (taskOptions & ORKTouchAbilityTaskOptionSwipe) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_SWIPE_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_SWIPE_TEXT", nil);
+        
+        NSArray *images = @[[UIImage imageNamed:@"touchAbilitySwipe1" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
+                            [UIImage imageNamed:@"touchAbilitySwipe2" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
+                            [UIImage imageNamed:@"touchAbilitySwipe3" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
+                            [UIImage imageNamed:@"touchAbilitySwipe4" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
+                            [UIImage imageNamed:@"touchAbilitySwipe1" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
+
+        instruction.image = [UIImage animatedImageWithImages:images duration:2];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilitySwipeStep *step = [[ORKTouchAbilitySwipeStep alloc] initWithIdentifier:ORKTouchAbilitySwipeStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_SWIPE_TITLE", nil);
+        
+        ORKStepArrayAddStep(steps, step);
+        
+        count += 1;
+    }
+    
+    
+    if (taskOptions & ORKTouchAbilityTaskOptionVerticalScroll) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction4StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_VERTICAL_SCROLL_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_VERTICAL_SCROLL_TEXT", nil);
+        instruction.image = [UIImage imageNamed:@"touchAbilityVerticalScroll" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilityScrollStep *step = [[ORKTouchAbilityScrollStep alloc] initWithIdentifier:ORKTouchAbilityVerticalScrollStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_VERTICAL_SCROLL_TITLE", nil);
+        step.horizontal = NO;
+        
+        ORKStepArrayAddStep(steps, step);
+        
+        count += 1;
+    }
+    
+    if (taskOptions & ORKTouchAbilityTaskOptionHorizontalScroll) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction5StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_HORIZONTAL_SCROLL_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_HORIZONTAL_SCROLL_TEXT", nil);
+        instruction.image = [UIImage imageNamed:@"touchAbilityHorizontalScroll" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilityScrollStep *step = [[ORKTouchAbilityScrollStep alloc] initWithIdentifier:ORKTouchAbilityHorizontalScrollStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_HORIZONTAL_SCROLL_TITLE", nil);
+        step.horizontal = YES;
+        
+        ORKStepArrayAddStep(steps, step);
+        
+        count += 1;
+    }
+    
+    if (taskOptions & ORKTouchAbilityTaskOptionPinch) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction6StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_PINCH_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_PINCH_TEXT", nil);
+        instruction.image = [UIImage imageNamed:@"touchAbilityPinch" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilityPinchStep *step = [[ORKTouchAbilityPinchStep alloc] initWithIdentifier:ORKTouchAbilityPinchStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_PINCH_TITLE", nil);
+        
+        ORKStepArrayAddStep(steps, step);
+        
+        count += 1;
+    }
+    
+    if (taskOptions & ORKTouchAbilityTaskOptionRotation) {
+        
+        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction7StepIdentifier];
+        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_ROTATION_TITLE", nil);
+        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_ROTATION_TEXT", nil);
+        instruction.image = [UIImage imageNamed:@"touchAbilityRotation" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        instruction.shouldTintImages = YES;
+        
+        if (count == 0) {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
+        } else {
+            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
+        }
+        
+        ORKStepArrayAddStep(steps, instruction);
+        
+        ORKTouchAbilityRotationStep *step = [[ORKTouchAbilityRotationStep alloc] initWithIdentifier:ORKTouchAbilityRotationStepIdentifier];
+        step.title = ORKLocalizedString(@"TOUCH_ABILITY_ROTATION_TITLE", nil);
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+        ORKInstructionStep *step = [self makeCompletionStep];
+        
+        ORKStepArrayAddStep(steps, step);
+    }
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
     
@@ -3028,7 +3364,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 
                 NSString *term = [(index == 0 ? termsBlock3 : termsBlock4) objectAtIndex:trial];
                 
-                ORKImplicitAssociationCorrect termCorrect;
+                ORKImplicitAssociationCorrect termCorrect = ORKImplicitAssociationCorrectNone;
                 
                 if ([attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
                 if ([attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
@@ -3106,7 +3442,7 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
                 
                 NSString *term = [(index == 0 ? termsBlock6 : termsBlock7) objectAtIndex:trial];
                 
-                ORKImplicitAssociationCorrect termCorrect;
+                ORKImplicitAssociationCorrect termCorrect = ORKImplicitAssociationCorrectNone;
                 
                 if ([attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
                 if ([attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;

@@ -66,7 +66,7 @@ FOUNDATION_EXPORT NSString *const ORKLocationRecorderIdentifier;
 FOUNDATION_EXPORT NSString *const ORKHeartRateRecorderIdentifier;
 FOUNDATION_EXPORT NSString *const ORKImplicitAssociationStepIdentifier;
 
-FOUNDATION_EXPORT void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step);
+FOUNDATION_EXPORT void ORKStepArrayAddStep(NSMutableArray<ORKStep *> *array, ORKStep *step);
 
 @interface ORKOrderedTask (ORKMakeTaskUtilities)
 

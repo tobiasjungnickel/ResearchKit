@@ -20,6 +20,8 @@
         case ORKImplicitAssociationCorrectTARG1right:
         case ORKImplicitAssociationCorrectTARG2right:
             return ORKTappingButtonIdentifierRight;
+        case ORKImplicitAssociationCorrectNone:
+            return ORKTappingButtonIdentifierNone;
     }
     return ORKTappingButtonIdentifierNone;
 }
