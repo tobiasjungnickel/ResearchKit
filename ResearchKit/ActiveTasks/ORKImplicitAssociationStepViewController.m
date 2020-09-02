@@ -142,13 +142,13 @@
     return stepResult;
 }
 
-- (void)receiveTouch:(UITouch *)touch onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
+- (void)receiveTimestamp:(NSTimeInterval)timestamp onButton:(ORKTappingButtonIdentifier)buttonIdentifier {
     ORKImplicitAssociationTrial *trial = [self trials][_currentTrialNumber];
     if (trial.buttonIdentifier == buttonIdentifier) {
         [_implicitAssociationContentView setInteractionEnabled:NO];
         [_implicitAssociationContentView setWrong:NO];
         ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
-        implicitAssociationResult.latency = touch.timestamp - _stimulusTimestamp;
+        implicitAssociationResult.latency = timestamp - _stimulusTimestamp;
         implicitAssociationResult.correct = ORKImplicitAssociationCorrectValue(trial.correct);
         implicitAssociationResult.error = _currentTrialWrong;
         [_results addObject:implicitAssociationResult];
@@ -186,6 +186,31 @@
         return;
     }
     NSInteger index = (button == _implicitAssociationContentView.leftButton) ? ORKTappingButtonIdentifierLeft : ORKTappingButtonIdentifierRight;
-    [self receiveTouch:[[event touchesForView:button] anyObject] onButton:index];
+    [self receiveTimestamp:[[[event touchesForView:button] anyObject] timestamp] onButton:index];
 }
+
+
+#pragma mark keypressAction
+
+- (void)pressesBegan:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
+    if (!self.started) {
+        [self start];
+        return;
+    }
+    UIPress *keypress = presses.allObjects.firstObject;
+    switch (keypress.key.keyCode) {
+        case UIKeyboardHIDUsageKeyboardE:
+            NSLog(@"E");
+            [self receiveTimestamp:event.timestamp/1000000000 onButton:ORKTappingButtonIdentifierLeft];
+            break;
+        case UIKeyboardHIDUsageKeyboardI:
+            NSLog(@"I");
+            [self receiveTimestamp:event.timestamp/1000000000 onButton:ORKTappingButtonIdentifierRight];
+            break;
+        default:
+            [super pressesBegan:presses withEvent:event];
+            break;
+    }
+}
+
 @end
