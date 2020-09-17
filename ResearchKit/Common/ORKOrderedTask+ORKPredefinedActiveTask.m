@@ -3093,15 +3093,25 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     
     
     //Terms Block 1 & Block 5
-    NSArray *termsBlock1 = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock1.integerValue];
-    NSArray *termsBlock5 = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock5.integerValue];
+    NSMutableArray *termsBlock1 = [NSMutableArray array];
+    [termsBlock1 addObjectsFromArray:[ORKOrderedTask exRandomOfArray:conceptAItems forNumberOfItems:trialsBlock1.integerValue/2]];
+    [termsBlock1 addObjectsFromArray:[ORKOrderedTask exRandomOfArray:conceptBItems forNumberOfItems:trialsBlock1.integerValue/2]];
+    termsBlock1 = [[ORKOrderedTask shuffle:[termsBlock1 copy]] mutableCopy];
+    
+    NSMutableArray *termsBlock5 = [NSMutableArray array];
+    [termsBlock5 addObjectsFromArray:[ORKOrderedTask exRandomOfArray:conceptAItems forNumberOfItems:trialsBlock5.integerValue/2]];
+    [termsBlock5 addObjectsFromArray:[ORKOrderedTask exRandomOfArray:conceptBItems forNumberOfItems:trialsBlock5.integerValue/2]];
+    termsBlock5 = [[ORKOrderedTask shuffle:[termsBlock5 copy]] mutableCopy];
     
     //Terms Block 2
-    NSArray *termsBlock2 = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock2.integerValue];
+    NSMutableArray *termsBlock2 = [NSMutableArray array];
+    [termsBlock2 addObjectsFromArray:[ORKOrderedTask exRandomOfArray:attributeAItems forNumberOfItems:trialsBlock2.integerValue/2]];
+    [termsBlock2 addObjectsFromArray:[ORKOrderedTask exRandomOfArray:attributeBItems forNumberOfItems:trialsBlock2.integerValue/2]];
+    termsBlock2 = [[ORKOrderedTask shuffle:[termsBlock2 copy]] mutableCopy];
     
     //Terms Block 3
-    NSArray *termsBlock3Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock3.integerValue/2];
-    NSArray *termsBlock3Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock3.integerValue/2];
+    NSArray *termsBlock3Concepts = [ORKOrderedTask exRandomOfArrayA:conceptAItems andArrayB:conceptBItems forNumberOfItems:trialsBlock3.integerValue];
+    NSArray *termsBlock3Attributes = [ORKOrderedTask exRandomOfArrayA:attributeAItems andArrayB:attributeBItems forNumberOfItems:trialsBlock3.integerValue];
     NSMutableArray *termsBlock3 = [NSMutableArray array];
     for (int i=0; i<trialsBlock3.integerValue/2; ++i) {
         //always first concept, second attribute as in minno-time
@@ -3110,8 +3120,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     }
     
     //Terms Block 4
-    NSArray *termsBlock4Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock4.integerValue/2];
-    NSArray *termsBlock4Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock4.integerValue/2];
+    NSArray *termsBlock4Concepts = [ORKOrderedTask exRandomOfArrayA:conceptAItems andArrayB:conceptBItems forNumberOfItems:trialsBlock4.integerValue];
+    NSArray *termsBlock4Attributes = [ORKOrderedTask exRandomOfArrayA:attributeAItems andArrayB:attributeBItems forNumberOfItems:trialsBlock4.integerValue];
     NSMutableArray *termsBlock4 = [NSMutableArray array];
     for (int i=0; i<trialsBlock4.integerValue/2; ++i) {
         //always first concept, second attribute as in minno-time
@@ -3120,8 +3130,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     }
     
     //Terms Block 6
-    NSArray *termsBlock6Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock6.integerValue/2];
-    NSArray *termsBlock6Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock6.integerValue/2];
+    NSArray *termsBlock6Concepts = [ORKOrderedTask exRandomOfArrayA:conceptAItems andArrayB:conceptBItems forNumberOfItems:trialsBlock6.integerValue];
+    NSArray *termsBlock6Attributes = [ORKOrderedTask exRandomOfArrayA:attributeAItems andArrayB:attributeBItems forNumberOfItems:trialsBlock6.integerValue];
     NSMutableArray *termsBlock6 = [NSMutableArray array];
     for (int i=0; i<trialsBlock6.integerValue/2; ++i) {
         //always first concept, second attribute as in minno-time
@@ -3130,8 +3140,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     }
     
     //Terms Block 7
-    NSArray *termsBlock7Concepts = [ORKOrderedTask exRandomOfArray:conceptsAll forNumberOfItems:trialsBlock7.integerValue/2];
-    NSArray *termsBlock7Attributes = [ORKOrderedTask exRandomOfArray:attributesAll forNumberOfItems:trialsBlock7.integerValue/2];
+    NSArray *termsBlock7Concepts = [ORKOrderedTask exRandomOfArrayA:conceptAItems andArrayB:conceptBItems forNumberOfItems:trialsBlock7.integerValue];
+    NSArray *termsBlock7Attributes = [ORKOrderedTask exRandomOfArrayA:attributeAItems andArrayB:attributeBItems forNumberOfItems:trialsBlock7.integerValue];
     NSMutableArray *termsBlock7 = [NSMutableArray array];
     for (int i=0; i<trialsBlock7.integerValue/2; ++i) {
         //always first concept, second attribute as in minno-time
@@ -3483,6 +3493,16 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
     
     return task;
+}
+
++ (NSArray *)exRandomOfArrayA:(NSArray *)array1 andArrayB:(NSArray *)array2 forNumberOfItems:(NSInteger)numberOfItems {
+    NSArray *termsBlock3ConceptsA = [ORKOrderedTask exRandomOfArray:array1 forNumberOfItems:numberOfItems/4];
+    NSArray *termsBlock3ConceptsB = [ORKOrderedTask exRandomOfArray:array2 forNumberOfItems:numberOfItems/4];
+    NSMutableArray *termsBlock3Concepts = [NSMutableArray array];
+    [termsBlock3Concepts addObjectsFromArray:termsBlock3ConceptsA];
+    [termsBlock3Concepts addObjectsFromArray:termsBlock3ConceptsB];
+    termsBlock3Concepts = [[ORKOrderedTask shuffle:[termsBlock3Concepts copy]] mutableCopy];
+    return termsBlock3Concepts;
 }
 
 + (NSArray *)exRandomOfArray:(NSArray *)array forNumberOfItems:(NSInteger)numberOfItems {
