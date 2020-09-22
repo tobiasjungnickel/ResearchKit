@@ -151,6 +151,7 @@
         implicitAssociationResult.latency = timestamp - _stimulusTimestamp;
         implicitAssociationResult.correct = ORKImplicitAssociationCorrectValue(trial.correct);
         implicitAssociationResult.error = _currentTrialWrong;
+        implicitAssociationResult.term = (NSString *)trial.term;
         [_results addObject:implicitAssociationResult];
         _currentTrialNumber += 1;
         [NSTimer scheduledTimerWithTimeInterval:0.25f

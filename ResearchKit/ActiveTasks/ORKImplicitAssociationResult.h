@@ -17,6 +17,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) NSTimeInterval latency;
 @property (nonatomic, copy, nullable) NSString *correct; //trialcode
 @property (nonatomic, assign) NSInteger error; //correct
+@property (nonatomic, copy, nullable) NSString *term;
 
 @end
 
