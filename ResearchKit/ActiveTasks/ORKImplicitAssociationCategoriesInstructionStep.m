@@ -26,10 +26,10 @@
 - (nullable NSString *)titleForHeaderInSection:(NSInteger)section tableView:(UITableView *)tableView {
     switch (section) {
         case 0:
-            return _attributeACategory;
+            return _attributeBCategory;
             break;
         case 1:
-            return _attributeBCategory;
+            return _attributeACategory;
             break;
         case 2:
             return _conceptACategory;
@@ -49,11 +49,11 @@
     
     switch (indexPath.section) {
         case 0:
-            cell.textLabel.text =  [_attributeAItems componentsJoinedByString:@", "];
+            cell.textLabel.text =  [_attributeBItems componentsJoinedByString:@", "];
             cell.textLabel.textColor = kAttributeUIColor;
             break;
         case 1:
-            cell.textLabel.text =  [_attributeBItems componentsJoinedByString:@", "];
+            cell.textLabel.text =  [_attributeAItems componentsJoinedByString:@", "];
             cell.textLabel.textColor = kAttributeUIColor;
             break;
         case 2:
