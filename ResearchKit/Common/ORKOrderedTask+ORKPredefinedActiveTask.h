@@ -726,6 +726,8 @@ NS_ASSUME_NONNULL_BEGIN
                                             conceptAItems:(NSArray *)conceptAItems
                                          conceptBCategory:(NSString *)conceptBCategory
                                             conceptBItems:(NSArray *)conceptBItems
+                                      randomizeAttributes:(BOOL)randomizeAttributes
+                                        randomizeConcepts:(BOOL)randomizeConcepts
                                              trialsBlock1:(NSNumber *)trialsblock1
                                              trialsBlock2:(NSNumber *)trialsBlock2
                                              trialsBlock3:(NSNumber *)trialsBlock3

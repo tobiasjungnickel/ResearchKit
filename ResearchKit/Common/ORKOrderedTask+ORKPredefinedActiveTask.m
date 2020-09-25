@@ -3007,6 +3007,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                                          conceptAItems:conceptAItems
                                       conceptBCategory:conceptBCategory
                                          conceptBItems:conceptBItems
+                                   randomizeAttributes:false
+                                     randomizeConcepts:true
                                           trialsBlock1:@20
                                           trialsBlock2:@20
                                           trialsBlock3:@20
@@ -3027,6 +3029,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                                             conceptAItems:(NSArray *)conceptAItems
                                          conceptBCategory:(NSString *)conceptBCategory
                                             conceptBItems:(NSArray *)conceptBItems
+                                      randomizeAttributes:(BOOL)randomizeAttributes
+                                        randomizeConcepts:(BOOL)randomizeConcepts
                                              trialsBlock1:(NSNumber *)trialsBlock1
                                              trialsBlock2:(NSNumber *)trialsBlock2
                                              trialsBlock3:(NSNumber *)trialsBlock3
@@ -3162,8 +3166,15 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     NSString *go = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_GO_LABEL", nil);
     NSString *hint = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil);
     
-    NSUInteger randomConceptSide = arc4random_uniform(2);
+    NSUInteger randomAttributeSide = 1; // attributeACategory first left
+    if (randomizeAttributes) {
+        randomAttributeSide = arc4random_uniform(2);
+    }
     
+    NSUInteger randomConceptSide = 1; // conceptACategory first left
+    if (randomizeConcepts) {
+        randomConceptSide = arc4random_uniform(2);
+    }
     
     // Introduction
     
@@ -3278,9 +3289,9 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                 step.title = @"Part 2 of 7";
                 step.text = intendedUseDescription;
                 NSMutableString *detailText = [NSMutableString string];
-                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left1, left2, attributeACategory]];
+                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left1, left2, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                 [detailText appendString:@"\n\n"];
-                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, right1, right2, attributeBCategory]];
+                [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, right1, right2, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:hint];
                 [detailText appendString:@"\n\n"];
@@ -3308,13 +3319,20 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
             
             NSString *term = [termsBlock2 objectAtIndex:trial];
             
-            ORKImplicitAssociationCorrect termCorrect = [attributeAItems containsObject:term] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
+            ORKImplicitAssociationCorrect termCorrect;
             
             ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
+            if (randomAttributeSide == 1) {
+                termCorrect = [attributeAItems containsObject:term] ? ORKImplicitAssociationCorrectATTRleft : ORKImplicitAssociationCorrectATTRright;
+                iaTrial.leftItem1 = attributeACategory;
+                iaTrial.rightItem1 = attributeBCategory;
+            } else {
+                termCorrect = [attributeAItems containsObject:term] ? ORKImplicitAssociationCorrectATTRright : ORKImplicitAssociationCorrectATTRleft;
+                iaTrial.leftItem1 = attributeBCategory;
+                iaTrial.rightItem1 = attributeACategory;
+            }
             iaTrial.term = term;
             iaTrial.category = ORKImplicitAssociationCategoryAttribute;
-            iaTrial.leftItem1 = attributeACategory;
-            iaTrial.rightItem1 = attributeBCategory;
             iaTrial.correct = termCorrect;
             
             [trials addObject:iaTrial];
@@ -3340,9 +3358,9 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
@@ -3376,22 +3394,25 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                 
                 ORKImplicitAssociationCorrect termCorrect = ORKImplicitAssociationCorrectNone;
                 
-                if ([attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
-                if ([attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                //attributes always on the same randomized side
+                if (randomAttributeSide == 1 && [attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if (randomAttributeSide == 1 && [attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                if (randomAttributeSide == 0 && [attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                if (randomAttributeSide == 0 && [attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
                 
-                if (randomConceptSide == 0 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
-                if (randomConceptSide == 1 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
-                
-                if (randomConceptSide == 0 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
                 if (randomConceptSide == 1 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 1 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
+                if (randomConceptSide == 0 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
+                if (randomConceptSide == 0 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
                 
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = term;
                 iaTrial.category = [conceptsAll containsObject:term] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
-                iaTrial.leftItem1 = attributeACategory;
-                iaTrial.leftItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
-                iaTrial.rightItem1 = attributeBCategory;
-                iaTrial.rightItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
+                //attributes always on the same randomized side
+                iaTrial.leftItem1 = randomAttributeSide == 1 ? attributeACategory : attributeBCategory;
+                iaTrial.rightItem1 = randomAttributeSide == 1 ? attributeBCategory : attributeACategory;
+                iaTrial.leftItem2 = randomConceptSide == 1 ? conceptACategory : conceptBCategory;
+                iaTrial.rightItem2 = randomConceptSide == 1 ? conceptBCategory : conceptACategory;
                 iaTrial.correct = termCorrect;
                 
                 [trials addObject:iaTrial];
@@ -3418,9 +3439,9 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, attributeACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, attributeBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
@@ -3454,22 +3475,25 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                 
                 ORKImplicitAssociationCorrect termCorrect = ORKImplicitAssociationCorrectNone;
                 
-                if ([attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
-                if ([attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                //attributes always on the same randomized side
+                if (randomAttributeSide == 1 && [attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
+                if (randomAttributeSide == 1 && [attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                if (randomAttributeSide == 0 && [attributeAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRright;
+                if (randomAttributeSide == 0 && [attributeBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectATTRleft;
                 
-                if (randomConceptSide == 0 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
                 if (randomConceptSide == 1 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1right;
-                
-                if (randomConceptSide == 0 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
                 if (randomConceptSide == 1 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2left;
+                if (randomConceptSide == 0 && [conceptAItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG1left;
+                if (randomConceptSide == 0 && [conceptBItems containsObject:term]) termCorrect = ORKImplicitAssociationCorrectTARG2right;
                 
                 ORKImplicitAssociationTrial *iaTrial = [ORKImplicitAssociationTrial new];
                 iaTrial.term = term;
                 iaTrial.category = [conceptsAll containsObject:term] ? ORKImplicitAssociationCategoryConcept : ORKImplicitAssociationCategoryAttribute;
-                iaTrial.leftItem1 = attributeACategory;
-                iaTrial.leftItem2 = randomConceptSide == 0 ? conceptACategory : conceptBCategory;
-                iaTrial.rightItem1 = attributeBCategory;
-                iaTrial.rightItem2 = randomConceptSide == 0 ? conceptBCategory : conceptACategory;
+                //attributes always on the same randomized side
+                iaTrial.leftItem1 = randomAttributeSide == 1 ? attributeACategory : attributeBCategory;
+                iaTrial.rightItem1 = randomAttributeSide == 1 ? attributeBCategory : attributeACategory;
+                iaTrial.leftItem2 = randomConceptSide == 1 ? conceptBCategory : conceptACategory;
+                iaTrial.rightItem2 = randomConceptSide == 1 ? conceptACategory : conceptBCategory;
                 iaTrial.correct = termCorrect;
                 
                 [trials addObject:iaTrial];
