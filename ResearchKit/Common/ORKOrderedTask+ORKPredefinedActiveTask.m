@@ -3223,14 +3223,15 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                     [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, left1, left2, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptACategory : conceptBCategory]];
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:[NSString localizedStringWithFormat:index == 0 ? sortingConceptsBlock1 : sortingConceptsBlock5, right1, right2, (index == 0 && randomConceptSide == 1) || (index == 1 && randomConceptSide == 0) ? conceptBCategory : conceptACategory]];
-                    if (index == 0) {
+                    //TODO remove comments to match US version
+                    //if (index == 0) {
                         [detailText appendString:@"\n\n"];
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)];
-                    }
-                    if (index == 0) {
+                    //}
+                    //if (index == 0) {
                         [detailText appendString:@"\n\n"];
                         [detailText appendString:hint];
-                    }
+                    //}
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
                     step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
@@ -3292,6 +3293,9 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                 [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left1, left2, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, right1, right2, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
+                //TODO remove to match US version
+                [detailText appendString:@"\n\n"];
+                [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_APPEAR_LABEL", nil)];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:hint];
                 [detailText appendString:@"\n\n"];
@@ -3354,15 +3358,20 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                     step.title = index == 0 ? @"Part 3 of 7" : @"Part 4 of 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
+                    //TODO remove comment to match US version
+                    /*
                     if (index == 1) {
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
+                    */
+                    //TODO remove second left2/right2 to match US version
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, left2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, right2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
+                    //TODO remove comment to match US version
+                    //[detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
                         [detailText appendString:hint];
@@ -3443,7 +3452,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
+                    //TODO remove comment to match US version
+                    //[detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
                     if (index == 0) {
                         [detailText appendString:@"\n\n"];
                         [detailText appendString:hint];
