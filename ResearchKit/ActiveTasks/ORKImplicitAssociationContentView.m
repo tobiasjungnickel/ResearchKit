@@ -204,8 +204,8 @@
         [self addSubview:_termContainer];
         [_termContainer addSubview:_termImage];
         [_termContainer addSubview:_termLabel];
+        [_termContainer addSubview:_startLabel];
         
-        [self addSubview:_startLabel];
         [self addSubview:_wrongLabel];
         [self addSubview:_hintLabel];
         [self addSubview:_buttonContainer];
@@ -425,6 +425,14 @@
                                                          constant:0.0]];
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
                                                         attribute:NSLayoutAttributeCenterX
                                                         relatedBy:NSLayoutRelationEqual
                                                            toItem:_termLabel
@@ -443,6 +451,22 @@
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
                                                         attribute:NSLayoutAttributeCenterX
                                                         relatedBy:NSLayoutRelationEqual
+                                                           toItem:_startLabel
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_startLabel
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
                                                            toItem:_termImage
                                                         attribute:NSLayoutAttributeCenterX
                                                        multiplier:1.0
@@ -455,25 +479,6 @@
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
-    
-    [_termImage addConstraint:[NSLayoutConstraint constraintWithItem:_termImage
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:nil
-                                                           attribute: NSLayoutAttributeNotAnAttribute
-                                                          multiplier:1
-                                                            constant:150]];
-    
-    // Height constraint
-    [_termImage addConstraint:[NSLayoutConstraint constraintWithItem:_termImage
-                                                           attribute:NSLayoutAttributeHeight
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:nil
-                                                           attribute: NSLayoutAttributeNotAnAttribute
-                                                          multiplier:1
-                                                            constant:150]];
-    
-    // start
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_startLabel]-|"
@@ -491,6 +496,22 @@
 
     // buttons
     
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_buttonContainer
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
+    [constraints addObject:[NSLayoutConstraint constraintWithItem:_buttonContainer
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0
+                                                         constant:0.0]];
+    
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_leftButton]|"
                                              options:(NSLayoutFormatOptions)0
@@ -504,37 +525,21 @@
     
     UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
     CGFloat buttonsMiddleMargin;
-    CGFloat buttonsTopMargin;
+    CGFloat termsWidth;
     ORKScreenType screenType = ORKGetVerticalScreenTypeForWindow(self.window);
     switch (screenType) {
-        case ORKScreenTypeiPhone6:
-            buttonsMiddleMargin = window.bounds.size.width - 325;
-            buttonsTopMargin = window.bounds.size.height - 225;
-            break;
-        case ORKScreenTypeiPhone6Plus:
-        case ORKScreenTypeiPhoneXSMax:
-            buttonsMiddleMargin = window.bounds.size.width - 375;
-            buttonsTopMargin = window.bounds.size.height - 350;
-            break;
         case ORKScreenTypeiPad: //9.7
-            buttonsMiddleMargin = window.bounds.size.width - 500;
-            buttonsTopMargin = window.bounds.size.height - 425;
-            break;
         case ORKScreenTypeiPad10_5:
-            buttonsMiddleMargin = window.bounds.size.width - 450;
-            buttonsTopMargin = window.bounds.size.height - 425;
-            break;
         case ORKScreenTypeiPad12_9:
-            buttonsMiddleMargin = window.bounds.size.width - 450;
-            buttonsTopMargin = window.bounds.size.height - 425;
+            buttonsMiddleMargin = window.bounds.size.width - 350;
+            termsWidth = 300;
             break;
         default:
-            buttonsMiddleMargin = window.bounds.size.width - 375;
-            buttonsTopMargin = window.bounds.size.height - 300;
+            //iPhones
+            buttonsMiddleMargin = window.bounds.size.width - 225;
+            termsWidth = 125;
             break;
     }
-    
-    
     
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_leftButton]-(==buttonsMiddleMargin)-[_rightButton(==_leftButton)]|"
@@ -549,15 +554,7 @@
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1.0
                                                          constant:0.0]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_buttonContainer
-                                                        attribute:NSLayoutAttributeTop
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:self
-                                                        attribute:NSLayoutAttributeTop
-                                                       multiplier:1.0
-                                                         constant:buttonsTopMargin]];
-    
+
     [constraints addObject:[NSLayoutConstraint constraintWithItem:self
                                                         attribute:NSLayoutAttributeCenterX
                                                         relatedBy:NSLayoutRelationEqual
@@ -566,27 +563,49 @@
                                                        multiplier:1.0
                                                          constant:0.0]];
     
-    // terms and buttons alignment
     
+    //term and start sizes
+    [_termImage addConstraint:[NSLayoutConstraint constraintWithItem:_termImage
+                                                           attribute:NSLayoutAttributeWidth
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute: NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:termsWidth]];
+    
+    [_termImage addConstraint:[NSLayoutConstraint constraintWithItem:_termImage
+                                                           attribute:NSLayoutAttributeHeight
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute: NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:termsWidth]];
+
+    [_startLabel addConstraint:[NSLayoutConstraint constraintWithItem:_startLabel
+                                                           attribute:NSLayoutAttributeWidth
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute: NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:termsWidth]];
+    
+    [_startLabel addConstraint:[NSLayoutConstraint constraintWithItem:_startLabel
+                                                           attribute:NSLayoutAttributeHeight
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute: NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:termsWidth]];
+    
+    
+    // wrong and hint alignment
+
     [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=220)-[_wrongLabel]-(==10)-[_hintLabel]-(==10)-[_buttonContainer]-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=220)-[_wrongLabel]-(==20)-[_hintLabel]-(>=10)-|"
                                              options:NSLayoutFormatAlignAllCenterX
                                              metrics:nil
                                                views:views]];
     
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=200)-[_termContainer]-(>=8)-|"
-                                             options:NSLayoutFormatAlignAllCenterX
-                                             metrics:nil
-                                               views:views]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_termContainer
-                                                        attribute:NSLayoutAttributeFirstBaseline
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_startLabel
-                                                        attribute:NSLayoutAttributeFirstBaseline
-                                                       multiplier:1.0
-                                                         constant:0.0]];
     
     
     [NSLayoutConstraint activateConstraints:constraints];
