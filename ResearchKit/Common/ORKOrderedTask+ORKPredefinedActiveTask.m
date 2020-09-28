@@ -3234,6 +3234,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                     //}
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
+                    step.detailText = detailText;
+                    //TODO attributedDetailText not shown
                     step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                     
                     NSString *imageName = @"phonetapping";
@@ -3300,6 +3302,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                 [detailText appendString:hint];
                 [detailText appendString:@"\n\n"];
                 [detailText appendString:go];
+                step.detailText = detailText;
+                //TODO attributedDetailText not shown
                 step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                 
                 NSString *imageName = @"phonetapping";
@@ -3378,6 +3382,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
+                    step.detailText = detailText;
+                    //TODO attributedDetailText not shown
                     step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                     
                     NSString *imageName = @"phonetapping";
@@ -3460,6 +3466,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                     }
                     [detailText appendString:@"\n\n"];
                     [detailText appendString:go];
+                    step.detailText = detailText;
+                    //TODO attributedDetailText not shown
                     step.attributedDetailText = [ORKImplicitAssociationHelper textToHTML:detailText];
                     
                     NSString *imageName = @"phonetapping";
