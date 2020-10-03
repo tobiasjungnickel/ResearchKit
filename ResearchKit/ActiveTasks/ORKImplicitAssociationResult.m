@@ -18,7 +18,6 @@
     ORK_ENCODE_DOUBLE(aCoder, latency);
     ORK_ENCODE_OBJ(aCoder, correct);
     ORK_ENCODE_INTEGER(aCoder, error);
-    ORK_ENCODE_OBJ(aCoder, term);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -27,7 +26,6 @@
         ORK_DECODE_DOUBLE(aDecoder, latency);
         ORK_DECODE_OBJ_CLASS(aDecoder, correct, NSString);
         ORK_DECODE_INTEGER(aDecoder, error);
-        ORK_DECODE_OBJ_CLASS(aDecoder, term, NSString);
     }
     return self;
 }
@@ -43,8 +41,7 @@
     return (isParentSame &&
             (self.latency == castObject.latency) &&
             (self.correct == castObject.correct) &&
-            (self.error == castObject.error)) &&
-            (self.term == castObject.term) ;
+            (self.error == castObject.error)) ;
 }
 
 - (NSUInteger)hash {
@@ -56,7 +53,6 @@
     result.latency = self.latency;
     result.correct = self.correct;
     result.error = self.error;
-    result.term = self.term;
     return result;
 }
 

@@ -156,7 +156,6 @@
             implicitAssociationResult.pairing = [NSString stringWithFormat:@"%@/%@,%@/%@", trial.leftItem1, trial.leftItem2, trial.rightItem1, trial.rightItem2];
         }
         implicitAssociationResult.error = _currentTrialWrong;
-        implicitAssociationResult.term = (NSString *)trial.term;
         [_results addObject:implicitAssociationResult];
         _currentTrialNumber += 1;
         [NSTimer scheduledTimerWithTimeInterval:0.25f

@@ -18,7 +18,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSString *correct; //trialcode
 @property (nonatomic, copy, nullable) NSString *pairing;
 @property (nonatomic, assign) NSInteger error; //correct
-@property (nonatomic, copy, nullable) NSString *term;
 
 @end
 
