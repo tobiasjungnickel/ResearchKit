@@ -3169,8 +3169,8 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     NSUInteger randomAttributeSide = 0; // attributeACategory first left
     /*if (randomizeAttributes) {
         randomAttributeSide = arc4random_uniform(2);
-    }
-    */
+    }*/
+    
     NSUInteger randomConceptSide = 0; // conceptACategory first left
     /*if (randomizeConcepts) {
         randomConceptSide = arc4random_uniform(2);
@@ -3215,7 +3215,7 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                 {
                     
                     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock1IntroductionStepIdentifier : ORKImplicitAssociationBlock5IntroductionStepIdentifier];
-                    step.title = index == 0 ? @"Part 1 of 7" : @"Part 5 of 7";
+                    step.title = index == 0 ? @"Teil 1 von 7" : @"Teil 5 von 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
                     if (index == 1) {
@@ -3290,7 +3290,7 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
         if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
             {
                 ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKImplicitAssociationBlock2IntroductionStepIdentifier];
-                step.title = @"Part 2 of 7";
+                step.title = @"Teil 2 von 7";
                 step.text = intendedUseDescription;
                 NSMutableString *detailText = [NSMutableString string];
                 [detailText appendString:[NSString localizedStringWithFormat:sortingAttributes, left1, left2, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
@@ -3359,7 +3359,7 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
                     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock3IntroductionStepIdentifier : ORKImplicitAssociationBlock4IntroductionStepIdentifier];
-                    step.title = index == 0 ? @"Part 3 of 7" : @"Part 4 of 7";
+                    step.title = index == 0 ? @"Teil 3 von 7" : @"Teil 4 von 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
                     //TODO remove comment to match US version
@@ -3446,7 +3446,7 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
             if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
                 {
                     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:index == 0 ? ORKImplicitAssociationBlock6IntroductionStepIdentifier : ORKImplicitAssociationBlock7IntroductionStepIdentifier];
-                    step.title = index == 0 ? @"Part 6 of 7" : @"Part 7 of 7";
+                    step.title = index == 0 ? @"Teil 6 von 7" : @"Teil 7 von 7";
                     step.text = intendedUseDescription;
                     NSMutableString *detailText = [NSMutableString string];
                     if (index == 1) {
