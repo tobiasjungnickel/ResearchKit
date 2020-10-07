@@ -273,7 +273,7 @@ static CGFloat const kForgotPasscodeHeight              = 100.0f;
             
         case ORKPasscodeStateSaved:
             _passcodeStepView.stepText = ORKLocalizedString(@"PASSCODE_SAVED_MESSAGE", nil);
-            _passcodeStepView.stepDetailText = @"";
+            //_passcodeStepView.stepDetailText = @"";
             _passcodeStepView.textField.hidden = YES;
             [self makePasscodeViewResignFirstResponder];
             break;

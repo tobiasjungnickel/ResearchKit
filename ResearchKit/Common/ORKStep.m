@@ -152,7 +152,7 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, identifier, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, title, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, text, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, detailText, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, detailText, NSAttributedString);
         ORK_DECODE_ENUM(aDecoder, headerTextAlignment);
         ORK_DECODE_ENUM(aDecoder, bodyItemTextAlignment);
         ORK_DECODE_OBJ_CLASS(aDecoder, footnote, NSString);

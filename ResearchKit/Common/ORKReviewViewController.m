@@ -125,7 +125,7 @@ static const float FirstSectionHeaderPadding = 24.0;
     [_tableContainerView sizeHeaderToFit];
 }
 
-- (void)setDetailText:(NSString *)detailText {
+- (void)setDetailText:(NSAttributedString *)detailText {
     _detailText = detailText;
     _tableContainerView.stepDetailText = detailText;
 }

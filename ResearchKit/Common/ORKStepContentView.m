@@ -500,16 +500,16 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
 
 // step detail text
 
-- (void)setStepDetailText:(NSString *)stepDetailText {
+- (void)setStepDetailText:(NSAttributedString *)stepDetailText {
     _stepDetailText = stepDetailText;
     if (stepDetailText && !_detailTextLabel) {
         [self setupDetailTextLabel];
         [self updateViewConstraintsForSequence:ORKUpdateConstraintSequenceDetailTextLabel];
         [self setNeedsUpdateConstraints];
-        [_detailTextLabel setText:stepDetailText];
+        [_detailTextLabel setAttributedText:stepDetailText];
     }
     else if (stepDetailText && _detailTextLabel) {
-        [_detailTextLabel setText:_stepDetailText];
+        [_detailTextLabel setAttributedText:_stepDetailText];
     }
     else if (!stepDetailText) {
         [_detailTextLabel removeFromSuperview];
@@ -789,7 +789,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     // is an empty string. This causes the layout to be bigger than expected as the label is given
     // some amount of height and we are calculating vertical padding based off a label that is not
     // visible. TODO - rework the labels so they do not get created with empty text.
-    if (_detailTextLabel && ![_stepDetailText isEqualToString:@""]) {
+    if (_detailTextLabel) {
         topItem = _detailTextLabel;
         topPadding = ORKBodyToBodyPaddingStandard;
         attribute = NSLayoutAttributeBottom;
@@ -877,7 +877,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         attribute = NSLayoutAttributeBottom;
         constant = 0.0;
     }
-    else if (_detailTextLabel && ![_stepDetailText isEqualToString:@""]) {
+    else if (_detailTextLabel) {
         bottomItem = _detailTextLabel;
         attribute = NSLayoutAttributeBottom;
         constant = 0.0;

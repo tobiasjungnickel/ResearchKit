@@ -66,7 +66,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic) NSString *reviewTitle;
 @property (nonatomic) NSString *text;
-@property (nonatomic) NSString *detailText;
+@property (nonatomic) NSAttributedString *detailText;
 
 @property (nonatomic) UIImage *image;
 @property (nonatomic) NSArray<ORKBodyItem *> *bodyItems;

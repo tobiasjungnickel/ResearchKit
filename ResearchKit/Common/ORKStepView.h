@@ -58,7 +58,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, nullable) NSString *stepText;
 
-@property (nonatomic, nullable) NSString *stepDetailText;
+@property (nonatomic, nullable) NSAttributedString *stepDetailText;
 
 @property (nonatomic) NSTextAlignment stepHeaderTextAlignment;
 

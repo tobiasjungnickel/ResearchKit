@@ -145,7 +145,7 @@
     
     NSMutableAttributedString *attributedInstruction = [[NSMutableAttributedString alloc] init];
     NSAttributedString *attributedDetail = _instructionStep.attributedDetailText;
-    NSString *detail = _instructionStep.detailText;
+    NSAttributedString *detail = _instructionStep.detailText;
     NSString *text = _instructionStep.text;
     attributedDetail = attributedDetail.length ? attributedDetail : nil;
     detail = detail.length ? detail : nil;
@@ -167,15 +167,18 @@
         [style setParagraphSpacingBefore:self.headerView.instructionLabel.font.lineHeight * 0.5];
         [style setAlignment:NSTextAlignmentNatural];
         
-        NSAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:detail
+        /*NSAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:detail
                                                                                attributes:@{NSParagraphStyleAttributeName: style}];
+         */
+        NSAttributedString *attString = detail;
         [attributedInstruction appendAttributedString:attString];
         
     } else if (attributedDetail || detail || text) {
         if (attributedDetail) {
             [attributedInstruction appendAttributedString:attributedDetail];
         } else {
-            [attributedInstruction appendAttributedString:[[NSAttributedString alloc] initWithString:detail ? : text attributes:nil]];
+            //[attributedInstruction appendAttributedString:[[NSAttributedString alloc] initWithString:detail ? : text attributes:nil]];
+            [attributedInstruction appendAttributedString: detail ? : [[NSAttributedString alloc] initWithString:text attributes:nil]];
         }
     }
     

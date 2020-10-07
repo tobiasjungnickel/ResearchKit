@@ -279,7 +279,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
                         hasMultipleChoiceFormItem = YES;
                     }
                     
-                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText hasMultipleChoiceFormItem:hasMultipleChoiceFormItem];
+                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:@"" learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText hasMultipleChoiceFormItem:hasMultipleChoiceFormItem];
                 }
                 _questionView.questionCustomView = _cellHolderView;
             }
@@ -704,7 +704,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
             hasMultipleChoiceFormItem = YES;
         }
 
-        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText  learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem];
+        return [[ORKSurveyCardHeaderView alloc] initWithTitle:[NSString stringWithFormat:@"%@", self.questionStep.question] detailText:@"" learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem];
     }
     return nil;
 }

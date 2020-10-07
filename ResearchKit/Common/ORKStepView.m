@@ -108,7 +108,7 @@
     [_stepContentView setStepText:_stepText];
 }
 
-- (void)setStepDetailText:(NSString *)stepDetailText {
+- (void)setStepDetailText:(NSAttributedString *)stepDetailText {
     _stepDetailText = stepDetailText;
     [_stepContentView setStepDetailText:_stepDetailText];
 }

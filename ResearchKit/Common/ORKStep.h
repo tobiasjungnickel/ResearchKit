@@ -159,7 +159,7 @@ ORK_CLASS_AVAILABLE
  
  The detail text is displayed below the content of the `text` property.
  */
-@property (nonatomic, copy, nullable) NSString *detailText;
+@property (nonatomic, copy, nullable) NSAttributedString *detailText;
 
 /**
  An 'NSTextAlignment' that controls the text alignment for step title, text and detailText.

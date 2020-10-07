@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable) NSString *stepText;
 
-@property (nonatomic, nullable) NSString *stepDetailText;
+@property (nonatomic, nullable) NSAttributedString *stepDetailText;
 
 @property (nonatomic) NSTextAlignment stepHeaderTextAlignment;
 
