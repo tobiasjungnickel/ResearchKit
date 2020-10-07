@@ -3454,9 +3454,9 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
                         [detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_PREVIOUS_LABEL", nil)];
                         [detailText appendString:@"\n\n"];
                     }
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, left2, left2, randomConceptSide == 0 ? conceptACategory : conceptBCategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
                     [detailText appendString:@"\n\n"];
-                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeACategory : attributeBCategory]];
+                    [detailText appendString:[NSString localizedStringWithFormat:combined, right2, right2, randomConceptSide == 0 ? conceptBCategory : conceptACategory, randomAttributeSide == 1 ? attributeBCategory : attributeACategory]];
                     [detailText appendString:@"\n\n"];
                     //TODO remove comment to match US version
                     //[detailText appendString:ORKLocalizedString(@"IMPLICIT_ASSOCIATION_INSTRUCTION_EACH_LABEL", nil)];
