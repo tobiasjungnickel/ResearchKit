@@ -3167,14 +3167,14 @@ NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHo
     NSString *hint = ORKLocalizedString(@"IMPLICIT_ASSOCIATION_HINT_LABEL", nil);
     
     NSUInteger randomAttributeSide = 0; // attributeACategory first left
-    /*if (randomizeAttributes) {
+    if (randomizeAttributes) {
         randomAttributeSide = arc4random_uniform(2);
-    }*/
+    }
     
     NSUInteger randomConceptSide = 0; // conceptACategory first left
-    /*if (randomizeConcepts) {
+    if (randomizeConcepts) {
         randomConceptSide = arc4random_uniform(2);
-    }*/
+    }
     
     // Introduction
     
