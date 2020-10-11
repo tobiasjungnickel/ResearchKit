@@ -150,7 +150,7 @@
         ORKImplicitAssociationResult *implicitAssociationResult = [[ORKImplicitAssociationResult alloc] initWithIdentifier:self.step.identifier];
         implicitAssociationResult.latency = timestamp - _stimulusTimestamp;
         implicitAssociationResult.correct = ORKImplicitAssociationCorrectValue(trial.correct);
-        if ([trial.rightItem1 isEqualToString:@""]) {
+        if (trial.rightItem2 == nil) {
             implicitAssociationResult.pairing = [NSString stringWithFormat:@"%@,%@", trial.leftItem1, trial.rightItem1];
         } else {
             implicitAssociationResult.pairing = [NSString stringWithFormat:@"%@/%@,%@/%@", trial.leftItem1, trial.leftItem2, trial.rightItem1, trial.rightItem2];
