@@ -17,6 +17,7 @@
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_DOUBLE(aCoder, latency);
     ORK_ENCODE_OBJ(aCoder, correct);
+    ORK_ENCODE_OBJ(aCoder, pairing);
     ORK_ENCODE_INTEGER(aCoder, error);
 }
 
@@ -25,6 +26,7 @@
     if (self) {
         ORK_DECODE_DOUBLE(aDecoder, latency);
         ORK_DECODE_OBJ_CLASS(aDecoder, correct, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, pairing, NSString);
         ORK_DECODE_INTEGER(aDecoder, error);
     }
     return self;
@@ -52,12 +54,13 @@
     ORKImplicitAssociationResult *result = [super copyWithZone:zone];
     result.latency = self.latency;
     result.correct = self.correct;
+    result.pairing = self.pairing;
     result.error = self.error;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; latency: %f; correct: %@; error: %lu%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.latency, self.correct, (unsigned long)self.error, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; latency: %f; correct: %@; pairing: %@; error: %lu%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.latency, self.correct, self.pairing, (unsigned long)self.error, self.descriptionSuffix];
 }
 
 @end
