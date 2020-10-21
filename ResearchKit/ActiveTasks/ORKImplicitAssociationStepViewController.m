@@ -202,14 +202,19 @@
         [self start];
         return;
     }
+    
+    //disable addtional keyboard input if already pressed for current trial
+    if ([_implicitAssociationContentView isInteractionEnabled] == false) {
+        [super pressesBegan:presses withEvent:event];
+        return;
+    }
+    
     UIPress *keypress = presses.allObjects.firstObject;
     switch (keypress.key.keyCode) {
         case UIKeyboardHIDUsageKeyboardE:
-            NSLog(@"E");
             [self receiveTimestamp:event.timestamp/1000000000 onButton:ORKTappingButtonIdentifierLeft];
             break;
         case UIKeyboardHIDUsageKeyboardI:
-            NSLog(@"I");
             [self receiveTimestamp:event.timestamp/1000000000 onButton:ORKTappingButtonIdentifierRight];
             break;
         default:

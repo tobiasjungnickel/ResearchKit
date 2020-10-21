@@ -48,6 +48,8 @@ typedef NS_ENUM(NSUInteger, ORKImplicitAssociationMode) {
 
 @property (nonatomic, strong, readonly) ORKRoundTappingButton *rightButton;
 
+@property (nonatomic, assign) BOOL isInteractionEnabled;
+
 - (void)setMode:(ORKImplicitAssociationMode)mode;
 
 - (void)setTerm:(NSObject *)term fromCategory:(ORKImplicitAssociationCategory)category;

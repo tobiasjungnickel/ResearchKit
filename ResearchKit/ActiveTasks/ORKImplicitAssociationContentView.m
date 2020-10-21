@@ -299,6 +299,7 @@
 }
 
 - (void)setInteractionEnabled:(BOOL)enabled {
+    _isInteractionEnabled = enabled;
     _leftButton.enabled = enabled;
     _rightButton.enabled = enabled;
     _termContainer.hidden = !enabled;
